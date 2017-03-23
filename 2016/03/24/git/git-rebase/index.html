@@ -1,0 +1,859 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Git Rebase 相关资料
+简书上的rebase简介
+git rebase –help
+推荐参考
+
+
+rebase git pro 
+推荐参考
+
+
+git pro 重写历史
+其中也涉及到了git rebase
+
+
+
+Rebase能做啥
+不产生新的commit情况下，合并两个branch
+能保持branch log的线性
+但是rebase可能会造成之前的commit历史被更改
+其实本质呢，可以理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git rebase">
+<meta property="og:url" content="http://yoursite.com/2016/03/24/git/git-rebase/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Git Rebase 相关资料
+简书上的rebase简介
+git rebase –help
+推荐参考
+
+
+rebase git pro 
+推荐参考
+
+
+git pro 重写历史
+其中也涉及到了git rebase
+
+
+
+Rebase能做啥
+不产生新的commit情况下，合并两个branch
+能保持branch log的线性
+但是rebase可能会造成之前的commit历史被更改
+其实本质呢，可以理">
+<meta property="og:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-01.png?dir=0&filepath=git%2Fgit-rebase-01.png&oid=e9a5c0927b96cec87a0f3da8727fd0bdb5778ffd&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
+<meta property="og:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-02.png?dir=0&filepath=git%2Fgit-rebase-02.png&oid=2bfbb93ff8b43d0e3bcd1c60057a782970575d11&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
+<meta property="og:updated_time" content="2017-03-23T10:30:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git rebase">
+<meta name="twitter:description" content="Git Rebase 相关资料
+简书上的rebase简介
+git rebase –help
+推荐参考
+
+
+rebase git pro 
+推荐参考
+
+
+git pro 重写历史
+其中也涉及到了git rebase
+
+
+
+Rebase能做啥
+不产生新的commit情况下，合并两个branch
+能保持branch log的线性
+但是rebase可能会造成之前的commit历史被更改
+其实本质呢，可以理">
+<meta name="twitter:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-01.png?dir=0&filepath=git%2Fgit-rebase-01.png&oid=e9a5c0927b96cec87a0f3da8727fd0bdb5778ffd&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/24/git/git-rebase/"/>
+
+
+
+
+
+  <title> git rebase | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/24/git/git-rebase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                git rebase
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-24T16:41:31+08:00">
+                2016-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Git-Rebase-相关资料"><a href="#Git-Rebase-相关资料" class="headerlink" title="Git Rebase 相关资料"></a>Git Rebase 相关资料</h1><ul>
+<li><a href="http://www.jianshu.com/p/b4ba77f5d040" target="_blank" rel="external">简书上的rebase简介</a></li>
+<li>git rebase –help<ul>
+<li>推荐参考</li>
+</ul>
+</li>
+<li><a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA" title="rebase git pro url" target="_blank" rel="external">rebase git pro</a> <ul>
+<li>推荐参考</li>
+</ul>
+</li>
+<li><a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E5%86%99%E5%8E%86%E5%8F%B2" target="_blank" rel="external">git pro 重写历史</a><ul>
+<li>其中也涉及到了git rebase</li>
+</ul>
+</li>
+</ul>
+<h1 id="Rebase能做啥"><a href="#Rebase能做啥" class="headerlink" title="Rebase能做啥"></a>Rebase能做啥</h1><ul>
+<li>不产生新的commit情况下，合并两个branch</li>
+<li>能保持branch log的线性</li>
+<li>但是rebase可能会造成之前的commit历史被更改</li>
+<li>其实本质呢，可以理解为把一个commit集合在指定commit上做rebase<ul>
+<li>–onto指定了一个commit，即target commit</li>
+<li>需要一个commit集合<ul>
+<li>git rebase master develop</li>
+<li>等价于</li>
+<li>git rebase –onto master master..develop</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>上面的本质呢那个啥啥啥的不对，验证过了master..develop这种写法is wrong</li>
+<li>so 别信啊先，等我搞清楚</li>
+</ul>
+<h1 id="Rebase-details"><a href="#Rebase-details" class="headerlink" title="Rebase details"></a>Rebase details</h1><h2 id="rebase参数"><a href="#rebase参数" class="headerlink" title="rebase参数"></a>rebase参数</h2><ul>
+<li>rebase –continue<ul>
+<li>解决冲突后，使用；rebase是一个持续的过程</li>
+</ul>
+</li>
+<li>rebase –skip<ul>
+<li>跳过当前patch；本质讲，一个commit就是一个patch嘛</li>
+</ul>
+</li>
+<li>rebase –abort<ul>
+<li>abort当前rebase，并回复；HEAD也back to origin branch</li>
+</ul>
+</li>
+<li>rebase –edit-todo<ul>
+<li>Edit the todo list during an interactive rebase</li>
+</ul>
+</li>
+</ul>
+<h2 id="rebase-case"><a href="#rebase-case" class="headerlink" title="rebase case"></a>rebase case</h2><h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><ul>
+<li>没参数时，如果指定了upstream，那么会自动rebase remote repository<h3 id="git-rebase-master"><a href="#git-rebase-master" class="headerlink" title="git rebase master"></a>git rebase master</h3></li>
+<li>等价于下面的case</li>
+<li>本质就是把 master..develop这些commit，给挪到了master之后<h3 id="git-rebase-master-develop"><a href="#git-rebase-master-develop" class="headerlink" title="git rebase master develop"></a>git rebase master develop</h3></li>
+<li>参见上面<h3 id="git-rebase-–onto-master-server-client"><a href="#git-rebase-–onto-master-server-client" class="headerlink" title="git rebase –onto master server client"></a>git rebase –onto master server client</h3></li>
+<li>取出 client 分支，找出处于 client 分支和 server 分支的共同祖先之后的修改，然后把它们在 master 分支上rebase一遍</li>
+<li>具体效果，参见下图</li>
+<li><img src="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-01.png?dir=0&amp;filepath=git%2Fgit-rebase-01.png&amp;oid=e9a5c0927b96cec87a0f3da8727fd0bdb5778ffd&amp;sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da" alt=""></li>
+<li><img src="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-02.png?dir=0&amp;filepath=git%2Fgit-rebase-02.png&amp;oid=2bfbb93ff8b43d0e3bcd1c60057a782970575d11&amp;sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da" alt=""></li>
+</ul>
+<h3 id="使用rebase修改commit记录"><a href="#使用rebase修改commit记录" class="headerlink" title="使用rebase修改commit记录"></a>使用rebase修改commit记录</h3><h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ul>
+<li>碰到了一个问题：commit的author&amp;email错了，想修改<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4></li>
+<li>假设commit tree is A-&gt;B-&gt;C-&gt;D-&gt;E-&gt;F-&gt;G,其中C&amp;D的出了问题</li>
+<li>git rebase -i B</li>
+<li><p>这时会show 一个 cherry pick list</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pick e3a85ad add file d #假设他是C</div><div class="line">pick c9dba87 add  file e #假设他是D</div><div class="line">pick 514b48c add file bc #假设他是E</div></pre></td></tr></table></figure>
+</li>
+<li><p>then 将C&amp;D的pick修改为edit，可能值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">p, pick = use commit</div><div class="line">r, reword = use commit, but edit the commit message</div><div class="line">e, edit = use commit, but stop for amending</div><div class="line">s, squash = use commit, but meld into previous commit</div><div class="line">f, fixup = like &quot;squash&quot;, but discard this commit&apos;s log message</div><div class="line">x, exec = run command (the rest of the line) using shell</div><div class="line">d, drop = remove commit</div></pre></td></tr></table></figure>
+</li>
+<li><p>并且这些commit之间的order也是可以修改的</p>
+</li>
+<li>then git commit –amend –author “pazu <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#116;&#111;&#x75;&#x74;&#111;&#x75;&#100;&#x6e;&#x66;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#116;&#111;&#x75;&#x74;&#111;&#x75;&#100;&#x6e;&#x66;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a>“</li>
+<li>then git rebase –continue</li>
+<li>then do git commit –amend –author “pazu <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x74;&#111;&#x75;&#116;&#x6f;&#x75;&#100;&#110;&#102;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#111;&#x6d;">&#x74;&#111;&#x75;&#116;&#x6f;&#x75;&#100;&#110;&#102;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#111;&#x6d;</a>“ again</li>
+<li>then git rebase –continue</li>
+<li>then the rebase progress will end</li>
+</ul>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
+<li><a href="http://stackoverflow.com/questions/3042437/change-commit-author-at-one-specific-commit" target="_blank" rel="external">stackoverflow question</a></li>
+<li>也可以参见：<a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E5%86%99%E5%8E%86%E5%8F%B2" target="_blank" rel="external">git pro 重写历史</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/25/java/java class load analysis/" rel="prev" title="Java Class Load Analysis">
+                Java Class Load Analysis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-Rebase-相关资料"><span class="nav-number">1.</span> <span class="nav-text">Git Rebase 相关资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rebase能做啥"><span class="nav-number">2.</span> <span class="nav-text">Rebase能做啥</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rebase-details"><span class="nav-number">3.</span> <span class="nav-text">Rebase details</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rebase参数"><span class="nav-number">3.1.</span> <span class="nav-text">rebase参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rebase-case"><span class="nav-number">3.2.</span> <span class="nav-text">rebase case</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-rebase"><span class="nav-number">3.2.1.</span> <span class="nav-text">git rebase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-rebase-master"><span class="nav-number">3.2.2.</span> <span class="nav-text">git rebase master</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-rebase-master-develop"><span class="nav-number">3.2.3.</span> <span class="nav-text">git rebase master develop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-rebase-–onto-master-server-client"><span class="nav-number">3.2.4.</span> <span class="nav-text">git rebase –onto master server client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用rebase修改commit记录"><span class="nav-number">3.2.5.</span> <span class="nav-text">使用rebase修改commit记录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#场景"><span class="nav-number">3.2.5.1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方案"><span class="nav-number">3.2.5.2.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">3.2.5.3.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

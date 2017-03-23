@@ -1,0 +1,792 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="testNG," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="测试用例与自动化工具jenkins的结合，也是个值得记录和分析的地方。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="testNG on jenkins">
+<meta property="og:url" content="http://yoursite.com/2017/01/24/test/testNG on jenkins/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="测试用例与自动化工具jenkins的结合，也是个值得记录和分析的地方。">
+<meta property="og:updated_time" content="2017-03-23T10:30:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="testNG on jenkins">
+<meta name="twitter:description" content="测试用例与自动化工具jenkins的结合，也是个值得记录和分析的地方。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/24/test/testNG on jenkins/"/>
+
+
+
+
+
+  <title> testNG on jenkins | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/test/testNG on jenkins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                testNG on jenkins
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-24T16:19:00+08:00">
+                2017-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/test/" itemprop="url" rel="index">
+                    <span itemprop="name">test</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>测试用例与自动化工具jenkins的结合，也是个值得记录和分析的地方。</p>
+<a id="more"></a>
+<p>测试用例结合了自动化部署&amp;测试环境后（本文是jenkins），使用的过程中会存在一些痛点，记录并分析。</p>
+<h1 id="诉求"><a href="#诉求" class="headerlink" title="诉求"></a>诉求</h1><p>截止到目前，对测试用例的一些需求，简单总结一下</p>
+<ul>
+<li>console log</li>
+<li>testNG report</li>
+<li>用例在CI的小范围运行测试<ul>
+<li>问题复现</li>
+<li>快速测试</li>
+</ul>
+</li>
+</ul>
+<p>分开来说说</p>
+<h2 id="console-log"><a href="#console-log" class="headerlink" title="console log"></a>console log</h2><p>log其实包含两方面：</p>
+<ul>
+<li>业务log</li>
+<li>jenkins job log<ul>
+<li>job每个step的log</li>
+<li>testNG log</li>
+</ul>
+</li>
+</ul>
+<p>常见的问题通常是：</p>
+<ul>
+<li>出了bug最好能在testNG console log就定位出来问题</li>
+<li>testNG console log搞不定，最好能给一个tips，方便在业务的log中定位问题<ul>
+<li>log 时间</li>
+<li>task id</li>
+</ul>
+</li>
+</ul>
+<p>如果更牛逼的是，能通过一个唯一的identifier，来grep出一串log就更好了。当然这大概是日志收集系统的一部分工作了，暂且不表。</p>
+<p>log大概是这些</p>
+<h2 id="testNG-report"><a href="#testNG-report" class="headerlink" title="testNG report"></a>testNG report</h2><p>靠人去统计真的是不现实的，因为：</p>
+<ul>
+<li>构建频繁之后，累死你</li>
+<li>容易出错</li>
+<li>还浪费时间，累且没人爱干</li>
+</ul>
+<p>所以思路大概是：</p>
+<ul>
+<li>自己通过testNG钩子实现需求</li>
+<li>找插件</li>
+</ul>
+<p>在搞之前，分析了一下大概的需求有：</p>
+<ul>
+<li>时间分析<ul>
+<li>总时间是多少</li>
+<li>每个用例的时间是多少</li>
+<li>common part时间是多少</li>
+<li>是否用例时间发生了很大的变化</li>
+</ul>
+</li>
+<li>结果统计<ul>
+<li>成功失败数量统计</li>
+<li>每个class中，成功失败的数量change</li>
+<li>best wishes是能关联上author，不过不太好搞。</li>
+</ul>
+</li>
+</ul>
+<h1 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h1><h2 id="关于log"><a href="#关于log" class="headerlink" title="关于log"></a>关于log</h2><p>待补充吧，目前还没有</p>
+<h2 id="test-report"><a href="#test-report" class="headerlink" title="test report"></a>test report</h2><p>查了一把，jenkins上别人是有写插件的：</p>
+<ul>
+<li>专门给testNG用的：<a href="https://github.com/jenkinsci/testng-plugin-plugin" target="_blank" rel="external">testng-plugin-plugin</a></li>
+<li>junit和testng都能使：<a href="https://github.com/jenkinsci/test-results-analyzer-plugin" target="_blank" rel="external">test-results-analyzer-plugin</a></li>
+</ul>
+<p>首先牵扯到的就是jenkins安装插件了：<a href="http://blog.csdn.net/jmyue/article/details/9376237" target="_blank" rel="external">http://blog.csdn.net/jmyue/article/details/9376237</a></p>
+<p>不黑不吹，jenkins安装还是挺方便的。不过受限于jenkins的版本，test-results-analyzer-plugin没法使用最新的。</p>
+<h3 id="test-results-analyzer-plugin"><a href="#test-results-analyzer-plugin" class="headerlink" title="test-results-analyzer-plugin"></a>test-results-analyzer-plugin</h3><p>怎么用：<a href="http://stackoverflow.com/questions/39469654/how-to-configure-test-result-analyzer-plugin-on-jenkins" target="_blank" rel="external">How to configure Test Result Analyzer plugin on Jenkins</a></p>
+<p>其中重点是指定xml的位置</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/testNG/" rel="tag"># testNG</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/12/java/java-encoding/" rel="next" title="java encoding">
+                <i class="fa fa-chevron-left"></i> java encoding
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/04/linux/linux-service-start-failed/" rel="prev" title="linux-service-start-failed">
+                linux-service-start-failed <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#诉求"><span class="nav-number">1.</span> <span class="nav-text">诉求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#console-log"><span class="nav-number">1.1.</span> <span class="nav-text">console log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#testNG-report"><span class="nav-number">1.2.</span> <span class="nav-text">testNG report</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#怎么解决"><span class="nav-number">2.</span> <span class="nav-text">怎么解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于log"><span class="nav-number">2.1.</span> <span class="nav-text">关于log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test-report"><span class="nav-number">2.2.</span> <span class="nav-text">test report</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#test-results-analyzer-plugin"><span class="nav-number">2.2.1.</span> <span class="nav-text">test-results-analyzer-plugin</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
