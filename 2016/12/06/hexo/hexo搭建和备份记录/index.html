@@ -87,16 +87,25 @@
 
 
 
-<meta name="description" content="背景换过几次环境，也尝试过几种备份方式，现在将过程&amp;amp;碰到的坑记录如下，以便后续查找&amp;amp;参考。">
+<meta name="description" content="记录了
+
+hexo 方案 &amp;amp; 重新搭建的步骤
+hexo 碰到的坑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo搭建和备份记录">
 <meta property="og:url" content="http://yoursite.com/2016/12/06/hexo/hexo搭建和备份记录/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="背景换过几次环境，也尝试过几种备份方式，现在将过程&amp;amp;碰到的坑记录如下，以便后续查找&amp;amp;参考。">
-<meta property="og:updated_time" content="2017-03-23T10:30:02.000Z">
+<meta property="og:description" content="记录了
+
+hexo 方案 &amp;amp; 重新搭建的步骤
+hexo 碰到的坑">
+<meta property="og:updated_time" content="2017-03-24T05:38:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo搭建和备份记录">
-<meta name="twitter:description" content="背景换过几次环境，也尝试过几种备份方式，现在将过程&amp;amp;碰到的坑记录如下，以便后续查找&amp;amp;参考。">
+<meta name="twitter:description" content="记录了
+
+hexo 方案 &amp;amp; 重新搭建的步骤
+hexo 碰到的坑">
 
 
 
@@ -363,23 +372,72 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>换过几次环境，也尝试过几种备份方式，现在将过程&amp;碰到的坑记录如下，以便后续查找&amp;参考。</p>
+        <p>记录了</p>
+<ul>
+<li>hexo 方案 &amp; 重新搭建的步骤</li>
+<li>hexo 碰到的坑</li>
+</ul>
 <a id="more"></a>
-<h1 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h1><ul>
-<li>目前source是备份在github上的，只备份了_post下的源文件。之前备份的整个hexo目录，但是在windows下clone下来并没有办法直接使用，故替换了备份方案。</li>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><ul>
+<li>备份<ul>
+<li>目前仅备份了source的内容</li>
+<li>原因是全量备份，down下来没法用</li>
+</ul>
+</li>
 <li>目前使用的css是next，简单简洁，地址是：<ul>
 <li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">next on github</a></li>
 </ul>
 </li>
 </ul>
-<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="on-windows"><a href="#on-windows" class="headerlink" title="on windows"></a>on windows</h2><ul>
 <li><a href="https://hexo.io/" target="_blank" rel="external">hexo官网</a></li>
 <li>参考官网步骤即可</li>
-<li>简单说下<ul>
-<li>安装nodejs（可通过nvm）</li>
-<li>安完nodejs就有了npm</li>
-<li>用npm安装hexo</li>
-<li>然后在hexo下clone next，然后配置</li>
+</ul>
+<h2 id="on-mac"><a href="#on-mac" class="headerlink" title="on mac"></a>on mac</h2><p>on mac的感觉比在windows上麻烦。。。T^T</p>
+<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><ul>
+<li>会配置git&amp;已经安装</li>
+<li>homebrew installed</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>安装node.js<ul>
+<li>brew install node</li>
+</ul>
+</li>
+<li>安装hexo<ul>
+<li>sudo npm install -g hexo</li>
+<li>这里要使用sudo，否则安装可能有权限问题</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>PS：安装hexo的过程可能出现error</p>
+</blockquote>
+<pre><code>{ Error: Cannot find module &apos;./build/Release/DTraceProviderBindings&apos;
+{ Error: Cannot find module &apos;./build/default/DTraceProviderBindings&apos;
+{ Error: Cannot find module &apos;./build/Debug/DTraceProviderBindings&apos;
+</code></pre><p>修复的方式呢，尝试如下：</p>
+<pre><code>$ npm install hexo --no-optional
+#if it doesn&apos;t work
+#try
+$ npm uninstall hexo-cli -g
+$ npm install hexo-cli -g
+</code></pre><h2 id="common部分咯"><a href="#common部分咯" class="headerlink" title="common部分咯"></a>common部分咯</h2><ul>
+<li>初始化hexo<ul>
+<li>hexo init 文件夹名称</li>
+<li>cd 文件夹</li>
+<li>npm install</li>
+</ul>
+</li>
+<li>git clone source 到 source文件夹</li>
+<li><p>修改配置</p>
+<ul>
+<li>语言：配置为<code>language: zh-Hans</code><ul>
+<li>简体中文</li>
+</ul>
+</li>
+<li><p>deploy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">       repository: git@github.com:toutoudnf/toutoudnf.github.io.git</div><div class="line">       type: git</div><div class="line">       branch: master</div></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
 </ul>
@@ -404,6 +462,21 @@
 </li>
 </ul>
 <p>碰到的是foxitProtect，taskmgr干掉即可。</p>
+<h2 id="mac-hexo-报错，缺少xx-module"><a href="#mac-hexo-报错，缺少xx-module" class="headerlink" title="mac hexo 报错，缺少xx module"></a>mac hexo 报错，缺少xx module</h2><p>一般是安装的时候少安了东西：<a href="https://github.com/hexojs/hexo/issues/1922" target="_blank" rel="external">戳这里</a></p>
+<h2 id="常用的language配置项"><a href="#常用的language配置项" class="headerlink" title="常用的language配置项"></a>常用的language配置项</h2><pre><code>语言    对应值
+English    en
+简体中文    zh-Hans
+法语    fr-FR
+繁体中文    zh-hk/zh-tw
+俄语    ru
+德语    de
+葡萄牙语    pt
+日语    ja
+</code></pre><h2 id="NEXT常用配置"><a href="#NEXT常用配置" class="headerlink" title="NEXT常用配置"></a>NEXT常用配置</h2><p><a href="http://theme-next.iissnan.com/faqs.html" target="_blank" rel="external">戳这里</a></p>
+<h2 id="配置了github的deploy但是失败了"><a href="#配置了github的deploy但是失败了" class="headerlink" title="配置了github的deploy但是失败了"></a>配置了github的deploy但是失败了</h2><ul>
+<li>hexo v3.0+，github要改为git</li>
+<li>还不行的话，执行<code>npm install hexo-deployer-git --save</code>，会安装上git的deployer</li>
+</ul>
 
       
     </div>
@@ -524,7 +597,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -581,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#现状"><span class="nav-number">2.</span> <span class="nav-text">现状</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#碰到的坑"><span class="nav-number">4.</span> <span class="nav-text">碰到的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags和categories未生成"><span class="nav-number">4.1.</span> <span class="nav-text">tags和categories未生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tags和categories一点击，http变https"><span class="nav-number">4.2.</span> <span class="nav-text">tags和categories一点击，http变https</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo在本地启动，无法访问"><span class="nav-number">4.3.</span> <span class="nav-text">hexo在本地启动，无法访问</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#方案"><span class="nav-number">1.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#on-windows"><span class="nav-number">2.1.</span> <span class="nav-text">on windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#on-mac"><span class="nav-number">2.2.</span> <span class="nav-text">on mac</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前提条件"><span class="nav-number">2.2.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.2.2.</span> <span class="nav-text">安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#common部分咯"><span class="nav-number">2.3.</span> <span class="nav-text">common部分咯</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#碰到的坑"><span class="nav-number">3.</span> <span class="nav-text">碰到的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags和categories未生成"><span class="nav-number">3.1.</span> <span class="nav-text">tags和categories未生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tags和categories一点击，http变https"><span class="nav-number">3.2.</span> <span class="nav-text">tags和categories一点击，http变https</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo在本地启动，无法访问"><span class="nav-number">3.3.</span> <span class="nav-text">hexo在本地启动，无法访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mac-hexo-报错，缺少xx-module"><span class="nav-number">3.4.</span> <span class="nav-text">mac hexo 报错，缺少xx module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的language配置项"><span class="nav-number">3.5.</span> <span class="nav-text">常用的language配置项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NEXT常用配置"><span class="nav-number">3.6.</span> <span class="nav-text">NEXT常用配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置了github的deploy但是失败了"><span class="nav-number">3.7.</span> <span class="nav-text">配置了github的deploy但是失败了</span></a></li></ol></li></ol></div>
             
 
           </div>
