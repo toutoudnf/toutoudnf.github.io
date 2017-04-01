@@ -267,220 +267,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/20/spring/spring-schedule-learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/20/spring/spring-schedule-learning/" itemprop="url">
-                  spring schedule learning
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-20T15:00:00+08:00">
-                2016-09-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<ul>
-<li>记录Spring schedule相关的学习资料</li>
-<li>其中主要注意cron的写法+配置文件怎么配置的问题</li>
-</ul>
-</blockquote>
-<h2 id="CRON-expression"><a href="#CRON-expression" class="headerlink" title="CRON expression"></a>CRON expression</h2><ul>
-<li><a href="https://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank" rel="external">https://en.wikipedia.org/wiki/Cron#CRON_expression</a><ul>
-<li>这个主要是讲标准unix的</li>
-</ul>
-</li>
-<li><a href="http://www.cnblogs.com/sunjie9606/archive/2012/03/15/2397626.html" target="_blank" rel="external">http://www.cnblogs.com/sunjie9606/archive/2012/03/15/2397626.html</a><ul>
-<li>这个主要讲quartz中的cron的使用</li>
-</ul>
-</li>
-<li>cron本义是个时间单位，百万年；延伸意有计划任务的意思</li>
-<li>unix的一个标准</li>
-<li>在quartz中被扩展了seconds，同样spring-task cron</li>
-<li>其实主要是定义了一个task trigger的time collection</li>
-</ul>
-<h2 id="配置schedule"><a href="#配置schedule" class="headerlink" title="配置schedule"></a>配置schedule</h2><h3 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h3><ul>
-<li><a href="http://docs.spring.io/spring/docs/4.2.5.RELEASE/spring-framework-reference/html/scheduling.html" target="_blank" rel="external">http://docs.spring.io/spring/docs/4.2.5.RELEASE/spring-framework-reference/html/scheduling.html</a><ul>
-<li>参考33.5.3即可</li>
-</ul>
-</li>
-<li>executor就是个pool</li>
-<li>trigger就是触发点啊</li>
-<li>quartz<ul>
-<li><a href="http://www.quartz-scheduler.org/" target="_blank" rel="external">http://www.quartz-scheduler.org/</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="完整spring配置文件demo"><a href="#完整spring配置文件demo" class="headerlink" title="完整spring配置文件demo"></a>完整spring配置文件demo</h3><blockquote>
-<p>要注意schema+cron表达式写法</p>
-</blockquote>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:task=&quot;http://www.springframework.org/schema/task&quot;
-    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans 
-                        http://www.springframework.org/schema/beans/spring-beans.xsd 
-                        http://www.springframework.org/schema/task
-               http://www.springframework.org/schema/task/spring-task.xsd&quot;&gt;
-
-    &lt;!-- drs module schedule task --&gt;
-    &lt;!-- 配置具体任务 --&gt;
-    &lt;task:scheduled-tasks scheduler=&quot;baseScheduler&quot;&gt;
-        &lt;!-- 第0min0sec开始，每隔10min跑一次 --&gt;
-        &lt;task:scheduled ref=&quot;licenseModuleService&quot;
-            method=&quot;checkLicenses&quot; cron=&quot;0 0/10 * * * *&quot; /&gt;
-        &lt;!-- 0min0sec开始，每10min一次 --&gt;
-        &lt;task:scheduled ref=&quot;monNotificationModuleService&quot;
-            method=&quot;checkMonNotification&quot; cron=&quot;0/30 * * * * *&quot; /&gt;
-        &lt;!-- 任意min0sec开始，每30min一次，具体参考cron配置吧，比较复杂 --&gt;
-        &lt;task:scheduled ref=&quot;systemConfigModuleService&quot;
-            method=&quot;clearSystemLogs&quot; cron=&quot;0 */30 * * * *&quot; /&gt;
-        &lt;task:scheduled ref=&quot;securityPolicyModuleService&quot;
-            method=&quot;clearCacheByLockoutPolicy&quot; cron=&quot;7 */1 * * * *&quot; /&gt;
-        &lt;!-- fixed是周期，initial是开始时间，单位是毫秒 --&gt;
-        &lt;task:scheduled ref=&quot;drsStrategyProcess&quot;
-            method=&quot;invoke&quot; fixed-delay=&quot;600000&quot; initial-delay=&quot;600000&quot; /&gt;
-        &lt;!-- 固定15sec --&gt;
-        &lt;task:scheduled ref=&quot;thaHtSender&quot; method=&quot;send&quot;
-            fixed-rate=&quot;15000&quot; /&gt;
-    &lt;/task:scheduled-tasks&gt;
-
-    &lt;task:scheduler id=&quot;baseScheduler&quot; pool-size=&quot;10&quot; /&gt;
-
-    &lt;!-- may be used in future --&gt;
-    &lt;!-- 这里不配置，也可以运行，跟scheduler好像是重复的 --&gt;
-    &lt;!-- &lt;task:executor id=&quot;baseExecutor&quot; pool-size=&quot;5&quot; /&gt; --&gt;
-    &lt;!-- &lt;task:annotation-driven executor=&quot;baseExecutor&quot; scheduler=&quot;baseScheduler&quot;/&gt; --&gt;
-&lt;/beans&gt;
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/20/openstack/openstack-docs-reference/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2296,6 +2082,155 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/08/git/git-branch-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/08/git/git-branch-model/" itemprop="url">
+                  Git分支模型理解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-08T09:10:01+08:00">
+                2016-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><ul>
+<li>记录git branch model在实际开发中遇到的问题，以及几种模型的适用场景分析。</li>
+</ul>
+<h1 id="The-questions-during-dev-with-git-branch"><a href="#The-questions-during-dev-with-git-branch" class="headerlink" title="The questions during dev with git branch"></a>The questions during dev with git branch</h1><h2 id="分支合并频繁，历史记录很难看且很难查"><a href="#分支合并频繁，历史记录很难看且很难查" class="headerlink" title="分支合并频繁，历史记录很难看且很难查"></a>分支合并频繁，历史记录很难看且很难查</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>如果branch merge，且频繁，会导致</li>
+</ul>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><h2 id="定位强制推送的commit困难"><a href="#定位强制推送的commit困难" class="headerlink" title="定位强制推送的commit困难"></a>定位强制推送的commit困难</h2><h3 id="原因-1"><a href="#原因-1" class="headerlink" title="原因"></a>原因</h3><h3 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h3><h2 id="如何"><a href="#如何" class="headerlink" title="如何"></a>如何</h2><h1 id="Why-we-choose-a-model"><a href="#Why-we-choose-a-model" class="headerlink" title="Why we choose a model"></a>Why we choose a model</h1><h1 id="Model-categories"><a href="#Model-categories" class="headerlink" title="Model categories"></a>Model categories</h1><h2 id="fork，pull-request"><a href="#fork，pull-request" class="headerlink" title="fork，pull-request"></a>fork，pull-request</h2><p>-待研究</p>
+<h2 id="master-develop"><a href="#master-develop" class="headerlink" title="master-develop"></a>master-develop</h2><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -2345,7 +2280,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
