@@ -1,0 +1,1035 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jvm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="STEK要搞搞JVM，相关tool的说明记录如下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jdk tools">
+<meta property="og:url" content="http://yoursite.com/2017/04/01/java/jdk_tools/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="STEK要搞搞JVM，相关tool的说明记录如下。">
+<meta property="og:updated_time" content="2017-04-13T13:59:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jdk tools">
+<meta name="twitter:description" content="STEK要搞搞JVM，相关tool的说明记录如下。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/01/java/jdk_tools/"/>
+
+
+
+
+
+  <title> jdk tools | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/java/jdk_tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jdk tools
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00+08:00">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>STEK要搞搞JVM，相关tool的说明记录如下。</p>
+<a id="more"></a>
+<p>补充jdk和jre的区别</p>
+<h1 id="jdk-tools"><a href="#jdk-tools" class="headerlink" title="jdk tools"></a>jdk tools</h1><h2 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h2><ul>
+<li>Java Virtual Machine Process Status Tool</li>
+<li>看local jvm（支持instruments）的tool<ul>
+<li>remote那个没看懂</li>
+</ul>
+</li>
+<li>参数<ul>
+<li>-m可以看command的参数</li>
+<li>-l可以看start jar or class的完整名称</li>
+<li>-v可以看-D的参数</li>
+</ul>
+</li>
+</ul>
+<h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><h2 id="jstat-jstatd"><a href="#jstat-jstatd" class="headerlink" title="jstat/jstatd"></a>jstat/jstatd</h2><ul>
+<li>Java Virtual Machine Statistics Monitoring Tool</li>
+<li>显示了jvm的gc相关的信息</li>
+<li>可以参考<a href="#jvm command的系列">jvm command的系列</a></li>
+<li>jstatd用作deamon进程，可以作为remote monitor jvm的一种方式，类似jmx</li>
+<li>看之前，要知晓<ul>
+<li>eden ==》 survivor ==》 old 的过程</li>
+<li>permGen是什么</li>
+</ul>
+</li>
+<li>TODO：<ul>
+<li>jstatd通过visualvm的远程连接没成功</li>
+<li>center节点的jmx报错：jvm不支持？</li>
+</ul>
+</li>
+</ul>
+<p>common部分的一些说明：</p>
+<pre><code>jstat -help|-options # 看哪些options可用
+jstat -&lt;option&gt; [-t] [-h&lt;lines&gt;] &lt;vmid&gt; [&lt;interval&gt; [&lt;count&gt;]] 
+</code></pre><p>针对：</p>
+<ul>
+<li>t：每行加时间戳</li>
+<li>h：隔x行就re-output一遍header</li>
+<li>interval：间隔时间，支持两种格式：5s/500ms；默认类似-1的效果，值需&gt;0</li>
+<li>count：重复几次；默认no limit</li>
+</ul>
+<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><p>class loader的static信息</p>
+<pre><code>Column    Description
+Loaded    Number of classes loaded.
+Bytes    Number of Kbytes loaded.
+Unloaded    Number of classes unloaded.
+Bytes    Number of Kbytes unloaded.
+Time    Time spent performing class load and unload operations
+</code></pre><p>TODO:class loader能分析出啥？<br>哪儿能看全部的被加载的类？</p>
+<h3 id="compiler"><a href="#compiler" class="headerlink" title="compiler"></a>compiler</h3><p>HotSpot Just-In-Time Compiler Statistics</p>
+<pre><code>Column    Description
+Compiled    Number of compilation tasks performed.
+Failed    Number of compilation tasks that failed.
+Invalid    Number of compilation tasks that were invalidated.
+Time    Time spent performing compilation tasks.
+FailedType    Compile type of the last failed compilation.
+FailedMethod    Class name and method for the last failed compilation.
+</code></pre><p>TODO: 分析JIT的作用？？</p>
+<h3 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h3><p>Garbage-collected heap statistics</p>
+<pre><code>Column    Description
+S0C    Current survivor space 0 capacity (KB).
+S1C    Current survivor space 1 capacity (KB).
+S0U    Survivor space 0 utilization (KB).
+S1U    Survivor space 1 utilization (KB).
+EC    Current eden space capacity (KB).
+EU    Eden space utilization (KB).
+OC    Current old space capacity (KB).
+OU    Old space utilization (KB).
+PC    Current permanent space capacity (KB).
+PU    Permanent space utilization (KB).
+YGC    Number of young generation GC Events.
+YGCT    Young generation garbage collection time.
+FGC    Number of full GC events.
+FGCT    Full garbage collection time.
+GCT    Total garbage collection time.
+</code></pre><h3 id="gccapacity"><a href="#gccapacity" class="headerlink" title="gccapacity"></a>gccapacity</h3><p>Memory Pool Generation and Space Capacities</p>
+<pre><code>Column    Description
+NGCMN    Minimum new generation capacity (KB).
+NGCMX    Maximum new generation capacity (KB).
+NGC    Current new generation capacity (KB).
+S0C    Current survivor space 0 capacity (KB).
+S1C    Current survivor space 1 capacity (KB).
+EC    Current eden space capacity (KB).
+OGCMN    Minimum old generation capacity (KB).
+OGCMX    Maximum old generation capacity (KB).
+OGC    Current old generation capacity (KB).
+OC    Current old space capacity (KB).
+PGCMN    Minimum permanent generation capacity (KB).
+PGCMX    Maximum Permanent generation capacity (KB).
+PGC    Current Permanent generation capacity (KB).
+PC    Current Permanent space capacity (KB).
+YGC    Number of Young generation GC Events.
+FGC    Number of Full GC Events.
+</code></pre><h3 id="gccause"><a href="#gccause" class="headerlink" title="gccause"></a>gccause</h3><p>gc cause</p>
+<pre><code>Column    Description
+LGCC    Cause of last Garbage Collection.
+GCC    Cause of current Garbage Collection.
+</code></pre><h3 id="gcnew"><a href="#gcnew" class="headerlink" title="gcnew"></a>gcnew</h3><p>survivor + eden现状</p>
+<pre><code>Column    Description
+S0C    Current survivor space 0 capacity (KB).
+S1C    Current survivor space 1 capacity (KB).
+S0U    Survivor space 0 utilization (KB).
+S1U    Survivor space 1 utilization (KB).
+TT    Tenuring threshold.
+MTT    Maximum tenuring threshold.
+DSS    Desired survivor size (KB).
+EC    Current eden space capacity (KB).
+EU    Eden space utilization (KB).
+YGC    Number of young generation GC events.
+YGCT    Young generation garbage collection time.
+</code></pre><h3 id="gcnewcapacity"><a href="#gcnewcapacity" class="headerlink" title="gcnewcapacity"></a>gcnewcapacity</h3><p>survivor + eden配置</p>
+<pre><code>Column    Description
+NGCMN          
+Minimum new generation capacity (KB).
+NGCMX        Maximum new generation capacity (KB).
+NGC        Current new generation capacity (KB).
+S0CMX    Maximum survivor space 0 capacity (KB).
+S0C    Current survivor space 0 capacity (KB).
+S1CMX    Maximum survivor space 1 capacity (KB).
+S1C    Current survivor space 1 capacity (KB).
+ECMX    Maximum eden space capacity (KB).
+EC    Current eden space capacity (KB).
+YGC    Number of young generation GC events.
+FGC    Number of Full GC Events.
+</code></pre><h3 id="gcold"><a href="#gcold" class="headerlink" title="gcold"></a>gcold</h3><p>old + perm的现状</p>
+<pre><code>Column    Description
+PC    Current permanent space capacity (KB).
+PU    Permanent space utilization (KB).
+OC    Current old space capacity (KB).
+OU    old space utilization (KB).
+YGC    Number of young generation GC events.
+FGC    Number of full GC events.
+FGCT    Full garbage collection time.
+GCT    Total garbage collection time.
+</code></pre><h3 id="gcoldcapacity"><a href="#gcoldcapacity" class="headerlink" title="gcoldcapacity"></a>gcoldcapacity</h3><p>old的大小配置&amp;现状</p>
+<pre><code>Column    Description
+OGCMN    Minimum old generation capacity (KB).
+OGCMX    Maximum old generation capacity (KB).
+OGC    Current old generation capacity (KB).
+OC    Current old space capacity (KB).
+YGC    Number of young generation GC events.
+FGC    Number of full GC events.
+FGCT    Full garbage collection time.
+GCT    Total garbage collection time.
+</code></pre><h3 id="gcpermcapacity"><a href="#gcpermcapacity" class="headerlink" title="gcpermcapacity"></a>gcpermcapacity</h3><p>perm的大小配置&amp;现状</p>
+<pre><code>Column    Description
+PGCMN    Minimum permanent generation capacity (KB).
+PGCMX    Maximum permanent generation capacity (KB).
+PGC    Current permanent generation capacity (KB).
+PC    Current permanent space capacity (KB).
+YGC    Number of young generation GC events.
+FGC    Number of full GC events.
+FGCT    Full garbage collection time.
+GCT    Total garbage collection time.
+</code></pre><h3 id="gcutil"><a href="#gcutil" class="headerlink" title="gcutil"></a>gcutil</h3><p>注意前5项都是百分比</p>
+<pre><code>Column    Description
+S0    Survivor space 0 utilization as a percentage of the space&apos;s current capacity.
+S1    Survivor space 1 utilization as a percentage of the space&apos;s current capacity.
+E    Eden space utilization as a percentage of the space&apos;s current capacity.
+O    Old space utilization as a percentage of the space&apos;s current capacity.
+P    Permanent space utilization as a percentage of the space&apos;s current capacity.
+YGC    Number of young generation GC events.
+YGCT    Young generation garbage collection time.
+FGC    Number of full GC events.
+FGCT    Full garbage collection time.
+GCT    Total garbage collection time.
+</code></pre><h3 id="printcompilation"><a href="#printcompilation" class="headerlink" title="printcompilation"></a>printcompilation</h3><ul>
+<li>JIT的编译信息</li>
+<li><p>一个问题很好：<a href="http://stackoverflow.com/questions/2930838/java-printcompilation-output-whats-the-meaning-of-made-not-entrant-and-made" target="_blank" rel="external">java PrintCompilation output: what’s the meaning of “made not entrant” and “made zombie”</a></p>
+<p>  Compiled    Number of compilation tasks performed.<br>  Size    Number of bytes of bytecode for the method.<br>  Type    Compilation type.<br>  Method    Class name and method name identifying the compiled method. Class name uses “/“ instead of “.” as namespace separator. Method name is the method within the given class. The format for these two fields is consistent with the HotSpot - XX:+PrintComplation option.</p>
+</li>
+</ul>
+<h2 id="jinfo"><a href="#jinfo" class="headerlink" title="jinfo"></a>jinfo</h2><ul>
+<li>configuration info</li>
+<li>查看<ul>
+<li>system.properties</li>
+<li>-D设置的参数<ul>
+<li>-D设置的也是system.props</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>举个栗子：</p>
+<pre><code>jinfo -flags 1311
+
+Attaching to process ID 1311, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 24.91-b01
+
+-Djava.util.logging.config.file=/usr/local/ics/ics-manager/apache-tomcat-7.0.64/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.security.egd=file:/dev/./urandom -Djava.endorsed.dirs=/usr/local/ics/ics-manager/apache-tomcat-7.0.64/endorsed -Dcatalina.base=/usr/local/ics/ics-manager/apache-tomcat-7.0.64 -Dcatalina.home=/usr/local/ics/ics-manager/apache-tomcat-7.0.64 -Djava.io.tmpdir=/usr/local/ics/ics-manager/apache-tomcat-7.0.64/temp
+</code></pre><p><code>jinfo -sysprops</code> 输出太多了就不列举了</p>
+<h2 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h2><ul>
+<li><h2 id="jdb"><a href="#jdb" class="headerlink" title="jdb"></a>jdb</h2></li>
+</ul>
+<h2 id="jconsole"><a href="#jconsole" class="headerlink" title="jconsole"></a>jconsole</h2><h2 id="jvisual"><a href="#jvisual" class="headerlink" title="jvisual"></a>jvisual</h2><p>#FAQ</p>
+<h2 id="jinfo链接报错"><a href="#jinfo链接报错" class="headerlink" title="jinfo链接报错"></a>jinfo链接报错</h2><pre><code>void* type hasn&apos;t been seen when parsing int*
+</code></pre><p>一般是app跟jinfo的java version不一致（待验证）</p>
+<h1 id="reference-docs"><a href="#reference-docs" class="headerlink" title="reference docs"></a>reference docs</h1><ul>
+<li>CSDN上一个介绍<a href="http://blog.csdn.net/fenglibing/article/details/6411951" target="_blank" rel="external">jvm command的系列</a></li>
+<li>JDK5官方常见options文档：<a href="http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/java.html" target="_blank" rel="external">戳这里</a></li>
+<li>JDK7,<a href="http://docs.oracle.com/javase/7/docs/webnotes/tsg/index.html" target="_blank" rel="external">trouble shooting guide</a></li>
+</ul>
+<h1 id="下面是临时的笔记"><a href="#下面是临时的笔记" class="headerlink" title="下面是临时的笔记"></a>下面是临时的笔记</h1><h2 id="jconsole-1"><a href="#jconsole-1" class="headerlink" title="jconsole"></a>jconsole</h2><ul>
+<li>根据文章，完成了jconsole的远程连接配置：<a href="http://www.cnblogs.com/sunxucool/p/4059040.html" target="_blank" rel="external">戳这里</a></li>
+</ul>
+<p>catalina.sh中增加的配置：</p>
+<pre><code>JAVA_OPTS=&quot;$JAVA_OPTS -Dcom.sun.management.jmxremote.port=11111&quot;
+JAVA_OPTS=&quot;$JAVA_OPTS -Dcom.sun.management.jmxremote.authenticate=false&quot;
+JAVA_OPTS=&quot;$JAVA_OPTS -Dcom.sun.management.jmxremote.ssl=false&quot;
+JAVA_OPTS=&quot;$JAVA_OPTS -Dcom.sun.management.jmxremote.pwd.file=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.99-2.6.5.0.el7_2.x86_64/jre/lib/management/jmxremote.password&quot;
+</code></pre><p>并且测试了tomcat stop时，没有报端口被占用的问题</p>
+<p>其中：</p>
+<ul>
+<li>com.sun.management.jmxremote.authenticate<ul>
+<li>true表示使用验证</li>
+<li>false表示不使用</li>
+</ul>
+</li>
+<li>com.sun.management.jmxremote.pwd.file<ul>
+<li>当auth被set 为true的时候需要</li>
+</ul>
+</li>
+</ul>
+<p>agent端给的参数是：</p>
+<pre><code>java -Djava.ext.dirs=./icsAgent_lib/ -Dcom.sun.management.jmxremote.port=22222 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+</code></pre><h2 id="jvisual-1"><a href="#jvisual-1" class="headerlink" title="jvisual"></a>jvisual</h2><p>在1.7版本之后，默认作为jdk release的一部分</p>
+<h3 id="对比jconsole"><a href="#对比jconsole" class="headerlink" title="对比jconsole"></a>对比jconsole</h3><p>优点</p>
+<ul>
+<li>能处理agent restart的问题（jvm重启）</li>
+<li>图好看</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>有时候jmx连接不上？不知道为啥</li>
+</ul>
+<h3 id="jvisual-基础结构"><a href="#jvisual-基础结构" class="headerlink" title="jvisual 基础结构"></a>jvisual 基础结构</h3><p>jvisualvm功能简介</p>
+<ul>
+<li>基础模块<ul>
+<li>主机<ul>
+<li>cpu监控</li>
+<li>mem监控</li>
+<li>swap监控</li>
+</ul>
+</li>
+<li>jmx<ul>
+<li>cpu</li>
+<li>heap</li>
+<li>permgen</li>
+<li>class</li>
+<li>thread</li>
+<li>手动执行<ul>
+<li>gc</li>
+<li>dump</li>
+</ul>
+</li>
+<li>thread<ul>
+<li>手动dump</li>
+<li>按state</li>
+</ul>
+</li>
+<li>抽样<ul>
+<li>cpu</li>
+<li>mem（只支持java8 jvm）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>plugins</li>
+</ul>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ul>
+<li>jinfo的使用文档补充<ul>
+<li>能看到哪些参数</li>
+<li>jvm参数研究<ul>
+<li>默认值怎么看</li>
+<li>默认值关注什么</li>
+<li>调优一般关注什么参数</li>
+<li>常见的性能瓶颈和错误配置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>jstat/jstatd的文档补充<ul>
+<li>RMI的实现原理+简单demo</li>
+</ul>
+</li>
+<li>jmap的基础用法</li>
+<li>jhat的用法</li>
+<li>jvm mem分析<ul>
+<li>mem的模型</li>
+</ul>
+</li>
+<li>core文件<ul>
+<li>core怎么分析</li>
+<li>能否模拟core生成，然后分析一下试试</li>
+<li>core文件中能获取到什么信息</li>
+</ul>
+</li>
+<li>stack分析</li>
+<li>thread分析</li>
+<li>dump分析</li>
+<li>instruments学习</li>
+<li>尝试分析ics的stack dump &amp; heap dump</li>
+</ul>
+<h3 id="产物"><a href="#产物" class="headerlink" title="产物"></a>产物</h3><ul>
+<li>jvisualvm的介绍文档</li>
+<li>jvisualvm跟常见monitor tool的对比</li>
+<li>ics jvm存在的问题</li>
+</ul>
+<p>jdk的logging模块</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jvm/" rel="tag"># jvm</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/mac/mac初学笔记/" rel="next" title="mac初学笔记">
+                <i class="fa fa-chevron-left"></i> mac初学笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/13/database/mariadb常见错误/" rel="prev" title="mariadb常见错误">
+                mariadb常见错误 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jdk-tools"><span class="nav-number">1.</span> <span class="nav-text">jdk tools</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">1.1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">1.2.</span> <span class="nav-text">jstack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstat-jstatd"><span class="nav-number">1.3.</span> <span class="nav-text">jstat/jstatd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class"><span class="nav-number">1.3.1.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compiler"><span class="nav-number">1.3.2.</span> <span class="nav-text">compiler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gc"><span class="nav-number">1.3.3.</span> <span class="nav-text">gc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gccapacity"><span class="nav-number">1.3.4.</span> <span class="nav-text">gccapacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gccause"><span class="nav-number">1.3.5.</span> <span class="nav-text">gccause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcnew"><span class="nav-number">1.3.6.</span> <span class="nav-text">gcnew</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcnewcapacity"><span class="nav-number">1.3.7.</span> <span class="nav-text">gcnewcapacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcold"><span class="nav-number">1.3.8.</span> <span class="nav-text">gcold</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcoldcapacity"><span class="nav-number">1.3.9.</span> <span class="nav-text">gcoldcapacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcpermcapacity"><span class="nav-number">1.3.10.</span> <span class="nav-text">gcpermcapacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcutil"><span class="nav-number">1.3.11.</span> <span class="nav-text">gcutil</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#printcompilation"><span class="nav-number">1.3.12.</span> <span class="nav-text">printcompilation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo"><span class="nav-number">1.4.</span> <span class="nav-text">jinfo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">1.5.</span> <span class="nav-text">jmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jdb"><span class="nav-number">1.6.</span> <span class="nav-text">jdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jconsole"><span class="nav-number">1.7.</span> <span class="nav-text">jconsole</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jvisual"><span class="nav-number">1.8.</span> <span class="nav-text">jvisual</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo链接报错"><span class="nav-number">1.9.</span> <span class="nav-text">jinfo链接报错</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference-docs"><span class="nav-number">2.</span> <span class="nav-text">reference docs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面是临时的笔记"><span class="nav-number">3.</span> <span class="nav-text">下面是临时的笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jconsole-1"><span class="nav-number">3.1.</span> <span class="nav-text">jconsole</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jvisual-1"><span class="nav-number">3.2.</span> <span class="nav-text">jvisual</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对比jconsole"><span class="nav-number">3.2.1.</span> <span class="nav-text">对比jconsole</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jvisual-基础结构"><span class="nav-number">3.2.2.</span> <span class="nav-text">jvisual 基础结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TODO"><span class="nav-number">3.2.3.</span> <span class="nav-text">TODO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产物"><span class="nav-number">3.2.4.</span> <span class="nav-text">产物</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
