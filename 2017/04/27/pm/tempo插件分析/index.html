@@ -1,0 +1,877 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="docs jira," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="简单整理了JIRA的tempo插件的分析&amp;amp;用法，记录方便日后查询。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tempo插件分析">
+<meta property="og:url" content="http://yoursite.com/2017/04/27/pm/tempo插件分析/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简单整理了JIRA的tempo插件的分析&amp;amp;用法，记录方便日后查询。">
+<meta property="og:updated_time" content="2017-04-27T08:26:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tempo插件分析">
+<meta name="twitter:description" content="简单整理了JIRA的tempo插件的分析&amp;amp;用法，记录方便日后查询。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/27/pm/tempo插件分析/"/>
+
+
+
+
+
+  <title> tempo插件分析 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/27/pm/tempo插件分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                tempo插件分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-27T00:00:00+08:00">
+                2017-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index">
+                    <span itemprop="name">pm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简单整理了JIRA的tempo插件的分析&amp;用法，记录方便日后查询。</p>
+<a id="more"></a>
+<p>tempo是JIRA的一个工时统计插件。</p>
+<p>#工时统计的需求点</p>
+<h2 id="工时录入"><a href="#工时录入" class="headerlink" title="工时录入"></a>工时录入</h2><ul>
+<li>正常任务工时录入</li>
+<li>工时任务补录入</li>
+<li>工时任务补录入（批量）</li>
+</ul>
+<h2 id="项目level工时查询-amp-统计"><a href="#项目level工时查询-amp-统计" class="headerlink" title="项目level工时查询&amp;统计"></a>项目level工时查询&amp;统计</h2><ul>
+<li>全部项目<ul>
+<li>统计JIRA中全部项目在选定周期内的工时记录情况</li>
+</ul>
+</li>
+<li>指定项目<ul>
+<li>统计JIRA中指定项目在选定周期内的工时记录情况</li>
+</ul>
+</li>
+</ul>
+<h2 id="group-level工时查询统计"><a href="#group-level工时查询统计" class="headerlink" title="group level工时查询统计"></a>group level工时查询统计</h2><ul>
+<li>group对应的是组织结构上的team，如UI，平台，计算，存储，网络等</li>
+<li>支持对group人员的自定义</li>
+<li>支持对group中人员在选定周期内的工时记录情况查询</li>
+</ul>
+<h2 id="人员level工时查询统计"><a href="#人员level工时查询统计" class="headerlink" title="人员level工时查询统计"></a>人员level工时查询统计</h2><ul>
+<li>支持对指定人员在选定周期内的工时记录情况查询</li>
+</ul>
+<h2 id="工时查询结果"><a href="#工时查询结果" class="headerlink" title="工时查询结果"></a>工时查询结果</h2><ul>
+<li>支持列表展示</li>
+<li>支持对具体JIRA issue展示（工时+备注）</li>
+<li>支持工时结果汇总</li>
+<li>支持导出为excel</li>
+<li>支持工时分析（报表）</li>
+</ul>
+<h2 id="工时查询的时间范围"><a href="#工时查询的时间范围" class="headerlink" title="工时查询的时间范围"></a>工时查询的时间范围</h2><ul>
+<li>支持按周查询</li>
+<li>支持按月查询</li>
+<li>支持按财年查询</li>
+<li>支持自定义范围的时间选择查询</li>
+</ul>
+<h1 id="tempo的简单分析"><a href="#tempo的简单分析" class="headerlink" title="tempo的简单分析"></a>tempo的简单分析</h1><p>本文档基于：</p>
+<blockquote>
+<p>版本：Tempo Timesheets - 8.0.4</p>
+</blockquote>
+<p>对tempo进行分析，tempo官方文档可以参考：<a href="http://confluence.xpand-addons.com/display/XRAY/Xray+for+JIRA+Documentation+Home" target="_blank" rel="external">戳这里</a></p>
+<h2 id="工时表"><a href="#工时表" class="headerlink" title="工时表"></a>工时表</h2><ul>
+<li>可以展示指定用户，在指定时间范围内的工作情况</li>
+<li>默认是当前用户</li>
+</ul>
+<p>其包含如下两种形式：</p>
+<ul>
+<li>working log calendar</li>
+<li>user timesheet</li>
+</ul>
+<h3 id="working-log-calendar"><a href="#working-log-calendar" class="headerlink" title="working log calendar"></a>working log calendar</h3><ul>
+<li>用户工时的一种展示形式</li>
+<li>特点<ul>
+<li>按天展示</li>
+<li>图形化，界面友好</li>
+</ul>
+</li>
+</ul>
+<h3 id="user-timesheet"><a href="#user-timesheet" class="headerlink" title="user timesheet"></a>user timesheet</h3><ul>
+<li>用户工时的另一种展示形式</li>
+<li>特点<ul>
+<li>按天展示</li>
+<li>表格形式</li>
+<li>包含合计 </li>
+</ul>
+</li>
+</ul>
+<h2 id="tracking"><a href="#tracking" class="headerlink" title="tracking"></a>tracking</h2><p>一般用于对团队、项目在某个阶段工时的统计/分析。</p>
+<p>参考tracking menu的可用选项，对tracking功能进行如下分析。</p>
+<h3 id="团队level-tracking"><a href="#团队level-tracking" class="headerlink" title="团队level tracking"></a>团队level tracking</h3><p>一般用于TL对自己团队在某个时间段内（如一周，一个月，一个财年等），对自己成员的工作量统计&amp;分析。</p>
+<blockquote>
+<p>包含四种display方式</p>
+</blockquote>
+<ul>
+<li>Timesheet</li>
+<li>Calendar</li>
+<li>Report</li>
+<li>List</li>
+</ul>
+<blockquote>
+<p>包含Utilization视图</p>
+</blockquote>
+<p>视图类型</p>
+<ul>
+<li>Weeks：比较每周的工时总和</li>
+<li>Team member：比较组内成员工时总和</li>
+</ul>
+<blockquote>
+<p>支持导出（list格式）与打印（任意display格式）</p>
+</blockquote>
+<ul>
+<li>目前导致只支持list格式的excel</li>
+<li>打印则可以按照上述四种display方式在页面展示的效果进行打印</li>
+</ul>
+<h3 id="项目level-tracking"><a href="#项目level-tracking" class="headerlink" title="项目level tracking"></a>项目level tracking</h3><p>一般用于项目负责人对项目相关任务在指定时间内（如一周，一个月，一个财年等）的工作量进行统计&amp;分析</p>
+<blockquote>
+<p>包含四种display方式</p>
+</blockquote>
+<ul>
+<li>Timesheet</li>
+<li>Calendar</li>
+<li>Report</li>
+<li>List</li>
+</ul>
+<blockquote>
+<p>支持导出（list格式）与打印（任意display格式）</p>
+</blockquote>
+<ul>
+<li>目前导致只支持list格式的excel</li>
+<li>打印则可以按照上述四种display方式在页面展示的效果进行打印</li>
+</ul>
+<h3 id="用户level-tracking"><a href="#用户level-tracking" class="headerlink" title="用户level tracking"></a>用户level tracking</h3><p>参考user timesheet的说明</p>
+<h3 id="高级查询"><a href="#高级查询" class="headerlink" title="高级查询"></a>高级查询</h3><p>有时会有特殊需求，如针对某些特定问题需要做工时分析+跟踪，这时候就用到了高级查询功能。</p>
+<p>高级查询支持:</p>
+<ul>
+<li>针对指定filter的结果集（issue集合），进行工时的tracking</li>
+<li>支持导出（list格式）与打印（任意display格式）</li>
+</ul>
+<h2 id="工时记录"><a href="#工时记录" class="headerlink" title="工时记录"></a>工时记录</h2><blockquote>
+<p>字段说明</p>
+</blockquote>
+<ul>
+<li>问题：默认是当前正在查看的问题</li>
+<li>周期：如果批量填写该问题的工作日志，则可以勾选该项<ul>
+<li>日期：勾选周期后出现的字段，为工作周期的开始日期</li>
+<li>结束日期：勾选周期后出现的字段，为工作周期的结束日期</li>
+</ul>
+</li>
+<li>日期：工作的日期，精确到天（未勾选周期）</li>
+<li>已完成：本次工作记录，花费的时间，支持形如：1s，2m，3h，4d，5w</li>
+<li>剩余预估时间：本次工作完成后，该问题剩余预估时间，支持形如：1s，2m，3h，4d，5w</li>
+<li>描述：描述本次工作记录中，具体完成的项，形如：<ul>
+<li><ol>
+<li>完成了XXX</li>
+</ol>
+</li>
+<li><ol>
+<li>解决了XXX</li>
+</ol>
+</li>
+<li><ol>
+<li>存在XXX问题，分析为XXX，需要与XXX进行进一步沟通</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>一些条件</p>
+</blockquote>
+<ul>
+<li>工时记录的快捷键是W</li>
+<li>需要有修改该问题的权限</li>
+<li>如果手工选择，建议选择<strong>记录工作日志</strong>而非<strong>工作日志</strong></li>
+</ul>
+<h3 id="工时补充"><a href="#工时补充" class="headerlink" title="工时补充"></a>工时补充</h3><p>可以对指定问题，进行批量工时填写。</p>
+<h1 id="针对需求点demo"><a href="#针对需求点demo" class="headerlink" title="针对需求点demo"></a>针对需求点demo</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docs-jira/" rel="tag"># docs jira</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/13/database/mariadb常见错误/" rel="next" title="mariadb常见错误">
+                <i class="fa fa-chevron-left"></i> mariadb常见错误
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工时录入"><span class="nav-number">1.</span> <span class="nav-text">工时录入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目level工时查询-amp-统计"><span class="nav-number">2.</span> <span class="nav-text">项目level工时查询&统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-level工时查询统计"><span class="nav-number">3.</span> <span class="nav-text">group level工时查询统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#人员level工时查询统计"><span class="nav-number">4.</span> <span class="nav-text">人员level工时查询统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工时查询结果"><span class="nav-number">5.</span> <span class="nav-text">工时查询结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工时查询的时间范围"><span class="nav-number">6.</span> <span class="nav-text">工时查询的时间范围</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tempo的简单分析"><span class="nav-number"></span> <span class="nav-text">tempo的简单分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工时表"><span class="nav-number">1.</span> <span class="nav-text">工时表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#working-log-calendar"><span class="nav-number">1.1.</span> <span class="nav-text">working log calendar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-timesheet"><span class="nav-number">1.2.</span> <span class="nav-text">user timesheet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tracking"><span class="nav-number">2.</span> <span class="nav-text">tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#团队level-tracking"><span class="nav-number">2.1.</span> <span class="nav-text">团队level tracking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目level-tracking"><span class="nav-number">2.2.</span> <span class="nav-text">项目level tracking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户level-tracking"><span class="nav-number">2.3.</span> <span class="nav-text">用户level tracking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级查询"><span class="nav-number">2.4.</span> <span class="nav-text">高级查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工时记录"><span class="nav-number">3.</span> <span class="nav-text">工时记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工时补充"><span class="nav-number">3.1.</span> <span class="nav-text">工时补充</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#针对需求点demo"><span class="nav-number"></span> <span class="nav-text">针对需求点demo</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
