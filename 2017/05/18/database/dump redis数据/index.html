@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="git refs," />
+  <meta name="keywords" content="redis," />
 
 
 
@@ -87,28 +87,16 @@
 
 
 
-<meta name="description" content="PrefaceThe summary of git-relative documents.
-DocumentsBook
-Git Pro zh-cn version
-
-URL">
+<meta name="description" content="记录了redis dump相关的知识点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git docs reference">
-<meta property="og:url" content="http://yoursite.com/2016/04/07/git/git-docs-reference/index.html">
+<meta property="og:title" content="dump redis数据">
+<meta property="og:url" content="http://yoursite.com/2017/05/18/database/dump redis数据/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="PrefaceThe summary of git-relative documents.
-DocumentsBook
-Git Pro zh-cn version
-
-URL">
-<meta property="og:updated_time" content="2017-03-18T06:15:31.000Z">
+<meta property="og:description" content="记录了redis dump相关的知识点。">
+<meta property="og:updated_time" content="2017-05-22T05:34:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git docs reference">
-<meta name="twitter:description" content="PrefaceThe summary of git-relative documents.
-DocumentsBook
-Git Pro zh-cn version
-
-URL">
+<meta name="twitter:title" content="dump redis数据">
+<meta name="twitter:description" content="记录了redis dump相关的知识点。">
 
 
 
@@ -136,13 +124,13 @@ URL">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/04/07/git/git-docs-reference/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/18/database/dump redis数据/"/>
 
 
 
 
 
-  <title> git docs reference | Hexo </title>
+  <title> dump redis数据 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -281,7 +269,7 @@ URL">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/07/git/git-docs-reference/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/18/database/dump redis数据/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -302,7 +290,7 @@ URL">
             
             
               
-                git docs reference
+                dump redis数据
               
             
           </h1>
@@ -317,8 +305,8 @@ URL">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-07T16:25:52+08:00">
-                2016-04-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-18T00:00:00+08:00">
+                2017-05-18
               </time>
             
 
@@ -340,8 +328,8 @@ URL">
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -375,11 +363,100 @@ URL">
       
 
       
-        <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>The summary of git-relative documents.</p>
-<h1 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h1><h2 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h2><ul>
-<li><a href="https://git-scm.com/book/zh/v2" title="Git Pro zh-cn" target="_blank" rel="external">Git Pro zh-cn version</a></li>
+        <p>记录了redis dump相关的知识点。</p>
+<a id="more"></a>
+<p>在做自动化测试的时候，一般的error可以通过log来复现，但是比较复杂的case，需要用到更多的定位信息。这时候需求是dump app中用到的redis数据，来分析结果。故研究了下redis dump相关知识。</p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>需求拆分下，其实是：</p>
+<ul>
+<li>如何dump redis当前数据</li>
+<li>如何通过dump文件，恢复数据的读取</li>
 </ul>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2>
+<p>更细化的一些场景是：</p>
+<ul>
+<li>能否指定dump文件存放位置？</li>
+<li>dump文件权限需要用户什么权限？</li>
+<li>能否dump指定key或者指定的几个key？</li>
+</ul>
+<p>针对上面的需求，看了下redis官方文档，其中几个关键点如下：</p>
+<ul>
+<li>redis是有多个db的，dump的时候选对db</li>
+<li>redis dump无法指定文件位置，使用默认($dir下)；故多次dump相同实例会覆盖</li>
+<li>redis stop会默认dump，故需要先stop再覆盖dump.rdb，否则是无法加载dump数据的</li>
+<li>redis-cli有两种模式<ul>
+<li>command，如redis-cli incr mycounter</li>
+<li>inactive，交互模式，只输入redis-cli可进入。这里比较坑的地方是使用fabric运行shell的时候，会进入交互模式的问题：<a href="http://stackoverflow.com/questions/8855616/why-cant-i-interact-with-redis-cli-via-fabric" target="_blank" rel="external">戳这里</a></li>
+</ul>
+</li>
+</ul>
+<p>OK，关键点如上，下面会列举具体的步骤：</p>
+<h2 id="dump步骤"><a href="#dump步骤" class="headerlink" title="dump步骤"></a>dump步骤</h2><h3 id="dump-redis"><a href="#dump-redis" class="headerlink" title="dump redis"></a>dump redis</h3><blockquote>
+<p>涉及fabric相关的脚本的部分，并不在本文介绍中，可以参考：</p>
+</blockquote>
+<pre><code># fab脚本中，dump redis的fun
+def do_redis_dump():
+    run(&apos;save | redis-cli&apos;)
+</code></pre><p>这个写法很有意思，一开始测试时，脚本是<code>redis-cli &amp;&amp; save</code>，但是这种方式会进入redis-cli的inactive模式，脚本会block在输入，故采用了上述方式。</p>
+<pre><code>def download_redis_dump_file(redis_file_dir):
+    get(&apos;/var/lib/redis/dump.rdb&apos;,redis_file_dir)
+</code></pre><p>这一步是download了对应的脚本</p>
+<p>有了dump.rdb之后，dump就算完成了。下面需要的是启动一个redis并load已经dump好的文件，一般有如下两种情况：</p>
+<h3 id="reload-redis"><a href="#reload-redis" class="headerlink" title="reload redis"></a>reload redis</h3><ul>
+<li>case 1:没运行redis实例/现有redis实例，但是数据不重要。故找到dump.rdb位置，替换文件，并systemctl restart redis即可</li>
+<li>case 2:已经有现有的redis实例且不能restart/数据有用，需要启动额外的redis实例来加载该dump.rdb</li>
+</ul>
+<h4 id="case-1"><a href="#case-1" class="headerlink" title="case 1"></a>case 1</h4><p>针对case1，可能需要的是找到现有redis的dump file的位置，具体为：</p>
+<pre><code>127.0.0.1:6379&gt; config get dir
+1) &quot;dir&quot;
+2) &quot;/var/lib/redis&quot;
+</code></pre><p>由上可知，redis路径为/var/lib/redis，其dump file如下：</p>
+<pre><code>[root@test-214 system]# cd /var/lib/redis/
+[root@test-214 redis]# ll
+total 8
+drwxr-xr-x. 2 root  root  4096 May 22 01:36 6380
+-rw-r--r--. 1 redis redis   18 May 19 07:20 dump.rdb
+</code></pre><p>reload的步骤为：</p>
+<ul>
+<li>systemctl stop redis</li>
+<li>cp new-dump-file old-dump-file</li>
+<li>systemctl start redis</li>
+</ul>
+<p>即可使用redis-cli查看dump file中的数据</p>
+<h4 id="case-2"><a href="#case-2" class="headerlink" title="case 2"></a>case 2</h4><p>case 2本质与case 1相同，只不过需要启动一个额外的redis实例，涉及到的修改有：</p>
+<ul>
+<li>需要cp一份redis.conf并修改其中内容</li>
+<li>使用新的redis.conf来启动服务</li>
+</ul>
+<blockquote>
+<p>复制配置文件<br>    cp /etc/redis.conf /etc/redis/redis_6380.conf<br>    mkdir /var/lib/redis/6380/<br>    vim /etc/redis/redis_6380.conf</p>
+<p>修改配置文件中内容</p>
+</blockquote>
+<ul>
+<li>pidfile /var/run/redis.pid</li>
+<li>port 6379</li>
+<li>logfile /var/log/redis.log</li>
+<li>dir /var/lib/redis/</li>
+</ul>
+<p>to</p>
+<ul>
+<li>pidfile /var/run/redis_6380.pid</li>
+<li>port 6380</li>
+<li>logfile /var/log/redis/redis_6380.log</li>
+<li>dir /var/lib/redis/6380</li>
+</ul>
+<blockquote>
+<p>启动新的实例</p>
+</blockquote>
+<pre><code>nohup /usr/bin/redis-server /etc/redis/redis_6380.conf
+</code></pre><p>后续操作参考case 1的步骤即可。</p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ul>
+<li><a href="https://github.com/antirez/redis/issues/3353" target="_blank" rel="external">Unknown RDB format version: 7 (redis-check-rdb)</a></li>
+<li>查看redis rdb文件版本：<a href="http://blog.nosqlfan.com/html/3734.html" target="_blank" rel="external">文件格式说明</a></li>
+</ul>
+<h2 id="一些资料"><a href="#一些资料" class="headerlink" title="一些资料"></a>一些资料</h2><ul>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/" target="_blank" rel="external">进程后台运行</a></li>
+<li><a href="https://discuss.pivotal.io/hc/en-us/articles/206087627-How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host" target="_blank" rel="external">How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host</a></li>
+</ul>
+
       
     </div>
 
@@ -408,7 +485,7 @@ URL">
       
         <div class="post-tags">
           
-            <a href="/tags/git-refs/" rel="tag"># git refs</a>
+            <a href="/tags/redis/" rel="tag"># redis</a>
           
         </div>
       
@@ -421,8 +498,8 @@ URL">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/05/git/git相关的代码审核/" rel="next" title="git相关的代码审核">
-                <i class="fa fa-chevron-left"></i> git相关的代码审核
+              <a href="/2017/04/27/pm/tempo插件分析/" rel="next" title="tempo插件分析">
+                <i class="fa fa-chevron-left"></i> tempo插件分析
               </a>
             
           </div>
@@ -430,10 +507,6 @@ URL">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/07/git/git-log/" rel="prev" title="git log">
-                git log <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -527,7 +600,7 @@ URL">
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -562,7 +635,7 @@ URL">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Documents"><span class="nav-number">2.</span> <span class="nav-text">Documents</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Book"><span class="nav-number">2.1.</span> <span class="nav-text">Book</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL"><span class="nav-number">2.2.</span> <span class="nav-text">URL</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dump步骤"><span class="nav-number">2.</span> <span class="nav-text">dump步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dump-redis"><span class="nav-number">2.1.</span> <span class="nav-text">dump redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reload-redis"><span class="nav-number">2.2.</span> <span class="nav-text">reload redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#case-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">case 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#case-2"><span class="nav-number">2.2.2.</span> <span class="nav-text">case 2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FAQ"><span class="nav-number">3.</span> <span class="nav-text">FAQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些资料"><span class="nav-number">4.</span> <span class="nav-text">一些资料</span></a></li></ol></div>
             
 
           </div>
