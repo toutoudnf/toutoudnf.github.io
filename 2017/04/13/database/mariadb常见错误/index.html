@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/13/database/mariadb常见错误/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="记录了常见的mariadb问题">
-<meta property="og:updated_time" content="2017-04-18T22:57:28.000Z">
+<meta property="og:updated_time" content="2017-05-25T05:54:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mariadb常见错误">
 <meta name="twitter:description" content="记录了常见的mariadb问题">
@@ -400,6 +400,10 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
 <h3 id="keep-crash怎么办"><a href="#keep-crash怎么办" class="headerlink" title="keep crash怎么办"></a>keep crash怎么办</h3><ul>
 <li><a href="https://dev.mysql.com/doc/refman/5.7/en/crashing.html" target="_blank" rel="external">What to Do If MySQL Keeps Crashing</a></li>
 </ul>
+<h3 id="创建表的时候，error-28"><a href="#创建表的时候，error-28" class="headerlink" title="创建表的时候，error 28"></a>创建表的时候，error 28</h3><ul>
+<li><a href="http://stackoverflow.com/questions/10513887/mysql-database-got-error-28-from-storage-engine-while-accessing-from-webmin" target="_blank" rel="external">解决方案</a></li>
+</ul>
+<p>这个时候一般是盘满了，可以使用df -kh查看磁盘的使用情况。</p>
 
       
     </div>
@@ -528,7 +532,7 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -585,7 +589,7 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysqld-Table-‘-mysql-proc’-is-marked-as-crashed-and-should-be-repaired"><span class="nav-number">1.</span> <span class="nav-text">mysqld: Table ‘./mysql/proc’ is marked as crashed and should be repaired</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-proc表是什么："><span class="nav-number">1.1.</span> <span class="nav-text">mysql.proc表是什么：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坏了的表，怎么check和修复"><span class="nav-number">1.2.</span> <span class="nav-text">坏了的表，怎么check和修复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一般是什么原因造成的"><span class="nav-number">1.3.</span> <span class="nav-text">一般是什么原因造成的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#keep-crash怎么办"><span class="nav-number">1.4.</span> <span class="nav-text">keep crash怎么办</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysqld-Table-‘-mysql-proc’-is-marked-as-crashed-and-should-be-repaired"><span class="nav-number">1.</span> <span class="nav-text">mysqld: Table ‘./mysql/proc’ is marked as crashed and should be repaired</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-proc表是什么："><span class="nav-number">1.1.</span> <span class="nav-text">mysql.proc表是什么：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坏了的表，怎么check和修复"><span class="nav-number">1.2.</span> <span class="nav-text">坏了的表，怎么check和修复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一般是什么原因造成的"><span class="nav-number">1.3.</span> <span class="nav-text">一般是什么原因造成的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#keep-crash怎么办"><span class="nav-number">1.4.</span> <span class="nav-text">keep crash怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建表的时候，error-28"><span class="nav-number">1.5.</span> <span class="nav-text">创建表的时候，error 28</span></a></li></ol></li></ol></div>
             
 
           </div>

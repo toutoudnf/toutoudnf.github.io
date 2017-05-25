@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="code review," />
+  <meta name="keywords" content="docs," />
 
 
 
@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="整理一些code review的心得">
+<meta name="description" content="记录对df，du，dd的资料+简单的学习心得。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="code review">
-<meta property="og:url" content="http://yoursite.com/2016/12/17/pm/code-review/index.html">
+<meta property="og:title" content="df&du&dd学习.md">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/linux/df&du&dd学习/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="整理一些code review的心得">
-<meta property="og:updated_time" content="2017-04-27T14:39:23.000Z">
+<meta property="og:description" content="记录对df，du，dd的资料+简单的学习心得。">
+<meta property="og:updated_time" content="2017-05-25T05:54:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="code review">
-<meta name="twitter:description" content="整理一些code review的心得">
+<meta name="twitter:title" content="df&du&dd学习.md">
+<meta name="twitter:description" content="记录对df，du，dd的资料+简单的学习心得。">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/17/pm/code-review/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/24/linux/df&du&dd学习/"/>
 
 
 
 
 
-  <title> code review | Hexo </title>
+  <title> df&du&dd学习.md | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/17/pm/code-review/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/linux/df&du&dd学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -290,7 +290,7 @@
             
             
               
-                code review
+                df&du&dd学习.md
               
             
           </h1>
@@ -305,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-17T17:48:00+08:00">
-                2016-12-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-24T00:00:00+08:00">
+                2017-05-24
               </time>
             
 
@@ -328,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pm/" itemprop="url" rel="index">
-                    <span itemprop="name">pm</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -363,32 +363,38 @@
       
 
       
-        <p>整理一些code review的心得</p>
+        <p>记录对df，du，dd的资料+简单的学习心得。</p>
 <a id="more"></a>
-<h1 id="why"><a href="#why" class="headerlink" title="why"></a>why</h1><p>有好处，主要是</p>
+<h1 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h1><p>对catalina.out的问题定位过程中，涉及到了du，df的学习。</p>
+<p>整体介绍下，du和df是不同level对磁盘+文件系统的使用情况的学习。</p>
+<h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><p>du是查看文件系统使用情况的命令，参数可以通过man查看。一些注意的点：</p>
 <ul>
-<li>代码质量<ul>
-<li>可读性</li>
-<li>代码规范统一性</li>
-<li>bug数量控制</li>
+<li>-h是常用的参数，human readable</li>
+<li>不指定路径，默认看当前目录</li>
+<li>查看的是文件夹的大小，分这么几种情况<ul>
+<li>计算文件夹大小的时候，包含子文件夹内容 vs 不包含子文件夹内容（不加-S vs 加-S）</li>
+<li>是否只关心指定的文件夹，or列出指定文件夹下所有文件夹（指定-s vs 不加-s）</li>
+<li>显示单位（-h）</li>
 </ul>
 </li>
-<li>互相学习</li>
-<li>类似结对编程，减少业务垄断造成的损失</li>
-<li>自我审查</li>
+<li>可以指定多个文件夹作为参数</li>
+<li>可以在指定文件时，使用通配符（同上）</li>
+<li>使用sort排序<ul>
+<li>sort -h 对应 du -h</li>
+<li>sort -n 对应 du</li>
 </ul>
-<p>具体可以参见总结吧</p>
-<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><p>一般是从代码提交开始，到交付测试截至。其实code review中也算测试的一部分，只不过是人工测试。为了好说明，暂时与自动化测试什么的区分开来。</p>
+</li>
+</ul>
+<h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><p>查看块设备使用情况，具体在使用的时候，-h就好啦。</p>
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><p>从指定的地方（if）每次读取指定大小（bs or ibs）的block，读取指定次数（count），然后按照指定速率（bs or obs）写入指定地方（of）。</p>
+<p>详情参见man or <a href="https://my.oschina.net/aiguozhe/blog/120283" target="_blank" rel="external">这里</a>。</p>
+<p>另外需要注意的是，dd可以通过指定-convert参数，完成文件格式的转换，如：</p>
 <ul>
-<li>代码提交</li>
+<li>大小写</li>
+<li>编码</li>
+<li>etc其他不太懂。。。  </li>
 </ul>
-<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>用到的主要是gerrit吧，另外就是gerrit在做code review的时候，通过zuul调用jenkins来完成了一部分code style的check。</p>
-<p>关于gerrit：</p>
-<ul>
-<li>官网文档很棒：<a href="https://review.openstack.org/Documentation/intro-quick.html" target="_blank" rel="external">戳这里</a></li>
-<li>openstack开发的一个玩意儿，code review用的</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="docs"><a href="#docs" class="headerlink" title="docs"></a>docs</h1>
+
       
     </div>
 
@@ -417,7 +423,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/code-review/" rel="tag"># code review</a>
+            <a href="/tags/docs/" rel="tag"># docs</a>
           
         </div>
       
@@ -430,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/14/test/testNG的一些总结/" rel="next" title="testNG一些总结">
-                <i class="fa fa-chevron-left"></i> testNG一些总结
+              <a href="/2017/05/18/database/dump redis数据/" rel="next" title="dump redis数据">
+                <i class="fa fa-chevron-left"></i> dump redis数据
               </a>
             
           </div>
@@ -439,10 +445,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/10/database/mariadb-start-failed-error/" rel="prev" title="mariadb-start-failed-error">
-                mariadb-start-failed-error <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -571,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#why"><span class="nav-number">1.</span> <span class="nav-text">why</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流程"><span class="nav-number">2.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具"><span class="nav-number">3.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docs"><span class="nav-number">5.</span> <span class="nav-text">docs</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#场景分析"><span class="nav-number">1.</span> <span class="nav-text">场景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#du"><span class="nav-number">1.1.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#df"><span class="nav-number">1.2.</span> <span class="nav-text">df</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dd"><span class="nav-number">1.3.</span> <span class="nav-text">dd</span></a></li></ol></li></ol></div>
             
 
           </div>
