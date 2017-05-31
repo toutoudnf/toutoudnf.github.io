@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/13/database/mariadb常见错误/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="记录了常见的mariadb问题">
-<meta property="og:updated_time" content="2017-05-25T05:54:55.000Z">
+<meta property="og:updated_time" content="2017-05-31T13:42:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mariadb常见错误">
 <meta name="twitter:description" content="记录了常见的mariadb问题">
@@ -389,6 +389,11 @@ REPAIR TABLE proc;
 mysqlcheck -uroot -proot mysql proc -c # 检查mysql.proc
 mysqlcheck -uroot -proot mysql -r # 修复mysql中全部表
 mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
+</code></pre><p>另外注意到，mysql.proc是mysiam表，可以使用<code>myisamchk</code>来修复，具体如下：</p>
+<pre><code>cd /var/lib/mysql # 找到mysql的数据目录
+myisamchk --recover --quick ./mysql/proc # 只修复index file，不处理data file问题
+myisamchk --recover ./mysql/proc # 首选方式，几乎能修复所有问题（除了unique key not unique）
+myisamchk --safe-recover ./mysql/proc # use old recover method，应当在--recover无效之后尝试
 </code></pre><h3 id="一般是什么原因造成的"><a href="#一般是什么原因造成的" class="headerlink" title="一般是什么原因造成的"></a>一般是什么原因造成的</h3><ul>
 <li>通常来讲是db崩掉，比如非正常stop，服务器挂了等等</li>
 <li><a href="http://stackoverflow.com/questions/96867/what-causes-tables-to-need-to-be-repaired" target="_blank" rel="external">what-causes-tables-to-need-to-be-repaired</a></li>
@@ -448,8 +453,8 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/01/linux/linux-documents/" rel="next" title="linux相关资料索引">
-                <i class="fa fa-chevron-left"></i> linux相关资料索引
+              <a href="/2017/04/01/java/jdk_tools/" rel="next" title="jdk tools">
+                <i class="fa fa-chevron-left"></i> jdk tools
               </a>
             
           </div>
@@ -532,7 +537,7 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -554,7 +559,7 @@ mysqlcheck -uroot -proot mysql proc -r# 修复mysql.proc
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
