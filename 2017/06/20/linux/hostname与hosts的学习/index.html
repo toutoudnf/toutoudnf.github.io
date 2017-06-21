@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docs," />
+  <meta name="keywords" content="toutoudnf,blog" />
 
 
 
@@ -87,40 +87,16 @@
 
 
 
-<meta name="description" content="Preface
-markdown的资料汇总，包括文档&amp;amp;URL
-
-URL References简介
-简书markdown介绍
-
-语法
-快速入门
-完整介绍">
+<meta name="description" content="记录下hostname和/etc/hosts的学习笔记。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown Documents">
-<meta property="og:url" content="http://yoursite.com/2016/04/08/markdown/Markdown-Documents/index.html">
+<meta property="og:title" content="hostname与hosts的学习">
+<meta property="og:url" content="http://yoursite.com/2017/06/20/linux/hostname与hosts的学习/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Preface
-markdown的资料汇总，包括文档&amp;amp;URL
-
-URL References简介
-简书markdown介绍
-
-语法
-快速入门
-完整介绍">
-<meta property="og:updated_time" content="2017-04-18T23:10:18.000Z">
+<meta property="og:description" content="记录下hostname和/etc/hosts的学习笔记。">
+<meta property="og:updated_time" content="2017-06-21T03:15:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown Documents">
-<meta name="twitter:description" content="Preface
-markdown的资料汇总，包括文档&amp;amp;URL
-
-URL References简介
-简书markdown介绍
-
-语法
-快速入门
-完整介绍">
+<meta name="twitter:title" content="hostname与hosts的学习">
+<meta name="twitter:description" content="记录下hostname和/etc/hosts的学习笔记。">
 
 
 
@@ -148,13 +124,13 @@ URL References简介
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/04/08/markdown/Markdown-Documents/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/20/linux/hostname与hosts的学习/"/>
 
 
 
 
 
-  <title> Markdown Documents | Hexo </title>
+  <title> hostname与hosts的学习 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -293,7 +269,7 @@ URL References简介
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/08/markdown/Markdown-Documents/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/linux/hostname与hosts的学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -314,7 +290,7 @@ URL References简介
             
             
               
-                Markdown Documents
+                hostname与hosts的学习
               
             
           </h1>
@@ -329,8 +305,8 @@ URL References简介
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-08T21:31:17+08:00">
-                2016-04-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T00:00:00+08:00">
+                2017-06-20
               </time>
             
 
@@ -352,8 +328,8 @@ URL References简介
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">markdown</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -387,16 +363,57 @@ URL References简介
       
 
       
-        <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><ul>
-<li>markdown的资料汇总，包括文档&amp;URL</li>
+        <p>记录下hostname和/etc/hosts的学习笔记。</p>
+<a id="more"></a>
+<p>测试用的是centos，版本信息为<code>3.10.0-514.el7.x86_64</code></p>
+<h1 id="hostname是什么"><a href="#hostname是什么" class="headerlink" title="hostname是什么"></a>hostname是什么</h1><blockquote>
+<p>Hostname is a kernel parameter which stores hostname of the system. Its location is”/proc/sys/kernel/hostname” The value for this parameter is loaded to kernel by rc.sysinit file during the boot process.</p>
+</blockquote>
+<p>上面这段话有几个点</p>
+<ul>
+<li>hostname真实值是<code>/proc/sys/kernel/hostname</code></li>
+<li>rc.sysinit负责加载</li>
 </ul>
-<h1 id="URL-References"><a href="#URL-References" class="headerlink" title="URL References"></a>URL References</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
-<li><a href="http://www.jianshu.com/p/1e402922ee32/" target="_blank" rel="external">简书markdown介绍</a></li>
+<p>在之前的版本中，通常是修改<code>/etc/sysconfig/network</code>中的<code>HOSTNAME</code>来实现hostname修改，但是在centos7中，需要修改<code>/etc/hostname</code>。</p>
+<blockquote>
+<p>注意，上述的两种方式，都是reboot后才生效的。</p>
+</blockquote>
+<h1 id="hosts是什么"><a href="#hosts是什么" class="headerlink" title="hosts是什么"></a>hosts是什么</h1><ul>
+<li>主机在查询域名映射的 IP 时，最先查询的地方。记录了主机域名与其 IP 之间的映射关系</li>
+<li><p>格式为<code>IP地址   主机或者域名   [主机的别名] [主机的别名]....</code>，例如</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">127.0.0.1 localhost localhost.localdomain</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><ul>
-<li><a href="http://wowubuntu.com/markdown/basic.html" target="_blank" rel="external">快速入门</a></li>
-<li><a href="http://wowubuntu.com/markdown/index.html" target="_blank" rel="external">完整介绍</a></li>
+<p>更多的信息参考<a href="https://en.wikipedia.org/wiki/Hosts_(file" target="_blank" rel="external">wiki</a>)。</p>
+<h1 id="几个常见的问题"><a href="#几个常见的问题" class="headerlink" title="几个常见的问题"></a>几个常见的问题</h1><ol>
+<li>如果想修改hostname，如何修改？</li>
+<li>修改hosts为何会对hostname有影响</li>
+</ol>
+<h2 id="如果想修改hostname，如何修改？"><a href="#如果想修改hostname，如何修改？" class="headerlink" title="如果想修改hostname，如何修改？"></a>如果想修改hostname，如何修改？</h2><ul>
+<li>前文提到的，修改<code>/etc/hostname</code>，并且重启</li>
+<li><code>sysctl kernel.hostname = toutoudnf</code><ul>
+<li>即可生效（<code>hostname</code>可查询到）</li>
+<li>重启会丢失（重新读取<code>/etc/hostname</code>中的值）</li>
 </ul>
+</li>
+<li><code>hostnamectl set-hostname toutoudnf</code><ul>
+<li>即可生效（<code>hostname</code>可查询到）</li>
+<li>重启不会丢失（修改了<code>/etc/hostname</code>中的值）</li>
+</ul>
+</li>
+<li><code>hostname toutoudnf</code><ul>
+<li>即可生效（<code>hostname</code>可查询到）</li>
+<li>重启会丢失（重新读取<code>/etc/hostname</code>中的值）</li>
+</ul>
+</li>
+<li><code>echo toutoudnf &gt; /proc/sys/kernel/hostname</code><ul>
+<li>即可生效（<code>hostname</code>可查询到）</li>
+<li>重启会丢失（重新读取<code>/etc/hostname</code>中的值）</li>
+</ul>
+</li>
+</ul>
+<p>但是建议在centos7中，还是通过<code>hostnamectl</code>来修改。详情可以参考：<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/ch-Configure_Host_Names.html" target="_blank" rel="external">redhat7 Networking_Guide</a></p>
+<h2 id="修改hosts对hostname的影响"><a href="#修改hosts对hostname的影响" class="headerlink" title="修改hosts对hostname的影响"></a>修改hosts对hostname的影响</h2><p>待补充。在较早的版本中貌似是有影响的，参考的是文章<a href="">戳这里</a></p>
 
       
     </div>
@@ -424,12 +441,6 @@ URL References简介
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/docs/" rel="tag"># docs</a>
-          
-        </div>
-      
 
       
         
@@ -439,8 +450,8 @@ URL References简介
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/08/git/git-branch-model/" rel="next" title="Git分支模型理解">
-                <i class="fa fa-chevron-left"></i> Git分支模型理解
+              <a href="/2017/05/24/web/java web logs介绍/" rel="next" title="java web logs介绍">
+                <i class="fa fa-chevron-left"></i> java web logs介绍
               </a>
             
           </div>
@@ -448,10 +459,6 @@ URL References简介
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/11/hexo/hexo-self-defined-new-blog-path/" rel="prev" title="hexo self-defined new blog path">
-                hexo self-defined new blog path <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -580,7 +587,7 @@ URL References简介
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#URL-References"><span class="nav-number">2.</span> <span class="nav-text">URL References</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.2.</span> <span class="nav-text">语法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hostname是什么"><span class="nav-number">1.</span> <span class="nav-text">hostname是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hosts是什么"><span class="nav-number">2.</span> <span class="nav-text">hosts是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几个常见的问题"><span class="nav-number">3.</span> <span class="nav-text">几个常见的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果想修改hostname，如何修改？"><span class="nav-number">3.1.</span> <span class="nav-text">如果想修改hostname，如何修改？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改hosts对hostname的影响"><span class="nav-number">3.2.</span> <span class="nav-text">修改hosts对hostname的影响</span></a></li></ol></li></ol></div>
             
 
           </div>

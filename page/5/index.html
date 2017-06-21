@@ -267,6 +267,423 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/12/pm/maven surefire-plugin 使用心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/12/pm/maven surefire-plugin 使用心得/" itemprop="url">
+                  maven surefire-plugin介绍
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-12T20:35:29+08:00">
+                2016-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pm/" itemprop="url" rel="index">
+                    <span itemprop="name">pm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><ul>
+<li>查询surefire-plugins的资料的时候不好找，故整理</li>
+<li>方便查询+review其使用方法</li>
+</ul>
+<h1 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h1><ul>
+<li>surefire官网<ul>
+<li><a href="http://maven.apache.org/surefire/maven-surefire-plugin/" target="_blank" rel="external">http://maven.apache.org/surefire/maven-surefire-plugin/</a></li>
+<li>里面的说明比较简单，可参考的有<ul>
+<li>基本用法</li>
+<li>git库地址</li>
+<li>FAQ有些价值</li>
+</ul>
+</li>
+<li>examples中有些有用的场景<br>  -这个参见下面的normal case分析</li>
+</ul>
+</li>
+<li>options说明，跟下面的configuration相似<ul>
+<li><a href="https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html" target="_blank" rel="external">https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="normal-case"><a href="#normal-case" class="headerlink" title="normal case"></a>normal case</h1><ul>
+<li>主要参考官网场景，结合使用心得分析</li>
+</ul>
+<h2 id="Using-TestNG"><a href="#Using-TestNG" class="headerlink" title="Using TestNG"></a>Using TestNG</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/testng.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/testng.html</a></li>
+<li>暂无，待补充</li>
+</ul>
+<h2 id="Using-JUnit"><a href="#Using-JUnit" class="headerlink" title="Using JUnit"></a>Using JUnit</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/junit.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/junit.html</a></li>
+<li>upgrade check for junit4.x<ul>
+<li>junit版本导致可运行的tests不同，surefire2.7+可检查</li>
+</ul>
+</li>
+<li>parallel running tests<ul>
+<li>提高效率神器</li>
+</ul>
+</li>
+<li>junit categories<ul>
+<li>可结合groups实现分组运行测试用例</li>
+</ul>
+</li>
+</ul>
+<h2 id="Using-Pojo-Tests"><a href="#Using-Pojo-Tests" class="headerlink" title="Using Pojo Tests"></a>Using Pojo Tests</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/pojo-test.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/pojo-test.html</a></li>
+<li>暂无</li>
+</ul>
+<h2 id="Skipping-Tests"><a href="#Skipping-Tests" class="headerlink" title="Skipping Tests"></a>Skipping Tests</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/skipping-test.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/skipping-test.html</a></li>
+<li>跳过测试</li>
+</ul>
+<h2 id="Skip-after-failure"><a href="#Skip-after-failure" class="headerlink" title="Skip after failure"></a>Skip after failure</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/skip-after-failure.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/skip-after-failure.html</a></li>
+<li>回归测试可用，或类似要求tests全部通过或一定百分比通过的</li>
+<li>但对版本有要求</li>
+<li>对reuseFork值有要求</li>
+<li>surefire-v2.19.1之后可以配合rerunFailingTestsCount使用</li>
+</ul>
+<h2 id="Inclusions-and-exclusions-of-Tests"><a href="#Inclusions-and-exclusions-of-Tests" class="headerlink" title="Inclusions and exclusions of Tests"></a>Inclusions and exclusions of Tests</h2><ul>
+<li><p><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html</a></p>
+<pre><code>&quot;**/Test*.java&quot; - includes all of its subdirectories and all Java filenames that start with &quot;Test&quot;.
+&quot;**/*Test.java&quot; - includes all of its subdirectories and all Java filenames that end with &quot;Test&quot;.
+&quot;**/*TestCase.java&quot; - includes all of its subdirectories and all Java filenames that end with &quot;TestCase&quot;.
+</code></pre></li>
+<li><p>支持正则</p>
+</li>
+<li>多个用逗号分割</li>
+<li>**是多路径</li>
+<li>*是多字符</li>
+<li>？是单字符</li>
+</ul>
+<h2 id="Running-a-single-test"><a href="#Running-a-single-test" class="headerlink" title="Running a single test"></a>Running a single test</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/single-test.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/single-test.html</a></li>
+<li><p>能指定单个或多个class</p>
+<p>  <code>mvn -Dtest=TestSquare,TestCi*le test</code></p>
+</li>
+<li><p>能指定单个或多个method</p>
+<p>  <code>mvn -Dtest=TestCircle#testOne+testTwo test</code></p>
+</li>
+</ul>
+<h2 id="re-run-failing-test"><a href="#re-run-failing-test" class="headerlink" title="re-run failing test"></a>re-run failing test</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/rerun-failing-tests.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/rerun-failing-tests.html</a></li>
+<li>顾名思义</li>
+</ul>
+<h2 id="class-loading-and-forking"><a href="#class-loading-and-forking" class="headerlink" title="class loading and forking"></a>class loading and forking</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="debugging-tests"><a href="#debugging-tests" class="headerlink" title="debugging tests"></a>debugging tests</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="using-system-properties"><a href="#using-system-properties" class="headerlink" title="using system properties"></a>using system properties</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="configuring-the-classpath"><a href="#configuring-the-classpath" class="headerlink" title="configuring the classpath"></a>configuring the classpath</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="selecting-providers"><a href="#selecting-providers" class="headerlink" title="selecting providers"></a>selecting providers</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="new-error-summary"><a href="#new-error-summary" class="headerlink" title="new error summary"></a>new error summary</h2><ul>
+<li>待补充</li>
+</ul>
+<h2 id="fork-options-and-parallel-test-excution"><a href="#fork-options-and-parallel-test-excution" class="headerlink" title="fork options and parallel test excution"></a>fork options and parallel test excution</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html</a></li>
+<li>重要，要好好看下</li>
+<li>待补充</li>
+</ul>
+<h2 id="using-console-logs"><a href="#using-console-logs" class="headerlink" title="using console logs"></a>using console logs</h2><h2 id="shutdown-of-forked-JVM"><a href="#shutdown-of-forked-JVM" class="headerlink" title="shutdown of forked JVM"></a>shutdown of forked JVM</h2><ul>
+<li><a href="http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/shutdown.html" target="_blank" rel="external">http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/shutdown.html</a></li>
+</ul>
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><h2 id="如何优化测试效率"><a href="#如何优化测试效率" class="headerlink" title="如何优化测试效率"></a>如何优化测试效率</h2><pre><code>- 资源允许情况下，配置多VM
+- 配置多线程
+- 调优VM参数
+- 减少大资源的重复创建，如db连接池，单元测试时c3p0换成jdbc，然后单独测试c3p0即可
+</code></pre><h2 id="如何指定单个测试用例-部分测试用例"><a href="#如何指定单个测试用例-部分测试用例" class="headerlink" title="如何指定单个测试用例/部分测试用例"></a>如何指定单个测试用例/部分测试用例</h2><pre><code>- mvn test -Dtest=
+- 后面值是类的完全路径名
+</code></pre><h2 id="Perm溢出，如何处理"><a href="#Perm溢出，如何处理" class="headerlink" title="Perm溢出，如何处理"></a>Perm溢出，如何处理</h2><pre><code>- 参考configuration中的argLine
+- http://stackoverflow.com/questions/23260057/the-forked-vm-terminated-without-saying-properly-goodbye-vm-crash-or-system-exi
+- 亦可修改MVN全局配置：
+</code></pre><h1 id="configuration可配置值列表-base-on-surefire-v2-19-1"><a href="#configuration可配置值列表-base-on-surefire-v2-19-1" class="headerlink" title="configuration可配置值列表(base on surefire-v2.19.1)"></a>configuration可配置值列表(base on surefire-v2.19.1)</h1><pre><code>&lt;additionalClasspathElements&gt;&lt;/additionalClasspathElements&gt;
+
+&lt;argLine&gt;&lt;/argLine&gt;
+    - 可用于配置jvm的相关参数
+
+&lt;basedir&gt;&lt;/basedir&gt;
+
+&lt;childDelegation&gt;&lt;/childDelegation&gt;
+
+&lt;classesDirectory&gt;&lt;/classesDirectory&gt;
+
+&lt;classpathDependencyExcludes&gt;&lt;/classpathDependencyExcludes&gt;
+
+&lt;classpathDependencyScopeExclude&gt;&lt;/classpathDependencyScopeExclude&gt;
+
+&lt;debugForkedProcess&gt;&lt;/debugForkedProcess&gt;
+
+&lt;dependenciesToScan&gt;&lt;/dependenciesToScan&gt;
+
+&lt;detail&gt;&lt;/detail&gt;
+
+&lt;disableXmlReport&gt;&lt;/disableXmlReport&gt;
+
+&lt;enableAssertions&gt;&lt;/enableAssertions&gt;
+
+&lt;environmentVariables&gt;&lt;/environmentVariables&gt;
+
+&lt;excludedGroups&gt;&lt;/excludedGroups&gt;
+
+&lt;excludes&gt;&lt;/excludes&gt;
+
+&lt;excludesFile&gt;&lt;/excludesFile&gt;
+
+&lt;failIfNoSpecifiedTests&gt;&lt;/failIfNoSpecifiedTests&gt;
+
+&lt;failIfNoTests&gt;&lt;/failIfNoTests&gt;
+
+&lt;forkCount&gt;&lt;/forkCount&gt;
+    - Option to specify the number of VMs to fork in parallel in order to execute the tests. When terminated with &quot;C&quot;, the number part is multiplied with the number of CPU cores. Floating point value are only accepted together with &quot;C&quot;. If set to &quot;0&quot;, no VM is forked and all tests are executed within the main process.
+    - Example values: &quot;1.5C&quot;, &quot;4&quot;
+    - The system properties and the argLine of the forked processes may contain the place holder string ${surefire.forkNumber}, which is replaced with a fixed number for each of the parallel forks, ranging from 1 to the effective value of forkCount times the maximum number of parallel Surefire executions in maven parallel builds, i.e. the effective value of the -T command line argument of maven core.
+
+&lt;forkMode&gt;&lt;/forkMode&gt;
+    - Option to specify the forking mode. Can be &quot;never&quot;, &quot;once&quot;, &quot;always&quot;, &quot;perthread&quot;. &quot;none&quot; and &quot;pertest&quot; are also accepted for backwards compatibility. &quot;always&quot; forks for each test-class. &quot;perthread&quot; will create threadCount parallel forks, each executing one test-class. See also parameter reuseForks.
+    - 现在啊建议用reuseFork代替
+
+&lt;forkedProcessTimeoutInSeconds&gt;&lt;/forkedProcessTimeoutInSeconds&gt;
+    - Kill the forked test process after a certain number of seconds. If set to 0, wait forever for the process, never timing out.
+
+&lt;goal&gt;&lt;/goal&gt;
+
+&lt;groups&gt;&lt;/groups&gt;
+
+&lt;includes&gt;&lt;/includes&gt;
+
+&lt;includesFile&gt;&lt;/includesFile&gt;
+
+&lt;indentSize&gt;&lt;/indentSize&gt;
+
+&lt;junitArtifactName&gt;&lt;/junitArtifactName&gt;
+
+&lt;jvm&gt;&lt;/jvm&gt;
+
+&lt;lineLength&gt;&lt;/lineLength&gt;
+
+&lt;objectFactory&gt;&lt;/objectFactory&gt;
+
+&lt;parallel&gt;&lt;/parallel&gt;
+    - (TestNG provider) When you use the parallel attribute, TestNG will try to run all your test methods in separate threads, except for methods that depend on each other, which will be run in the same thread in order to respect their order of execution. &lt;p/&gt; (JUnit 4.7 provider) Supports values &quot;classes&quot;/&quot;methods&quot;/&quot;both&quot; to run in separate threads, as controlled by threadCount.
+    - Since version 2.16 (JUnit 4.7 provider), the value &quot;both&quot; is &lt;strong&gt;DEPRECATED&lt;/strong&gt;. Use &lt;strong&gt;&quot;classesAndMethods&quot;&lt;/strong&gt; instead.
+    - Since version 2.16 (JUnit 4.7 provider), additional vales are available &quot;suites&quot;/&quot;suitesAndClasses&quot;/&quot;suitesAndMethods&quot;/&quot;classesAndMethods&quot;/&quot;all&quot;.
+    - 配合treadCount使用
+
+&lt;parallelOptimized&gt;&lt;/parallelOptimized&gt;
+
+&lt;parallelTestsTimeoutForcedInSeconds&gt;&lt;/parallelTestsTimeoutForcedInSeconds&gt;
+
+&lt;parallelTestsTimeoutInSeconds&gt;&lt;/parallelTestsTimeoutInSeconds&gt;
+
+&lt;perCoreThreadCount&gt;&lt;/perCoreThreadCount&gt;
+
+&lt;printSummary&gt;&lt;/printSummary&gt;
+
+&lt;properties&gt;&lt;/properties&gt;
+
+&lt;redirectTestOutputToFile&gt;&lt;/redirectTestOutputToFile&gt;
+
+&lt;remoteRepositories&gt;&lt;/remoteRepositories&gt;
+
+&lt;reportFormat&gt;&lt;/reportFormat&gt;
+
+&lt;reportNameSuffix&gt;&lt;/reportNameSuffix&gt;
+
+&lt;reportsDirectory&gt;&lt;/reportsDirectory&gt;
+
+&lt;rerunFailingTestsCount&gt;&lt;/rerunFailingTestsCount&gt;
+
+&lt;reuseForks&gt;&lt;/reuseForks&gt;
+    -Indicates if forked VMs can be reused. If set to &quot;false&quot;, a new VM is forked for each test class to be executed. If set to &quot;true&quot;, up to forkCount VMs will be forked and then reused to execute all tests.
+    -配合forkCount
+
+&lt;runOrder&gt;&lt;/runOrder&gt;
+
+&lt;shutdown&gt;&lt;/shutdown&gt;
+
+&lt;skip&gt;&lt;/skip&gt;
+
+&lt;skipAfterFailureCount&gt;&lt;/skipAfterFailureCount&gt;
+    -出现n个测试用例失败后，会跳过剩余测试用例并终止测试
+    -需要JUnit4.0+，TestNG5.10+
+    -可参考：http://maven.apache.org/components/surefire/maven-surefire-plugin/examples/skip-after-failure.html
+
+&lt;skipExec&gt;&lt;/skipExec&gt;
+
+&lt;skipTests&gt;&lt;/skipTests&gt;
+
+&lt;suiteXmlFiles&gt;&lt;/suiteXmlFiles&gt;
+
+&lt;systemProperties&gt;&lt;/systemProperties&gt;
+
+&lt;systemPropertiesFile&gt;&lt;/systemPropertiesFile&gt;
+
+&lt;systemPropertyVariables&gt;&lt;/systemPropertyVariables&gt;
+
+&lt;test&gt;&lt;/test&gt;
+
+&lt;testClassesDirectory&gt;&lt;/testClassesDirectory&gt;
+
+&lt;testFailureIgnore&gt;&lt;/testFailureIgnore&gt;
+
+&lt;testNGArtifactName&gt;&lt;/testNGArtifactName&gt;
+
+&lt;testSourceDirectory&gt;&lt;/testSourceDirectory&gt;
+
+&lt;threadCount&gt;&lt;/threadCount&gt;
+    - 配合parallel使用
+    - (TestNG/JUnit 4.7 provider) The attribute thread-count allows you to specify how many threads should be allocated for this execution. Only makes sense to use in conjunction with the parallel parameter.
+
+
+&lt;threadCountClasses&gt;&lt;/threadCountClasses&gt;
+
+&lt;threadCountMethods&gt;&lt;/threadCountMethods&gt;
+
+&lt;threadCountSuites&gt;&lt;/threadCountSuites&gt;
+
+&lt;trimStackTrace&gt;&lt;/trimStackTrace&gt;
+
+&lt;useFile&gt;&lt;/useFile&gt;
+
+&lt;useManifestOnlyJar&gt;&lt;/useManifestOnlyJar&gt;
+
+&lt;useSystemClassLoader&gt;&lt;/useSystemClassLoader&gt;
+
+&lt;useUnlimitedThreads&gt;&lt;/useUnlimitedThreads&gt;
+
+&lt;workingDirectory&gt;&lt;/workingDirectory&gt;
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/18/git/gerrit-usage-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1405,153 +1822,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/git/git相关的代码审核/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/05/git/git相关的代码审核/" itemprop="url">
-                  git相关的代码审核
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T23:31:16+08:00">
-                2016-04-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>记录了最近做代码review的相关心得。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/04/05/git/git相关的代码审核/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/git/git常见问题记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1701,7 +1971,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/gym/muscles-graph/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/git/git相关的代码审核/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -1723,8 +1993,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/04/05/gym/muscles-graph/" itemprop="url">
-                  Muscles Graph
+                <a class="post-title-link" href="/2016/04/05/git/git相关的代码审核/" itemprop="url">
+                  git相关的代码审核
                 </a>
               
             
@@ -1740,7 +2010,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T23:05:28+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T23:31:16+08:00">
                 2016-04-05
               </time>
             
@@ -1763,8 +2033,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/gym/" itemprop="url" rel="index">
-                    <span itemprop="name">gym</span>
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
                   </a>
                 </span>
 
@@ -1799,12 +2069,14 @@
 
       
         
-          
-            <h1 id="Muscles-Graph-To-Remember"><a href="#Muscles-Graph-To-Remember" class="headerlink" title="Muscles Graph To Remember"></a>Muscles Graph To Remember</h1><ul>
-<li>正好顺手试试github挂图片的方式是否靠谱<br><img src="https://git.oschina.net/pazulee/static_resources/raw/master/gym/gym-muscle-001.jpg?dir=0&amp;filepath=gym%2Fgym-muscle-001.jpg&amp;oid=72098eba31df498a30e034bf1f392f28b1904b5d&amp;sha=9e31ac65e1fec2f50b858bce6251d3a841bec24a" alt="正面图"><br><img src="https://git.oschina.net/pazulee/static_resources/raw/master/gym/gym-muscle-002.jpg?dir=0&amp;filepath=gym%2Fgym-muscle-002.jpg&amp;oid=a56726729d11d34d4dd6762abaf7620998e01b29&amp;sha=9e31ac65e1fec2f50b858bce6251d3a841bec24a" alt="正反对比"></li>
-</ul>
-
-          
+          <p>记录了最近做代码review的相关心得。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/04/05/git/git相关的代码审核/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1886,7 +2158,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">56</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
