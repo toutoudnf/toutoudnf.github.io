@@ -87,37 +87,28 @@
 
 
 
-<meta name="description" content="回济南一周年，来浪潮一周年。
-有失有得，做分享如下。
-大概最直接的就是钱了吧。其次明白的就是，尽量少的跟别人比较，或者进一步，做无意义的比较。如薪资上比较。比较确定的一点，就是牛人在哪儿都是不愁的，所以接下来很简单，定目标，工作上的，然后尝试去实现他，调整他，再去实现它。
+<meta name="description" content="在学习存储池操作的时候，涉及到了mount,fstab,mtab，学习并记录如下。
 
-关于接下来的工作目标
-
-能力提高。技巧是生存之本，热爱它并且弄懂它，做到truely love it。
-学会分享。给别人分享">
+对mount，fstab，mtab的概念介绍
+对fstab &amp;amp; mtab 的内容解释
+常见的mount注意点">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浪潮一年记录">
-<meta property="og:url" content="http://yoursite.com/2016/11/16/essays/浪潮一年记录/index.html">
+<meta property="og:title" content="mount&fstab&mtab">
+<meta property="og:url" content="http://yoursite.com/2017/06/22/linux/mount&fstab&mtab/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="回济南一周年，来浪潮一周年。
-有失有得，做分享如下。
-大概最直接的就是钱了吧。其次明白的就是，尽量少的跟别人比较，或者进一步，做无意义的比较。如薪资上比较。比较确定的一点，就是牛人在哪儿都是不愁的，所以接下来很简单，定目标，工作上的，然后尝试去实现他，调整他，再去实现它。
+<meta property="og:description" content="在学习存储池操作的时候，涉及到了mount,fstab,mtab，学习并记录如下。
 
-关于接下来的工作目标
-
-能力提高。技巧是生存之本，热爱它并且弄懂它，做到truely love it。
-学会分享。给别人分享">
-<meta property="og:updated_time" content="2017-04-18T23:16:40.000Z">
+对mount，fstab，mtab的概念介绍
+对fstab &amp;amp; mtab 的内容解释
+常见的mount注意点">
+<meta property="og:updated_time" content="2017-06-27T05:04:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浪潮一年记录">
-<meta name="twitter:description" content="回济南一周年，来浪潮一周年。
-有失有得，做分享如下。
-大概最直接的就是钱了吧。其次明白的就是，尽量少的跟别人比较，或者进一步，做无意义的比较。如薪资上比较。比较确定的一点，就是牛人在哪儿都是不愁的，所以接下来很简单，定目标，工作上的，然后尝试去实现他，调整他，再去实现它。
+<meta name="twitter:title" content="mount&fstab&mtab">
+<meta name="twitter:description" content="在学习存储池操作的时候，涉及到了mount,fstab,mtab，学习并记录如下。
 
-关于接下来的工作目标
-
-能力提高。技巧是生存之本，热爱它并且弄懂它，做到truely love it。
-学会分享。给别人分享">
+对mount，fstab，mtab的概念介绍
+对fstab &amp;amp; mtab 的内容解释
+常见的mount注意点">
 
 
 
@@ -145,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/11/16/essays/浪潮一年记录/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/22/linux/mount&fstab&mtab/"/>
 
 
 
 
 
-  <title> 浪潮一年记录 | Hexo </title>
+  <title> mount&fstab&mtab | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +281,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/16/essays/浪潮一年记录/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/linux/mount&fstab&mtab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -311,7 +302,7 @@
             
             
               
-                浪潮一年记录
+                mount&fstab&mtab
               
             
           </h1>
@@ -326,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-16T00:00:00+08:00">
-                2016-11-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T00:00:00+08:00">
+                2017-06-22
               </time>
             
 
@@ -349,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/essays/" itemprop="url" rel="index">
-                    <span itemprop="name">essays</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -384,17 +375,133 @@
       
 
       
-        <p>回济南一周年，来浪潮一周年。</p>
-<p>有失有得，做分享如下。</p>
-<p>大概最直接的就是钱了吧。<br>其次明白的就是，尽量少的跟别人比较，或者进一步，做无意义的比较。如薪资上比较。<br>比较确定的一点，就是牛人在哪儿都是不愁的，所以接下来很简单，定目标，工作上的，然后尝试去实现他，调整他，再去实现它。</p>
-<blockquote>
-<p>关于接下来的工作目标</p>
+        <p>在学习存储池操作的时候，涉及到了mount,fstab,mtab，学习并记录如下。</p>
+<ul>
+<li>对mount，fstab，mtab的概念介绍</li>
+<li>对fstab &amp; mtab 的内容解释</li>
+<li>常见的mount注意点</li>
+</ul>
+<a id="more"></a>
+<h1 id="fstab是什么"><a href="#fstab是什么" class="headerlink" title="fstab是什么"></a>fstab是什么</h1><blockquote>
+<p>fstab is a configuration file that contains information of all the partitions and storage devices in your computer.</p>
 </blockquote>
-<p>能力提高。技巧是生存之本，热爱它并且弄懂它，做到truely love it。</p>
-<p>学会分享。给别人分享首先是提高自己的过程。对分享质量的要求，会倒逼自己去弄得更清楚。</p>
-<p>学会汇报，总结和表达。其实是内到外表达的一种必然技能，包括如何对别人分享之类的。</p>
-<p>需要学会系统的做一件事。做事有计划，可落到实处的计划，并且可执行，并且必须执行。</p>
-<p>需要学会并发的做很多事。事儿多了容易乱，很大问题就是爱挑简单的先做，很操蛋哦。</p>
+<p>参考这篇文章：<a href="http://pclosmag.com/html/issues/200709/page07.html" target="_blank" rel="external">戳这里</a>，其中重点关注的几个点：</p>
+<h2 id="基础信息介绍"><a href="#基础信息介绍" class="headerlink" title="基础信息介绍"></a>基础信息介绍</h2><ul>
+<li>文件位置是 <code>/etc/fstab</code>，需要 <code>root</code> 权限才能编辑。</li>
+<li>1-6列分别对应的含义是<ul>
+<li>device</li>
+<li>默认挂载点</li>
+<li>文件系统类型</li>
+<li>mount 选项</li>
+<li>dump</li>
+</ul>
+</li>
+</ul>
+<h2 id="fstab-能做些什么"><a href="#fstab-能做些什么" class="headerlink" title="fstab 能做些什么"></a>fstab 能做些什么</h2><ul>
+<li>简化mount。如果在<code>fstab</code>中配置过，如</li>
+<li>实现自动挂载。在fstab中配置的项，可以在centos开机的时候自动挂载</li>
+</ul>
+<h2 id="fstab-相关知识扩展"><a href="#fstab-相关知识扩展" class="headerlink" title="fstab 相关知识扩展"></a>fstab 相关知识扩展</h2><h3 id="怎么查看支持的文件系统"><a href="#怎么查看支持的文件系统" class="headerlink" title="怎么查看支持的文件系统?"></a>怎么查看支持的文件系统?</h3><blockquote>
+<p>For the filesystems currently supported by the running kernel, see /proc/filesystems.</p>
+</blockquote>
+<p>输出长这样(我是基于 centos 3.10.0-327.el7.x86_64）：</p>
+<pre><code>[root@allinone-64089-25945 ~]# more /proc/filesystems 
+nodev    sysfs
+nodev    rootfs
+nodev    bdev
+nodev    proc
+nodev    cgroup
+nodev    cpuset
+nodev    tmpfs
+nodev    devtmpfs
+nodev    debugfs
+nodev    securityfs
+nodev    sockfs
+nodev    pipefs
+nodev    anon_inodefs
+nodev    configfs
+nodev    devpts
+nodev    ramfs
+nodev    hugetlbfs
+nodev    autofs
+nodev    pstore
+nodev    mqueue
+nodev    selinuxfs
+    ext3
+    ext2
+    ext4
+nodev    rpc_pipefs
+nodev    nfsd
+    ocfs2
+nodev    ocfs2_dlmfs
+nodev    nfs
+nodev    nfs4
+</code></pre><h3 id="关于device支持的配置"><a href="#关于device支持的配置" class="headerlink" title="关于device支持的配置"></a>关于device支持的配置</h3><p><code>device</code> 列可以配置如下形式的内容：</p>
+<ul>
+<li>/dev/cdrom or /dev/sdb7</li>
+<li>knuth.aeb.nl:/ （for nfs）</li>
+<li>proc （for proc）</li>
+<li>UUID=<uuid> and LABEL=Boot</uuid></li>
+<li>PARTUUID= and PARTLABEL=</li>
+</ul>
+<h3 id="支持的选项"><a href="#支持的选项" class="headerlink" title="支持的选项"></a>支持的选项</h3><p>常见的有：</p>
+<ul>
+<li>auto and noauto<ul>
+<li>自动挂载 / 需要显示挂载</li>
+</ul>
+</li>
+<li>user and nouser<ul>
+<li>允许非root/允许root 来挂载</li>
+</ul>
+</li>
+<li>exec and noexec<ul>
+<li>允许执行/不允许 执行二进制文件</li>
+</ul>
+</li>
+<li>ro and rw<ul>
+<li>read only / read &amp; write</li>
+</ul>
+</li>
+<li>sync and async<ul>
+<li>同步写 / 异步写</li>
+</ul>
+</li>
+<li>defaults<ul>
+<li>等价于rw, suid, dev, exec, auto, nouser, and async</li>
+</ul>
+</li>
+</ul>
+<h1 id="mtab是什么"><a href="#mtab是什么" class="headerlink" title="mtab是什么"></a>mtab是什么</h1><blockquote>
+<p>mtab展示了系统当前已经挂载的文件系统及其对应的options</p>
+</blockquote>
+<p>跟fstab的区别是，fstab由用户维护，而mtab由系统维护</p>
+<p>另外需要注意的是，如果你挂载了<code>proc</code>，那么还有个文件<code>/proc/mounts</code>跟<code>mtab</code>内容类似。两者基本类似，区别在于</p>
+<blockquote>
+<p>When the proc filesystem is mounted (say at /proc), the files /etc/mtab and /proc/mounts have very similar contents. The former has somewhat more information, such as the mount options used, but is not necessarily up-to-date.</p>
+</blockquote>
+<ul>
+<li><code>fstab</code> 由 user 维护</li>
+<li><code>mtab</code> 由 mount &amp; unmount 维护</li>
+<li><code>/proc/mounts</code> 由 kernel 维护</li>
+</ul>
+<h1 id="mount是什么"><a href="#mount是什么" class="headerlink" title="mount是什么"></a>mount是什么</h1><blockquote>
+<p>mount a filesystem</p>
+</blockquote>
+<p>注意的是mount管理的是文件系统而非块设备啊什么之类的。</p>
+<ul>
+<li>可以通过 <code>mount -a</code> 来验证 <code>fstab</code>中配置的对不对，当然不包括 <code>noauto</code> 的项</li>
+<li><code>-f</code> 可以假装 mount，验证是否可行</li>
+<li><code>-n</code> 不会将信息记录到 <code>mtab</code> 中</li>
+<li><code>-t iso9660 -o loop</code> 可以挂载镜像</li>
+</ul>
+<p>其他的 options 可以通过 man 来查看</p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://askubuntu.com/questions/754091/what-is-the-difference-between-etc-fstab-and-etc-mtab" target="_blank" rel="external">what-is-the-difference-between-etc-fstab-and-etc-mtab</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Mtab" target="_blank" rel="external">mtab wiki</a></li>
+<li><a href="http://www.cnblogs.com/52linux/archive/2012/03/07/2384400.html" target="_blank" rel="external">mount unmount 基本用法和开机挂载</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Introduction_To_System_Administration/s2-storage-mount-fstab.html" target="_blank" rel="external">redhat guide : Mounting File Systems Automatically with /etc/fstab</a></li>
+<li><a href="http://pclosmag.com/html/issues/200709/page07.html" target="_blank" rel="external">How to edit and understand /etc/fstab - 1.1</a></li>
+</ul>
 
       
     </div>
@@ -431,8 +538,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/03/linux/绕过linux command中密码验证/" rel="next" title="绕过linux command中密码验证">
-                <i class="fa fa-chevron-left"></i> 绕过linux command中密码验证
+              <a href="/2017/06/20/linux/hostname与hosts的学习/" rel="next" title="hostname与hosts的学习">
+                <i class="fa fa-chevron-left"></i> hostname与hosts的学习
               </a>
             
           </div>
@@ -441,8 +548,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/17/badminton/羽毛球视频收录/" rel="prev" title="羽毛球视频收录">
-                羽毛球视频收录 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/25/essays/社保分析/" rel="prev" title="社保分析">
+                社保分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,8 +597,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -553,6 +669,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#fstab是什么"><span class="nav-number">1.</span> <span class="nav-text">fstab是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础信息介绍"><span class="nav-number">1.1.</span> <span class="nav-text">基础信息介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fstab-能做些什么"><span class="nav-number">1.2.</span> <span class="nav-text">fstab 能做些什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fstab-相关知识扩展"><span class="nav-number">1.3.</span> <span class="nav-text">fstab 相关知识扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么查看支持的文件系统"><span class="nav-number">1.3.1.</span> <span class="nav-text">怎么查看支持的文件系统?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于device支持的配置"><span class="nav-number">1.3.2.</span> <span class="nav-text">关于device支持的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持的选项"><span class="nav-number">1.3.3.</span> <span class="nav-text">支持的选项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mtab是什么"><span class="nav-number">2.</span> <span class="nav-text">mtab是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mount是什么"><span class="nav-number">3.</span> <span class="nav-text">mount是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">4.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
