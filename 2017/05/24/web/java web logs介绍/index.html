@@ -99,7 +99,7 @@ java web常见log jar &amp;amp; framework梳理">
 
 catalina.out过大的定位过程&amp;amp;解决方案
 java web常见log jar &amp;amp; framework梳理">
-<meta property="og:updated_time" content="2017-05-31T13:42:53.000Z">
+<meta property="og:updated_time" content="2017-06-29T13:29:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java web logs介绍">
 <meta name="twitter:description" content="对java web中，目前常见的log系统做了简单介绍，包括：
@@ -406,11 +406,26 @@ root     27130  0.9 12.4 4780116 998124 ?      Sl   04:01   4:42 java -Djava.uti
 <li>这样是无效的：java class -Dxxx</li>
 </ul>
 </blockquote>
-<h2 id="除了catalina-out，tomcat还有什么其他日志"><a href="#除了catalina-out，tomcat还有什么其他日志" class="headerlink" title="除了catalina.out，tomcat还有什么其他日志"></a>除了catalina.out，tomcat还有什么其他日志</h2><ul>
-<li>标准tomcat有什么</li>
-<li>生产环境的tomcat应该有什么</li>
+<h2 id="除了catalina-out，tomcat还有什么其他日志"><a href="#除了catalina-out，tomcat还有什么其他日志" class="headerlink" title="除了catalina.out，tomcat还有什么其他日志"></a>除了catalina.out，tomcat还有什么其他日志</h2><p>在看到文章：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA3NDcyMTQyNQ==&amp;mid=2649257445&amp;idx=1&amp;sn=b1203837e84d719922bfce5dcd158078&amp;chksm=8767a41bb0102d0dfac9add59944016c7f2fdcfc703bd4c23ca9d670516019bc8208e1a5768e&amp;mpshare=1&amp;scene=1&amp;srcid=0621oLOdRSg9Ko2Y5E4Uf5vz&amp;key=baf732038d89126b86f5db01c835c7980cecba823d3bdc3104c6bd06abed4f7a32dd7cfb4d1b705bd8f6bfaa8fdab69f70349ab2019d2416fc01ff0b4f38a823da2c15e92b287f2a69c3d0a9f23f4a14&amp;ascene=0&amp;uin=Mjg4OTIwMTMyMQ%3D%3D&amp;devicetype=iMac+MacBookPro13%2C3+OSX+OSX+10.12.5+build(16F73" target="_blank" rel="external">tomcat的几种log</a>&amp;version=12020810&amp;nettype=WIFI&amp;fontScale=100&amp;pass_ticket=K7dxD3itvEIhOesfQoiCKNkkYFtbi28AIxNOKygQiPmzPpMpvzio45mY5vliTrfm) </li>
+<li><a href="https://tomcat.apache.org/tomcat-6.0-doc/logging.html" target="_blank" rel="external">tomcat 官方文档（6.0）关于日志的配置</a></li>
+<li><a href="http://docs.oracle.com/javase/6/docs/api/java/util/logging/LogManager.html" target="_blank" rel="external">oracle LogManager 类 API 文档</a></li>
 </ul>
-<p>TODO：待补充</p>
+<p>之后，对其中提到的 tomcat 的几种 log 做个总结：</p>
+<ul>
+<li>log 类型是<ul>
+<li>catalina.out</li>
+<li>cataliana.{yyyy-MM-dd}.log</li>
+<li>localhost.{yyyy-MM-dd}.log</li>
+<li>manager.{yyyy-MM-dd}.log</li>
+<li>host-manager.{yyyy-MM-dd}.log</li>
+</ul>
+</li>
+<li>tomcat 可以改用log4j</li>
+<li>console的内容会输出到 catalina.out，即<code>System.out.println()</code>。</li>
+</ul>
+<p>更多的详细信息还是参见上面的三篇文档。</p>
 <h2 id="如何解决问题"><a href="#如何解决问题" class="headerlink" title="如何解决问题"></a>如何解决问题</h2><p>为了避免这个问题，两种思路去限制：</p>
 <ul>
 <li>修改配置本身不输出到catalina.out</li>
@@ -442,7 +457,7 @@ root     27130  0.9 12.4 4780116 998124 ?      Sl   04:01   4:42 java -Djava.uti
 </ul>
 </li>
 </ul>
-<h3 id="修改logging配置文件"><a href="#修改logging配置文件" class="headerlink" title="修改logging配置文件"></a>修改logging配置文件</h3><p>很简单，删除${catalina.base}/conf下面的logging.properties中的<code>handlers= java.util.logging.ConsoleHandler</code>即可。</p>
+<h3 id="修改logging配置文件"><a href="#修改logging配置文件" class="headerlink" title="修改logging配置文件"></a>修改logging配置文件</h3><p>很简单，删除 ${catalina.base}/conf下面的logging.properties中的<code>handlers= java.util.logging.ConsoleHandler</code>即可。</p>
 <blockquote>
 <p>这里举例是针对tomcat默认的logging.properties的位置，具体到其他项目，请具体查看<code>-Djava.util.logging.config.file</code>的值</p>
 </blockquote>
@@ -484,7 +499,7 @@ public class JavaUtilLoggingTest {
     }
 }
 </code></pre><p>原logging.properties(部分，在$jre_path/lib下面):</p>
-<pre><code>handlers=   java.util.logging.ConsoleHandler
+<pre><code>handlers=java.util.logging.ConsoleHandler
 </code></pre><p>output：</p>
 <pre><code>null
 null
@@ -512,7 +527,7 @@ ALL
 五月 26, 2017 4:48:48 下午 demo.maven.JavaUtilLoggingTest main
 禁用: Level.OFF
 </code></pre><p>修改后的logging.properties</p>
-<pre><code>#handlers=   java.util.logging.ConsoleHandler
+<pre><code>#handlers=java.util.logging.ConsoleHandler
 </code></pre><p>对应output：</p>
 <pre><code>null
 null
