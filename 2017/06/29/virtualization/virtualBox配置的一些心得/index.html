@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="toutoudnf,blog" />
+  <meta name="keywords" content="virtualbox," />
 
 
 
@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/29/virtualization/virtualBox配置的一些心得/index.html">
 <meta property="og:site_name" content="头头带你飞">
 <meta property="og:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
-<meta property="og:updated_time" content="2017-06-29T02:29:30.000Z">
+<meta property="og:updated_time" content="2017-06-29T02:34:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="virtualBox配置的一些心得">
 <meta name="twitter:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
@@ -380,6 +380,8 @@
 </li>
 </ol>
 <p>之后在主机上通过 <code>ssh -p 22222 root@127.0.0.1</code>，即可完成到 VM 的连接。</p>
+<h1 id="VM-网卡混杂模式是什么意思"><a href="#VM-网卡混杂模式是什么意思" class="headerlink" title="VM 网卡混杂模式是什么意思"></a>VM 网卡混杂模式是什么意思</h1><p>就是网卡只接受自己该收的，还是啥消息都接受。区分标识是mac地址。</p>
+<p>详情可以参见：<a href="https://www.zhihu.com/question/35674303" target="_blank" rel="external">知乎</a></p>
 
       
     </div>
@@ -406,6 +408,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/virtualbox/" rel="tag"># virtualbox</a>
+          
+        </div>
       
 
       
@@ -518,7 +526,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -553,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VM-网卡混杂模式是什么意思"><span class="nav-number">3.</span> <span class="nav-text">VM 网卡混杂模式是什么意思</span></a></li></ol></div>
             
 
           </div>
