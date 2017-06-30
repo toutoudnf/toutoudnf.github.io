@@ -1,0 +1,807 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="由于对网段，网桥概念的不清晰，学习并查阅了一些资料，记录如下：
+
+物理层，链路层，网络层的简单介绍及递进关系
+上述三个层中涉及到的设备和协议的简单介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网段&网桥">
+<meta property="og:url" content="http://yoursite.com/2017/05/15/linux/网段&网桥/index.html">
+<meta property="og:site_name" content="头头带你飞">
+<meta property="og:description" content="由于对网段，网桥概念的不清晰，学习并查阅了一些资料，记录如下：
+
+物理层，链路层，网络层的简单介绍及递进关系
+上述三个层中涉及到的设备和协议的简单介绍">
+<meta property="og:image" content="https://raw.githubusercontent.com/toutoudnf/static_resources/master/linux/%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:updated_time" content="2017-06-30T03:54:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网段&网桥">
+<meta name="twitter:description" content="由于对网段，网桥概念的不清晰，学习并查阅了一些资料，记录如下：
+
+物理层，链路层，网络层的简单介绍及递进关系
+上述三个层中涉及到的设备和协议的简单介绍">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/toutoudnf/static_resources/master/linux/%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E7%BB%93%E6%9E%84.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/15/linux/网段&网桥/"/>
+
+
+
+
+
+  <title> 网段&网桥 | 头头带你飞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">头头带你飞</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱吃/微胖/喜欢动/是个不错的人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/15/linux/网段&网桥/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网段&网桥
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-15T00:00:00+08:00">
+                2017-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/network/" itemprop="url" rel="index">
+                    <span itemprop="name">network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>由于对网段，网桥概念的不清晰，学习并查阅了一些资料，记录如下：</p>
+<ul>
+<li>物理层，链路层，网络层的简单介绍及递进关系</li>
+<li>上述三个层中涉及到的设备和协议的简单介绍</li>
+</ul>
+<a id="more"></a>
+<h1 id="HUB-amp-Repeater，Bridge-amp-Switch"><a href="#HUB-amp-Repeater，Bridge-amp-Switch" class="headerlink" title="HUB&amp;Repeater，Bridge&amp;Switch"></a>HUB&amp;Repeater，Bridge&amp;Switch</h1><p>先列举几个问题：</p>
+<ul>
+<li>网桥是什么？</li>
+<li>vmware桥接模式的原理是什么？</li>
+<li>网段是什么？</li>
+<li>物理网段和逻辑网段的区别？</li>
+<li>网关的原理和作用</li>
+<li>DNS的原理和作用</li>
+</ul>
+<h2 id="网桥是什么"><a href="#网桥是什么" class="headerlink" title="网桥是什么"></a>网桥是什么</h2><p>focus on 网桥，查询过程引出了几个概念：</p>
+<ul>
+<li>中继器（repeater）</li>
+<li>集线器（HUB）</li>
+<li>冲突域</li>
+<li>广播域</li>
+</ul>
+<p>最原始的网络，是物理链路层互联，对应OSI的第一层。物理链路层就是物理设备的互联组成的层，主要用来解决：不同介质间信号转换，比如光信号怎么转换为电信号的啊；0和1是怎么在电信号和光信号中表达的啊，等等问题。</p>
+<blockquote>
+<p>具体OSI分层参见附录：<a href="#OSI分层">OSI分层</a></p>
+</blockquote>
+<p>在物理层之上就是数据链路层。可以看做是对物理链路层提供的能力（0，1的信号）的封装。比如以太网帧</p>
+<p><img src="https://raw.githubusercontent.com/toutoudnf/static_resources/master/linux/%E4%BB%A5%E5%A4%AA%E7%BD%91%E5%B8%A7%E7%BB%93%E6%9E%84.jpg" alt=""></p>
+<p>就规定了 （6 + 6 + 2 + 46~1500 + 4）* 8 bit 这么多的 0 和 1 加起来是一个以太网帧。在数据链路层上的协议就提供了帧格式规定，帧同步，收发顺序的控制。</p>
+<p>数据链路层上的数据传输（帧发送）有以下特点：</p>
+<ul>
+<li>空闲时才可发送</li>
+<li>帧冲突，则采用指数退让规则，尝试重发</li>
+</ul>
+<p>存在这种冲突的主机所在的scope，就是冲突域。而 HUB &amp; repeater 是为了解决物理网络信号衰减，制造的设备，能实现：</p>
+<ul>
+<li>扩展网络距离，将衰减信号经过再生。</li>
+<li>实现粗同轴电缆以太网和细同轴电缆以太网的互连。</li>
+</ul>
+<blockquote>
+<p>中继器只有两个口，而集线器其实是一个多口的中继器。因为集线器多口其实是连接在一个总线上。</p>
+</blockquote>
+<p>由 HUB &amp; repeater 连接的主机，都在同一个冲突域中。冲突域的危害还是比较大的，假如一个冲突域中设备很多，或者说发送帧的设备很多，那么帧冲突的情况就很常见，这时数据链路层的效率就不会太高。为了解决该问题，就出现了网桥&amp;交换机。</p>
+<p>类似 HUB &amp; reperter 的关系，switch 就是多口版的 bridge。</p>
+<p>bridge 是一个稍微智能的设备，会根据mac地址自己学习并划分网段（转发表）。即假设AB主机都通过端口1发送过消息给bridge，则A to B的帧不会被转发到其他端口。这样在一定程度上避免了冲突域的问题。</p>
+<p>但是 bridge &amp; switch 对广播帧是没有限制能力的（因为广播帧默认是发给所有设备的，所谓广播风暴，也是这个原因）。这时候就出现了router。router是工作在三层的设备，将广播的包限制在了其广播域之内。实际上，除非做特殊配置，否则路由器从不转发广播类型的数据包。</p>
+<p>通过路由进行链接的设备，组成了一个网络。而世界上有很多的网络，不同网络之间的链接是通过一个特殊的路由设备—<strong>网关</strong>来进行的。</p>
+<p>上述内容参考的资料：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/1996jiwei/p/6085884.html" target="_blank" rel="external">戳这里</a></li>
+<li><a href="http://www.jianshu.com/p/f16d7f3c8d5f" target="_blank" rel="external">TCP/IP 面试</a></li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>什么是ICMP</li>
+</ul>
+<p>提到ICMP是做测试的时候想验证 libvirt 的 migrate 网络状态。migrate 使用的是 TCP，网络层之上的传输层的协议；而 ping 使用的是 ICMP，使用的是网络层的协议。几个关于 ICMP 的点如下：</p>
+<ul>
+<li>跟端口没关系。不像TCP一样使用端口号。</li>
+<li>是IP层的协议</li>
+<li>ICMP本质是错误侦测与回报机制，常用于<ul>
+<li>路由表维护</li>
+<li>侦测主机是否存在</li>
+</ul>
+</li>
+</ul>
+<p>关于ICMP报文的介绍，可以参考：<a href="http://www.cnblogs.com/kzloser/articles/2582349.html" target="_blank" rel="external">戳这里</a>。其中也包含了对IP，ARP，RARP，IGMP的报文格式介绍。</p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><h2 id="OSI分层"><a href="#OSI分层" class="headerlink" title="OSI分层"></a>OSI分层</h2><ul>
+<li>应用层 Application</li>
+<li>表示层 Presentation</li>
+<li>会话层 Session</li>
+<li>传输层 Transport</li>
+<li>网络层 Network</li>
+<li>数据链路层 Data Link</li>
+<li>物理层Physical</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/27/pm/tempo插件分析/" rel="next" title="tempo插件分析">
+                <i class="fa fa-chevron-left"></i> tempo插件分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/linux/基础网络配置/" rel="prev" title="基础网络配置">
+                基础网络配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Pazu Lee" />
+          <p class="site-author-name" itemprop="name">Pazu Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HUB-amp-Repeater，Bridge-amp-Switch"><span class="nav-number">1.</span> <span class="nav-text">HUB&Repeater，Bridge&Switch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网桥是什么"><span class="nav-number">1.1.</span> <span class="nav-text">网桥是什么</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">2.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录"><span class="nav-number">3.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI分层"><span class="nav-number">3.1.</span> <span class="nav-text">OSI分层</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pazu Lee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
