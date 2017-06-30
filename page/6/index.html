@@ -267,6 +267,155 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/08/git/git-branch-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/08/git/git-branch-model/" itemprop="url">
+                  Git分支模型理解
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-08T09:10:01+08:00">
+                2016-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><ul>
+<li>记录git branch model在实际开发中遇到的问题，以及几种模型的适用场景分析。</li>
+</ul>
+<h1 id="The-questions-during-dev-with-git-branch"><a href="#The-questions-during-dev-with-git-branch" class="headerlink" title="The questions during dev with git branch"></a>The questions during dev with git branch</h1><h2 id="分支合并频繁，历史记录很难看且很难查"><a href="#分支合并频繁，历史记录很难看且很难查" class="headerlink" title="分支合并频繁，历史记录很难看且很难查"></a>分支合并频繁，历史记录很难看且很难查</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>如果branch merge，且频繁，会导致</li>
+</ul>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><h2 id="定位强制推送的commit困难"><a href="#定位强制推送的commit困难" class="headerlink" title="定位强制推送的commit困难"></a>定位强制推送的commit困难</h2><h3 id="原因-1"><a href="#原因-1" class="headerlink" title="原因"></a>原因</h3><h3 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h3><h2 id="如何"><a href="#如何" class="headerlink" title="如何"></a>如何</h2><h1 id="Why-we-choose-a-model"><a href="#Why-we-choose-a-model" class="headerlink" title="Why we choose a model"></a>Why we choose a model</h1><h1 id="Model-categories"><a href="#Model-categories" class="headerlink" title="Model categories"></a>Model categories</h1><h2 id="fork，pull-request"><a href="#fork，pull-request" class="headerlink" title="fork，pull-request"></a>fork，pull-request</h2><p>-待研究</p>
+<h2 id="master-develop"><a href="#master-develop" class="headerlink" title="master-develop"></a>master-develop</h2><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/07/git/git-log/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -370,153 +519,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/04/07/git/git-log/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/git/git相关的代码审核/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pazu Lee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="头头带你飞">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/05/git/git相关的代码审核/" itemprop="url">
-                  git相关的代码审核
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T23:31:16+08:00">
-                2016-04-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>记录了最近做代码review的相关心得。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/04/05/git/git相关的代码审核/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -666,6 +668,153 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/04/05/git/git常见问题记录/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/05/git/git相关的代码审核/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/05/git/git相关的代码审核/" itemprop="url">
+                  git相关的代码审核
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T23:31:16+08:00">
+                2016-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>记录了最近做代码review的相关心得。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/04/05/git/git相关的代码审核/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1660,9 +1809,9 @@
 </li>
 <li><p>并且这些commit之间的order也是可以修改的</p>
 </li>
-<li>then git commit –amend –author “pazu <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#116;&#111;&#117;&#x74;&#111;&#x75;&#x64;&#110;&#x66;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#x6f;&#109;">&#116;&#111;&#117;&#x74;&#111;&#x75;&#x64;&#110;&#x66;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#x6f;&#109;</a>“</li>
+<li>then git commit –amend –author “pazu <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#116;&#x6f;&#x75;&#x74;&#111;&#x75;&#x64;&#x6e;&#x66;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#116;&#x6f;&#x75;&#x74;&#111;&#x75;&#x64;&#x6e;&#x66;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>“</li>
 <li>then git rebase –continue</li>
-<li>then do git commit –amend –author “pazu <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x74;&#111;&#117;&#x74;&#x6f;&#x75;&#100;&#110;&#102;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#x74;&#111;&#117;&#x74;&#x6f;&#x75;&#100;&#110;&#102;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a>“ again</li>
+<li>then do git commit –amend –author “pazu <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#116;&#111;&#x75;&#116;&#111;&#x75;&#x64;&#x6e;&#x66;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#116;&#111;&#x75;&#116;&#111;&#x75;&#x64;&#x6e;&#x66;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a>“ again</li>
 <li>then git rebase –continue</li>
 <li>then the rebase progress will end</li>
 </ul>
@@ -1753,7 +1902,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1775,7 +1924,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
