@@ -270,6 +270,202 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/linux/how-to-find-and-install-a-rpm-with-yum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/11/linux/how-to-find-and-install-a-rpm-with-yum/" itemprop="url">
+                  how to find and install a rpm with yum
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-11T18:25:05+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><ul>
+<li>如何配置yum源</li>
+<li>如何用yum查找一个rpm</li>
+<li>如何选择并安装上面的查询结果</li>
+</ul>
+<h2 id="yum是什么"><a href="#yum是什么" class="headerlink" title="yum是什么"></a>yum是什么</h2><ul>
+<li>short for <blockquote>
+<p><strong>yellow dog updater，modified</strong></p>
+</blockquote>
+</li>
+<li>应用于suse，fedora，redhat，centos</li>
+<li>解决了rpm包依赖很复杂，安装很费劲的问题</li>
+</ul>
+<h2 id="如何配置yum源"><a href="#如何配置yum源" class="headerlink" title="如何配置yum源"></a>如何配置yum源</h2><ul>
+<li>有时候受限于速度等原因，默认yum源并不好用</li>
+<li>需要自己配置yum源，主要参考<a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html" target="_blank" rel="external">yum源的配置与使用</a></li>
+<li>更新完yum源，记得makecache</li>
+</ul>
+<h2 id="如何用yum找rpm"><a href="#如何用yum找rpm" class="headerlink" title="如何用yum找rpm"></a>如何用yum找rpm</h2><ul>
+<li>yum search xxx<ul>
+<li>xxx是你知道的rpm名称，可以是一部分</li>
+</ul>
+</li>
+<li><p>yum info abc</p>
+<ul>
+<li>可以查看rpm包的信息</li>
+<li>但是abc是完整的rpm名<h2 id="如何安装rpm"><a href="#如何安装rpm" class="headerlink" title="如何安装rpm"></a>如何安装rpm</h2></li>
+</ul>
+</li>
+<li><p>yum install xxx</p>
+<ul>
+<li>xxx是完整的rpm名称</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><ul>
+<li><a href="http://blog.chinaunix.net/uid-23622436-id-3468244.html" target="_blank" rel="external">RPM介绍</a></li>
+<li><a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html" target="_blank" rel="external">yum源的配置与使用</a></li>
+</ul>
+<h3 id="rpm常见命名规范"><a href="#rpm常见命名规范" class="headerlink" title="rpm常见命名规范"></a>rpm常见命名规范</h3><ul>
+<li>fcxx，elxx<ul>
+<li>fc18一般表示fedora18</li>
+<li>el6一般表示centos6或者redhat6</li>
+</ul>
+</li>
+<li>devel<ul>
+<li>开发包</li>
+</ul>
+</li>
+<li>i386，i686，x86_64，noarch<ul>
+<li>硬件平台，noarch一般是没要求</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/11/hexo/hexo-self-defined-new-blog-path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1631,181 +1827,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/26/java/java-remote-debug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pazu Lee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="头头带你飞">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/26/java/java-remote-debug/" itemprop="url">
-                  Java Remote Debug
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-26T13:51:03+08:00">
-                2016-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
-<li>oracle java jdb manual<ul>
-<li>show how jdb tools used in debug</li>
-<li>support local &amp; remote debug</li>
-<li>url<ul>
-<li><a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html" target="_blank" rel="external">http://docs.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>jdb simple use<ul>
-<li>show the simple example of jdb, by IBM</li>
-<li>url<ul>
-<li><a href="http://www.ibm.com/developerworks/cn/java/joy-jdb/index.html" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/java/joy-jdb/index.html</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="Debug-Cases"><a href="#Debug-Cases" class="headerlink" title="Debug Cases"></a>Debug Cases</h1><h2 id="Local-Debug"><a href="#Local-Debug" class="headerlink" title="Local Debug"></a>Local Debug</h2><h3 id="Basic-debug-of-a-simple-class-file"><a href="#Basic-debug-of-a-simple-class-file" class="headerlink" title="Basic debug of a simple class file"></a>Basic debug of a simple class file</h3><p>run java class like</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdb HelloWorld</div></pre></td></tr></table></figure>
-<p>Then set breakpoint and do debug like Remote debug steps below.<br>U can try it with the doc <code>jdb simple use</code> in reference.</p>
-<h2 id="Remote-debug"><a href="#Remote-debug" class="headerlink" title="Remote debug"></a>Remote debug</h2><p>add the params below as java run params, such as</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bash</div><div class="line">java -Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=y HelloWorld</div></pre></td></tr></table></figure>
-<p>run jdb with</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bash</div><div class="line">jdb -connect com.sun.jdi.SocketAttach:hostname=127.0.0.1,port=9999</div></pre></td></tr></table></figure>
-<p>then the jdb should set the breakpoint with command stop</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">   bash</div><div class="line">设置未捕获的java.lang.Throwable</div><div class="line">设置延迟的未捕获的java.lang.Throwable</div><div class="line">正在初始化jdb...</div><div class="line">&gt;</div><div class="line">VM 已启动: 当前调用堆栈上没有帧</div><div class="line"></div><div class="line">main[1]</div></pre></td></tr></table></figure>
-<p>input stop command to setup breakpoint</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">   bash</div><div class="line">main[1] stop in HelloWolrd.main</div></pre></td></tr></table></figure>
-<p>it will show </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">   bash</div><div class="line">正在延迟断点HelloWolrd.main。</div><div class="line">将在加载类后设置。</div><div class="line">main[1]</div></pre></td></tr></table></figure>
-<p>then input cont/step/next/step up or some other debug command to debug the code.</p>
-<h1 id="The-jdb-manual-quick-search"><a href="#The-jdb-manual-quick-search" class="headerlink" title="The jdb manual quick search"></a>The jdb manual quick search</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line">   bash</div><div class="line">** 命令列表 **</div><div class="line">connectors                -- 列出此 VM 中可用的连接器和传输</div><div class="line"></div><div class="line">run [class [args]]        -- 开始执行应用程序的主类</div><div class="line"></div><div class="line">threads [threadgroup]     -- 列出线程</div><div class="line">thread &lt;thread id&gt;        -- 设置默认线程</div><div class="line">suspend [thread id(s)]    -- 挂起线程 (默认值: all)</div><div class="line">resume [thread id(s)]     -- 恢复线程 (默认值: all)</div><div class="line">where [&lt;thread id&gt; | all] -- 转储线程的堆栈</div><div class="line">wherei [&lt;thread id&gt; | all]-- 转储线程的堆栈, 以及 pc 信息</div><div class="line">up [n frames]             -- 上移线程的堆栈</div><div class="line">down [n frames]           -- 下移线程的堆栈</div><div class="line">kill &lt;thread id&gt; &lt;expr&gt;   -- 终止具有给定的异常错误对象的线程</div><div class="line">interrupt &lt;thread id&gt;     -- 中断线程</div><div class="line"></div><div class="line">print &lt;expr&gt;              -- 输出表达式的值</div><div class="line">dump &lt;expr&gt;               -- 输出所有对象信息</div><div class="line">eval &lt;expr&gt;               -- 对表达式求值 (与 print 相同)</div><div class="line">set &lt;lvalue&gt; = &lt;expr&gt;     -- 向字段/变量/数组元素分配新值</div><div class="line">locals                    -- 输出当前堆栈帧中的所有本地变量</div><div class="line"></div><div class="line">classes                   -- 列出当前已知的类</div><div class="line">class &lt;class id&gt;          -- 显示已命名类的详细资料</div><div class="line">methods &lt;class id&gt;        -- 列出类的方法</div><div class="line">fields &lt;class id&gt;         -- 列出类的字段</div><div class="line"></div><div class="line">threadgroups              -- 列出线程组</div><div class="line">threadgroup &lt;name&gt;        -- 设置当前线程组</div><div class="line"></div><div class="line">stop in &lt;class id&gt;.&lt;method&gt;[(argument_type,...)]</div><div class="line">                          -- 在方法中设置断点</div><div class="line">stop at &lt;class id&gt;:&lt;line&gt; -- 在行中设置断点</div><div class="line">clear &lt;class id&gt;.&lt;method&gt;[(argument_type,...)]</div><div class="line">                          -- 清除方法中的断点</div><div class="line">clear &lt;class id&gt;:&lt;line&gt;   -- 清除行中的断点</div><div class="line">clear                     -- 列出断点</div><div class="line">catch [uncaught|caught|all] &lt;class id&gt;|&lt;class pattern&gt;</div><div class="line">                          -- 出现指定的异常错误时中断</div><div class="line">ignore [uncaught|caught|all] &lt;class id&gt;|&lt;class pattern&gt;</div><div class="line">                          -- 对于指定的异常错误, 取消 &apos;catch&apos;</div><div class="line">watch [access|all] &lt;class id&gt;.&lt;field name&gt;</div><div class="line">                          -- 监视对字段的访问/修改</div><div class="line">unwatch [access|all] &lt;class id&gt;.&lt;field name&gt;</div><div class="line">                          -- 停止监视对字段的访问/修改</div><div class="line">trace [go] methods [thread]</div><div class="line">                          -- 跟踪方法进入和退出。</div><div class="line">                          -- 除非指定 &apos;go&apos;, 否则挂起所有线程</div><div class="line">trace [go] method exit | exits [thread]</div><div class="line">                          -- 跟踪当前方法的退出, 或者所有方法的退出</div><div class="line">                          -- 除非指定 &apos;go&apos;, 否则挂起所有线程</div><div class="line">untrace [methods]         -- 停止跟踪方法进入和/或退出</div><div class="line">step                      -- 执行当前行</div><div class="line">step up                   -- 一直执行, 直到当前方法返回到其调用方</div><div class="line">stepi                     -- 执行当前指令</div><div class="line">下一步                      -- 步进一行 (步过调用)</div><div class="line">cont                      -- 从断点处继续执行</div><div class="line"></div><div class="line">list [line number|method] -- 输出源代码</div><div class="line">use (或 sourcepath) [source file path]</div><div class="line">                          -- 显示或更改源路径</div><div class="line">exclude [&lt;class pattern&gt;, ... | &quot;none&quot;]</div><div class="line">                          -- 对于指定的类, 不报告步骤或方法事件</div><div class="line">classpath                 -- 从目标 VM 输出类路径信息</div><div class="line"></div><div class="line">monitor &lt;command&gt;         -- 每次程序停止时执行命令</div><div class="line">monitor                   -- 列出监视器</div><div class="line">unmonitor &lt;monitor#&gt;      -- 删除监视器</div><div class="line">read &lt;filename&gt;           -- 读取并执行命令文件</div><div class="line"></div><div class="line">lock &lt;expr&gt;               -- 输出对象的锁信息</div><div class="line">threadlocks [thread id]   -- 输出线程的锁信息</div><div class="line"></div><div class="line">pop                       -- 通过当前帧出栈, 且包含当前帧</div><div class="line">reenter                   -- 与 pop 相同, 但重新进入当前帧</div><div class="line">redefine &lt;class id&gt; &lt;class file name&gt;</div><div class="line">                          -- 重新定义类的代码</div><div class="line"></div><div class="line">disablegc &lt;expr&gt;          -- 禁止对象的垃圾收集</div><div class="line">enablegc &lt;expr&gt;           -- 允许对象的垃圾收集</div><div class="line"></div><div class="line">!!                        -- 重复执行最后一个命令</div><div class="line">&lt;n&gt; &lt;command&gt;             -- 将命令重复执行 n 次</div><div class="line"># &lt;command&gt;               -- 放弃 (无操作)</div><div class="line">help (或 ?)               -- 列出命令</div><div class="line">version                   -- 输出版本信息</div><div class="line">exit (或 quit)            -- 退出调试器</div><div class="line"></div><div class="line">&lt;class id&gt;: 带有程序包限定符的完整类名</div><div class="line">&lt;class pattern&gt;: 带有前导或尾随通配符 (&apos;*&apos;) 的类名</div><div class="line">&lt;thread id&gt;: &apos;threads&apos; 命令中报告的线程编号</div><div class="line">&lt;expr&gt;: Java(TM) 编程语言表达式。</div><div class="line">支持大多数常见语法。</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1855,7 +1876,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1877,7 +1898,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
