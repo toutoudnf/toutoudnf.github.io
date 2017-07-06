@@ -87,16 +87,24 @@
 
 
 
-<meta name="description" content="JVM 架构学习的笔记。">
+<meta name="description" content="JVM 架构学习的笔记。
+
+了解 JVM 有哪几部分组成，以及对应的职责">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jvm learning-running">
-<meta property="og:url" content="http://yoursite.com/2017/07/06/java/jvm learning-running/index.html">
+<meta property="og:title" content="jvm learning-architecture">
+<meta property="og:url" content="http://yoursite.com/2017/07/07/java/jvm learning-architecture/index.html">
 <meta property="og:site_name" content="头头带你飞">
-<meta property="og:description" content="JVM 架构学习的笔记。">
-<meta property="og:updated_time" content="2017-07-06T11:56:13.000Z">
+<meta property="og:description" content="JVM 架构学习的笔记。
+
+了解 JVM 有哪几部分组成，以及对应的职责">
+<meta property="og:image" content="https://raw.githubusercontent.com/toutoudnf/static_resources/master/java/hotspot-vm%E6%9E%B6%E6%9E%84.png">
+<meta property="og:updated_time" content="2017-07-06T14:42:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jvm learning-running">
-<meta name="twitter:description" content="JVM 架构学习的笔记。">
+<meta name="twitter:title" content="jvm learning-architecture">
+<meta name="twitter:description" content="JVM 架构学习的笔记。
+
+了解 JVM 有哪几部分组成，以及对应的职责">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/toutoudnf/static_resources/master/java/hotspot-vm%E6%9E%B6%E6%9E%84.png">
 
 
 
@@ -124,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/06/java/jvm learning-running/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/07/java/jvm learning-architecture/"/>
 
 
 
 
 
-  <title> jvm learning-running | 头头带你飞 </title>
+  <title> jvm learning-architecture | 头头带你飞 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +277,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/06/java/jvm learning-running/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/07/java/jvm learning-architecture/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pazu Lee">
@@ -290,7 +298,7 @@
             
             
               
-                jvm learning-running
+                jvm learning-architecture
               
             
           </h1>
@@ -305,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-06T00:00:00+08:00">
-                2017-07-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-07T00:00:00+08:00">
+                2017-07-07
               </time>
             
 
@@ -364,8 +372,71 @@
 
       
         <p>JVM 架构学习的笔记。</p>
+<ul>
+<li>了解 JVM 有哪几部分组成，以及对应的职责</li>
+</ul>
 <a id="more"></a>
-
+<h1 id="JVM-整体架构"><a href="#JVM-整体架构" class="headerlink" title="JVM 整体架构"></a>JVM 整体架构</h1><p>来个 JVM 整体架构图镇楼：</p>
+<p><img src="https://raw.githubusercontent.com/toutoudnf/static_resources/master/java/hotspot-vm%E6%9E%B6%E6%9E%84.png" alt=""></p>
+<p>主要包括以下三部分：</p>
+<ul>
+<li>garbage collerctor：负责收集 runtime 区域的用不到的内存</li>
+<li>JIT compiler：负责动态优化</li>
+<li>HotSpot VM runtime：负责 vm runtime 内存管理</li>
+</ul>
+<p>需要注意的是，gc 模块与 JIT 模块都是可插拔的。这两个模块都是调用 VM runtime 模块的 API 接口来实现自己的功能。</p>
+<p>这一张不会涉及太多的技术细节，而是想从概念上梳理清楚，JVM（HotSpot为例）到底有哪几部分组成，分别负责什么。下面会参照着三部分开始介绍。</p>
+<h2 id="runtime"><a href="#runtime" class="headerlink" title="runtime"></a>runtime</h2><p>runtime 模块是一个 JVM 的核心，除了为 gc 和 JIT compiler 提供相应的接口之外，他还提供了：</p>
+<ul>
+<li>启动</li>
+<li>线程管理</li>
+<li>JNI</li>
+</ul>
+<p>等等功能。组件很多，学习很复杂，那么我们从一个应用运行的角度来考虑其职责，并按照这条线梳理。一个正常的应用的大致完整的声明周期大概可以分为，大概要经过：</p>
+<ul>
+<li>开始</li>
+<li>启动一个可提供服务的 JVM（runtime 部分）</li>
+<li>加载应用运行所需的类</li>
+<li>找到启动类（main），并执行其中相应逻辑（加载新的类，or 执行某个方法）</li>
+<li>被人为终止或者接收到了中断信号，VM 停止运行，并释放对应的资源（内存等）</li>
+<li>结束</li>
+</ul>
+<p>ok，那根据上述描述，可以简单假设，VM 需要：</p>
+<ul>
+<li>一个<strong>启动器</strong>，完成 VM 自身启动</li>
+<li><strong>类加载器</strong>，完成应用所需的类的加载</li>
+<li>需要一个将 class 字节码翻译为机器码的组件（<strong>解释器</strong>）</li>
+<li>执行代码<ul>
+<li>需要创建对象的时候，需要申请内存使用（<strong>内存管理</strong>）</li>
+<li>程序是多线程的，那么怎么映射到具体的操作系统的线程呢？（<strong>线程管理器</strong>）</li>
+</ul>
+</li>
+<li>如果出现重大异常，或者人为调用退出接口，那么清理掉内存中的类（<strong>启动器的销毁方法</strong>）</li>
+<li>运行结束，释放 VM 占用的资源（内存，线程等）</li>
+</ul>
+<p>除此之外，考虑到对 VM 性能的优化，一般在启动之前可以指定一些参数，来对 VM 的初始化，运行做一些优化。这就是<strong>参数机制</strong>咯。基本上上面提到的加粗的部分，是一个 VM runtime 的主要组件了。下面给出一个更加详细的 VM 启动的流程，并附上一定的说明，供参考来理解 runtime 部分的职责。</p>
+<blockquote>
+<p>一个 VM 的启动操作流</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解析命令行</td>
+<td>读取命令行参数</td>
+</tr>
+<tr>
+<td>设置堆的大小和 JIT 编译器</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h2><h2 id="JIT"><a href="#JIT" class="headerlink" title="JIT"></a>JIT</h2>
       
     </div>
 
@@ -407,8 +478,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/06/java/jvm learning-tuning/" rel="next" title="jvm learning-tuning">
-                <i class="fa fa-chevron-left"></i> jvm learning-tuning
+              <a href="/2017/07/06/java/jvm learning-how/" rel="next" title="jvm学习思路分析.md">
+                <i class="fa fa-chevron-left"></i> jvm学习思路分析.md
               </a>
             
           </div>
@@ -417,7 +488,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/06/java/jvm learning-initialize and destory/" rel="prev" title="jvm learning-initialize and destory">
+              <a href="/2017/07/08/java/jvm learning-initialize and destory/" rel="prev" title="jvm learning-initialize and destory">
                 jvm learning-initialize and destory <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -466,8 +537,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -529,6 +609,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-整体架构"><span class="nav-number">1.</span> <span class="nav-text">JVM 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime"><span class="nav-number">1.1.</span> <span class="nav-text">runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gc"><span class="nav-number">1.2.</span> <span class="nav-text">gc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JIT"><span class="nav-number">1.3.</span> <span class="nav-text">JIT</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
