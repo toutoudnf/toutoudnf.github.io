@@ -98,7 +98,7 @@
 
 了解 JVM 有哪几部分组成，以及对应的职责">
 <meta property="og:image" content="https://raw.githubusercontent.com/toutoudnf/static_resources/master/java/hotspot-vm%E6%9E%B6%E6%9E%84.png">
-<meta property="og:updated_time" content="2017-07-06T14:42:06.000Z">
+<meta property="og:updated_time" content="2017-07-07T06:34:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm learning-architecture">
 <meta name="twitter:description" content="JVM 架构学习的笔记。
@@ -414,29 +414,59 @@
 <li>如果出现重大异常，或者人为调用退出接口，那么清理掉内存中的类（<strong>启动器的销毁方法</strong>）</li>
 <li>运行结束，释放 VM 占用的资源（内存，线程等）</li>
 </ul>
-<p>除此之外，考虑到对 VM 性能的优化，一般在启动之前可以指定一些参数，来对 VM 的初始化，运行做一些优化。这就是<strong>参数机制</strong>咯。基本上上面提到的加粗的部分，是一个 VM runtime 的主要组件了。下面给出一个更加详细的 VM 启动的流程，并附上一定的说明，供参考来理解 runtime 部分的职责。</p>
-<blockquote>
-<p>一个 VM 的启动操作流</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>解析命令行</td>
-<td>读取命令行参数</td>
-</tr>
-<tr>
-<td>设置堆的大小和 JIT 编译器</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h2><h2 id="JIT"><a href="#JIT" class="headerlink" title="JIT"></a>JIT</h2>
+<p>除此之外，考虑到对 VM 性能的优化，一般在启动之前可以指定一些参数，来对 VM 的初始化，运行做一些优化。这就是<strong>参数机制</strong>咯。基本上上面提到的加粗的部分，是一个 VM runtime 的主要组件了。更详细的内容会在接下来的文章中讲到。</p>
+<h2 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h2><p>之所以出现垃圾收集器，是基于 JVM 在内存管理中的以下几个特点：</p>
+<ul>
+<li>大多数分配对象存活时间短</li>
+<li>存活时间久的对象，很少引用存活时间段的对象</li>
+<li>Java 语言大部分情况的内存管理是由 JVM 完成的，所以存在内存释放的需求</li>
+</ul>
+<p>上述的 1，2 两条有个名词儿叫弱分代假设（weak generational hypothesis）。为什么会得出这么一个假设，可以通过简单的对一个典型的 Java web app 来进行一些分析：</p>
+<ul>
+<li>存在一些全局变量（比如使用 spring 去管理的 bean 对象，静态常量类等）</li>
+<li>大部分情况下是在处理一个 Http 请求，对象的生命周期基本为：session 级别；request 级别；具体到每个方法中的局部变量 level。这几种对象的特点是：<ul>
+<li>在内存中存活时间短</li>
+<li>一般都是他们去引用全局变量做处理，而不是全局变量去引用他们</li>
+</ul>
+</li>
+</ul>
+<p>由此而得，跟前面的弱分代假设还是比较接近的。可以参考应用的实际情况做一些分析。</p>
+<p>既然对象存在这样的特点，那么统一扫描，判断，然后处理对象是否需要回收，显然是不合理的。于是 HotSpot 将 VM 中的<strong>堆</strong>（对象主要存放的地方），划分为：</p>
+<ul>
+<li>新生代：比较小，其中的对象回收频繁，并且对象回收的比例高。对新生代执行的垃圾收集有个专门的名词叫 <strong>minor gc</strong>。</li>
+<li>老年代：比较大，其中的对象由新生代晋升而来（新生代多次扫描都干不掉的），一般是生命周期较长的对象，故扫描比相比新生代频率要低。对老年代的垃圾收集有个专有名词叫 <strong>full gc</strong>。</li>
+</ul>
+<p>另外，针对一些 VM 的元数据（如类数据结构，保留字符串等），这种对象有个特点是：</p>
+<ul>
+<li>大小不会变化太多</li>
+<li>生命周期很长，并且一般可预见</li>
+</ul>
+<p>这样的对象即使放到老年代也是比较浪费扫描操作的，故 VM 划分了永久代来管理这些对象。需要注意的是老年代对象即使过了很久很久没被收集也不会晋升到永久代。</p>
+<p><strong>上面就是 HotSpot 最基本的内存管理模型，既然不同类型对象做了区分，那么针对不同区域的堆，gc 模块也提供了不同的回收机制。</strong></p>
+<ul>
+<li>serial</li>
+<li>throughput</li>
+<li>CMS</li>
+<li>G1</li>
+</ul>
+<p>是不是有些眼熟，在各种博客上可能经常看到这些名词。这里不做详细介绍，只要知道目前主流 gc 有大概几种即可。</p>
+<h2 id="JIT"><a href="#JIT" class="headerlink" title="JIT"></a>JIT</h2><p>JIT 属于 VM 性能优化的一部分，在后面会详细介绍下。在学习之初，了解如下相关 JIT 的特性就足够了：</p>
+<ul>
+<li>JIT 分文 server 和 client 两种模式，他们各有侧重，分别为：<ul>
+<li>client JIT 编译器目标是更快的启动时间和快速编译</li>
+<li>server JIT 编译器目标是 Java 应用性能优化</li>
+</ul>
+</li>
+</ul>
+<p>如果从学习 VM 并优化 VM 性能的角度来看，JIT 相关的优化点可能要放到 dump，代码等等其他方式之后。甚至是机器之后。就像 MySQL 的 SQL 执行计划一样，内部的优化机制可能在每个版本的 Java 应用都不相同，并且甚至是不兼容的。应该是在其他方法都尝试了并且确实有需求的情况下，再根据当前版本的 JIT 特性来有针对性的进行代码或者其他方面的优化。</p>
+<h1 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h1><p>目前为止，我认为学习 JVM 开始，对于架构方面有一个基本的了解即可。细究不是不好，是会耽误后面学习的一些进度，并且对于我这种比较笨的选手来说，不明确思路的学习可能会事倍功半。学习完后尝试提问自己几个问题：</p>
+<ul>
+<li>HotSpot 为例，JVM 有哪几部分，职责是什么？</li>
+<li>如果让你来实现一个 VM 的话，runtime 应该有些什么，而 HotSpot VM 中包含了哪些基本组件？本文中涉及到的可能缺失什么呢？</li>
+<li>HotSpot 的基础堆管理模型是什么？为什么？</li>
+<li>HotSpot VM 的 gc 有哪几类（这貌似是个填鸭题，笑：）？</li>
+</ul>
+
       
     </div>
 
@@ -619,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-整体架构"><span class="nav-number">1.</span> <span class="nav-text">JVM 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime"><span class="nav-number">1.1.</span> <span class="nav-text">runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gc"><span class="nav-number">1.2.</span> <span class="nav-text">gc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JIT"><span class="nav-number">1.3.</span> <span class="nav-text">JIT</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-整体架构"><span class="nav-number">1.</span> <span class="nav-text">JVM 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime"><span class="nav-number">1.1.</span> <span class="nav-text">runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gc"><span class="nav-number">1.2.</span> <span class="nav-text">gc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JIT"><span class="nav-number">1.3.</span> <span class="nav-text">JIT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单总结"><span class="nav-number">2.</span> <span class="nav-text">简单总结</span></a></li></ol></div>
             
 
           </div>
