@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="JVM 架构学习的笔记。">
+<meta name="description" content="深入分析 HelloWorld 这个程序猿学习语言必做功课，是如何每一步直到成功执行的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm learning-initialize and destory">
 <meta property="og:url" content="http://yoursite.com/2017/07/08/java/jvm learning-initialize and destory/index.html">
 <meta property="og:site_name" content="头头带你飞">
-<meta property="og:description" content="JVM 架构学习的笔记。">
-<meta property="og:updated_time" content="2017-07-06T14:42:20.000Z">
+<meta property="og:description" content="深入分析 HelloWorld 这个程序猿学习语言必做功课，是如何每一步直到成功执行的。">
+<meta property="og:updated_time" content="2017-07-10T05:56:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm learning-initialize and destory">
-<meta name="twitter:description" content="JVM 架构学习的笔记。">
+<meta name="twitter:description" content="深入分析 HelloWorld 这个程序猿学习语言必做功课，是如何每一步直到成功执行的。">
 
 
 
@@ -363,8 +363,12 @@
       
 
       
-        <p>JVM 架构学习的笔记。</p>
+        <p>深入分析 HelloWorld 这个程序猿学习语言必做功课，是如何每一步直到成功执行的。</p>
 <a id="more"></a>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>TODO:尝试假设 JVM 为了加载并成功 执行 helloworld 需要做哪些步骤</p>
+<h1 id="JVM-启动"><a href="#JVM-启动" class="headerlink" title="JVM 启动"></a>JVM 启动</h1><h1 id="hello-world-类被加载和执行"><a href="#hello-world-类被加载和执行" class="headerlink" title="hello world 类被加载和执行"></a>hello world 类被加载和执行</h1><h1 id="JVM-销毁"><a href="#JVM-销毁" class="headerlink" title="JVM 销毁"></a>JVM 销毁</h1><ul>
+<li>JVM 销毁/退出的触发条件是什么？</li>
+</ul>
 
       
     </div>
@@ -466,8 +470,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -482,7 +495,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -504,7 +517,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -529,6 +542,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-启动"><span class="nav-number">2.</span> <span class="nav-text">JVM 启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hello-world-类被加载和执行"><span class="nav-number">3.</span> <span class="nav-text">hello world 类被加载和执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-销毁"><span class="nav-number">4.</span> <span class="nav-text">JVM 销毁</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
