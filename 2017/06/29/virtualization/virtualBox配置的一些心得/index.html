@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/29/virtualization/virtualBox配置的一些心得/index.html">
 <meta property="og:site_name" content="头头带你飞">
 <meta property="og:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
-<meta property="og:updated_time" content="2017-06-29T02:34:18.000Z">
+<meta property="og:updated_time" content="2017-08-31T10:09:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="virtualBox配置的一些心得">
 <meta name="twitter:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
@@ -382,6 +382,34 @@
 <p>之后在主机上通过 <code>ssh -p 22222 root@127.0.0.1</code>，即可完成到 VM 的连接。</p>
 <h1 id="VM-网卡混杂模式是什么意思"><a href="#VM-网卡混杂模式是什么意思" class="headerlink" title="VM 网卡混杂模式是什么意思"></a>VM 网卡混杂模式是什么意思</h1><p>就是网卡只接受自己该收的，还是啥消息都接受。区分标识是mac地址。</p>
 <p>详情可以参见：<a href="https://www.zhihu.com/question/35674303" target="_blank" rel="external">知乎</a></p>
+<h1 id="设置共享文件夹"><a href="#设置共享文件夹" class="headerlink" title="设置共享文件夹"></a>设置共享文件夹</h1><p>我是尝试在 mac pro 上与 centos7 的 vm 共享文件夹，经历比较坎坷，记录如下：</p>
+<p>首先在 virtualbox 中，vm 共享文件夹是需要安装：VBoxGuestAdditions 的，一个小助手。会在 vm 中启动某个服务。安装的 iso 是virtualbox 自带的，在 对应 VM 的 <strong>menu devices == 》 Insert Guest Addtions CD image…</strong> 中。点击后尝试在 centos 里通过 <code>mount /dev/cdrom /mnt</code> 来挂载 iso。里面的内容是这样的：</p>
+<pre><code>dr-xr-xr-x. 2 root root     2048 4月  28 23:35 32Bit
+dr-xr-xr-x. 2 root root     2048 4月  28 23:35 64Bit
+-r-xr-xr-x. 1 root root      647 8月  17 2016 AUTORUN.INF
+-r-xr-xr-x. 1 root root     6381 4月  29 00:27 autorun.sh
+dr-xr-xr-x. 2 root root     2048 4月  28 23:35 cert
+dr-xr-xr-x. 2 root root     4096 4月  28 23:35 OS2
+-r-xr-xr-x. 1 root root     4824 4月  29 00:27 runasroot.sh
+-r-xr-xr-x. 1 root root  8140237 4月  29 00:27 VBoxLinuxAdditions.run
+-r-xr-xr-x. 1 root root 17782784 4月  29 01:28 VBoxSolarisAdditions.pkg
+-r-xr-xr-x. 1 root root 16400296 4月  29 00:35 VBoxWindowsAdditions-amd64.exe
+-r-xr-xr-x. 1 root root   268496 4月  29 00:27 VBoxWindowsAdditions.exe
+-r-xr-xr-x. 1 root root 10039072 4月  29 00:29 VBoxWindowsAdditions-x86.exe
+</code></pre><p>理论上运行<code>autorun.sh</code>就可以了，但是这么坎坷的路程怎么会这么简单！</p>
+<p>我执行的时候出错了，提示 manual 的方式运行脚本，遂选择<code>VBoxLinuxAdditions.run</code>运行。但是运行的时候报错，错误日志没有记录，可以参考</p>
+<ul>
+<li><a href="https://superuser.com/questions/499059/unable-to-install-virtualbox-specify-kern-dir-directory-installing-vir" target="_blank" rel="external">unable-to-install-virtualbox-specify-kern-dir-directory-installing-vir</a></li>
+<li><a href="https://segmentfault.com/a/1190000002475493" target="_blank" rel="external">CentOS 6.6 Minimal设置VirtualBox的共享文件夹</a></li>
+</ul>
+<p>其中关键点是：</p>
+<ul>
+<li>要安装 <code>kernel-devel</code>，<code>gcc</code></li>
+<li><p>保证<code>kernel</code>版本的一致性（我是通过yum update）方式更新到最新的，具体如下：</p>
+<p>  kernel-3.10.0-514.26.2.el7.x86_64<br>  kernel-3.10.0-514.el7.x86_64<br>  kernel-devel-3.10.0-514.26.2.el7.x86_64<br>  kernel-headers-3.10.0-514.26.2.el7.x86_64<br>  kernel-tools-3.10.0-514.26.2.el7.x86_64<br>  kernel-tools-libs-3.10.0-514.26.2.el7.x86_64</p>
+</li>
+</ul>
+<p>其中 kernel 有两个版本，在启动的时候应当选择那个与 devel 一致的版本才行。</p>
 
       
     </div>
@@ -530,7 +558,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -565,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VM-网卡混杂模式是什么意思"><span class="nav-number">3.</span> <span class="nav-text">VM 网卡混杂模式是什么意思</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VM-网卡混杂模式是什么意思"><span class="nav-number">3.</span> <span class="nav-text">VM 网卡混杂模式是什么意思</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">设置共享文件夹</span></a></li></ol></div>
             
 
           </div>
