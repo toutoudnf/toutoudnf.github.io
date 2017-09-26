@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/29/virtualization/virtualBox配置的一些心得/index.html">
 <meta property="og:site_name" content="头头带你飞">
 <meta property="og:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
-<meta property="og:updated_time" content="2017-08-31T10:09:06.000Z">
+<meta property="og:updated_time" content="2017-09-10T14:27:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="virtualBox配置的一些心得">
 <meta name="twitter:description" content="记录了使用virtualBox 过程中碰到的一些问题，方便日后查询。">
@@ -410,6 +410,14 @@ dr-xr-xr-x. 2 root root     4096 4月  28 23:35 OS2
 </li>
 </ul>
 <p>其中 kernel 有两个版本，在启动的时候应当选择那个与 devel 一致的版本才行。</p>
+<h1 id="配置-host-to-vm"><a href="#配置-host-to-vm" class="headerlink" title="配置 host to vm"></a>配置 host to vm</h1><ul>
+<li><a href="https://my.oschina.net/wiselyming/blog/177153" target="_blank" rel="external">VirtualBox 从主机访问虚拟机中系统host only network设置</a></li>
+<li><p><a href="http://christophermaier.name/2010/09/01/host-only-networking-with-virtualbox/" target="_blank" rel="external">Host-Only Networking with VirtualBox</a></p>
+</li>
+<li><p>可以在 virtualbox 的网络配置中，编辑对应的 host-only 网络，就能看到宿主机被分配的 ip 地址了</p>
+</li>
+<li>一定要注意不要选错配置：（</li>
+</ul>
 
       
     </div>
@@ -536,7 +544,7 @@ dr-xr-xr-x. 2 root root     4096 4月  28 23:35 OS2
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -593,7 +601,7 @@ dr-xr-xr-x. 2 root root     4096 4月  28 23:35 OS2
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VM-网卡混杂模式是什么意思"><span class="nav-number">3.</span> <span class="nav-text">VM 网卡混杂模式是什么意思</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">设置共享文件夹</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-NAT-network"><span class="nav-number">1.</span> <span class="nav-text">配置 NAT network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAT-网络模式下，HOST-ssh-to-VM"><span class="nav-number">2.</span> <span class="nav-text">NAT 网络模式下，HOST ssh to VM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VM-网卡混杂模式是什么意思"><span class="nav-number">3.</span> <span class="nav-text">VM 网卡混杂模式是什么意思</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">设置共享文件夹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-host-to-vm"><span class="nav-number">5.</span> <span class="nav-text">配置 host to vm</span></a></li></ol></div>
             
 
           </div>
