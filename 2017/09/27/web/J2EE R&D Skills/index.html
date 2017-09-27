@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hibernate," />
+  <meta name="keywords" content="toutoudnf,blog" />
 
 
 
@@ -87,37 +87,16 @@
 
 
 
-<meta name="description" content="Preface
-在使用hibernate的时候，因为错误的cascade和inverse的配置，对save，update，delete coding产生了一些不必要的异常，浪费时间去debug，打包测试发版等
-做了一些基本测试，总结如下
-cascade的原理，使用，以及可能的坑
-inverse使用，以及如何配合cascade
-
-
-github上有个hibernate.demo project可做测">
+<meta name="description" content="结合自己面试的一些经验和想法，整理了一个 J2EE 攻城狮应当具备的基本技术栈，也是在持续更新ing。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hibernate-cascade-and-inverse-usage">
-<meta property="og:url" content="http://yoursite.com/2016/06/26/web/hibernate-cascade-and-inverse-usage/index.html">
+<meta property="og:title" content="J2EE R&D Skills">
+<meta property="og:url" content="http://yoursite.com/2017/09/27/web/J2EE R&D Skills/index.html">
 <meta property="og:site_name" content="头头带你飞">
-<meta property="og:description" content="Preface
-在使用hibernate的时候，因为错误的cascade和inverse的配置，对save，update，delete coding产生了一些不必要的异常，浪费时间去debug，打包测试发版等
-做了一些基本测试，总结如下
-cascade的原理，使用，以及可能的坑
-inverse使用，以及如何配合cascade
-
-
-github上有个hibernate.demo project可做测">
-<meta property="og:updated_time" content="2017-04-18T23:13:30.000Z">
+<meta property="og:description" content="结合自己面试的一些经验和想法，整理了一个 J2EE 攻城狮应当具备的基本技术栈，也是在持续更新ing。">
+<meta property="og:updated_time" content="2017-09-27T12:34:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hibernate-cascade-and-inverse-usage">
-<meta name="twitter:description" content="Preface
-在使用hibernate的时候，因为错误的cascade和inverse的配置，对save，update，delete coding产生了一些不必要的异常，浪费时间去debug，打包测试发版等
-做了一些基本测试，总结如下
-cascade的原理，使用，以及可能的坑
-inverse使用，以及如何配合cascade
-
-
-github上有个hibernate.demo project可做测">
+<meta name="twitter:title" content="J2EE R&D Skills">
+<meta name="twitter:description" content="结合自己面试的一些经验和想法，整理了一个 J2EE 攻城狮应当具备的基本技术栈，也是在持续更新ing。">
 
 
 
@@ -145,13 +124,13 @@ github上有个hibernate.demo project可做测">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/06/26/web/hibernate-cascade-and-inverse-usage/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/27/web/J2EE R&D Skills/"/>
 
 
 
 
 
-  <title> hibernate-cascade-and-inverse-usage | 头头带你飞 </title>
+  <title> J2EE R&D Skills | 头头带你飞 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +269,7 @@ github上有个hibernate.demo project可做测">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/26/web/hibernate-cascade-and-inverse-usage/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/27/web/J2EE R&D Skills/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Pazu Lee">
@@ -311,7 +290,7 @@ github上有个hibernate.demo project可做测">
             
             
               
-                hibernate-cascade-and-inverse-usage
+                J2EE R&D Skills
               
             
           </h1>
@@ -326,8 +305,8 @@ github上有个hibernate.demo project可做测">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-26T17:24:00+08:00">
-                2016-06-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-27T00:00:00+08:00">
+                2017-09-27
               </time>
             
 
@@ -384,40 +363,84 @@ github上有个hibernate.demo project可做测">
       
 
       
-        <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><ul>
-<li>在使用hibernate的时候，因为错误的cascade和inverse的配置，对save，update，delete coding产生了一些不必要的异常，浪费时间去debug，打包测试发版等</li>
-<li>做了一些基本测试，总结如下<ul>
-<li>cascade的原理，使用，以及可能的坑</li>
-<li>inverse使用，以及如何配合cascade</li>
+        <p>结合自己面试的一些经验和想法，整理了一个 J2EE 攻城狮应当具备的基本技术栈，也是在持续更新ing。</p>
+<a id="more"></a>
+<h1 id="技能描述"><a href="#技能描述" class="headerlink" title="技能描述"></a>技能描述</h1><p>硬技能：</p>
+<ul>
+<li>Java libs<ul>
+<li>I/O &amp; NIO</li>
+<li>String 等常用类</li>
+<li>java.concurrent.utils</li>
+<li>net，如 socket 相关</li>
+<li>java 中数据结构，如 map，list 等接口的实现类</li>
 </ul>
 </li>
-<li>github上有个hibernate.demo project可做测试原码参考，参见其中com.pazu.hibernate.demo.CascadeTest.java中的测试用例和注释<ul>
-<li>url is :<a href="https://github.com/toutoudnf/hiberate-demo" target="_blank" rel="external">https://github.com/toutoudnf/hiberate-demo</a><h1 id="cascade"><a href="#cascade" class="headerlink" title="cascade"></a>cascade</h1></li>
+<li>JVM<ul>
+<li>JVM 内存结构</li>
+<li>GC，通常是原理和优化</li>
+<li>JMM</li>
+</ul>
+</li>
+<li>web<ul>
+<li>spring 系列</li>
+<li>ORM，mybatis or hibernate</li>
+<li>websocket</li>
+<li>tomcat</li>
+</ul>
+</li>
+<li>数据库 &amp; 缓存<ul>
+<li>redis，memcache or 其他</li>
+<li>MySQL or mariadb，或者 oracle 等其他数据库</li>
+<li>SQL</li>
+</ul>
+</li>
+<li>中间件<ul>
+<li>rabbitmq</li>
+<li>消息通讯<ul>
+<li>RPC</li>
+<li>RESTFul</li>
 </ul>
 </li>
 </ul>
-<h2 id="why-cascade-amp-what-is-cascade"><a href="#why-cascade-amp-what-is-cascade" class="headerlink" title="why cascade &amp; what is cascade"></a>why cascade &amp; what is cascade</h2><ul>
-<li>很简单，在使用hibernate中，如果碰到1-n的关系的对象A&amp;B，在保存的时候，正常应该是有1+n条sql去分别保存这些对象。在hibernate看来这些操作是重复的，so增加了cascade属性去解决类似的重复操作问题</li>
-<li>cascade可以基本理解为，对一个pojo做指定操作时，如果该pojo中存在其他pojo的mapping关系且值<strong>非null</strong>，这个时候就会根据cascade的配置来对关联对象触发相同操作，如save，update or delete</li>
-</ul>
-<h2 id="basic-usage"><a href="#basic-usage" class="headerlink" title="basic usage"></a>basic usage</h2><ul>
-<li>default value is nono</li>
-<li>value contains : none, save-update, delete, all, orphan-delete, 最后一个并不常用</li>
-<li>如果想使用cascade来保存关联关系的话，需要明确<ul>
-<li>one-to-one&amp;one-to-many的情况下（其实本质讲，one-to-one是一个unique的one-to-many，在hibernate看来），决定关联关系是否能保存的关键是fk（在这里不考虑hibernate支持的其他两种关联关系方式，如主键关联）field所在的pojo是否对应值被set，并且该pojo是否被保存了</li>
-<li>而many-to-many mapping中，无论哪一方被set，默认是都会更新关联关系的，这个取决于inverse</li>
+</li>
+<li>基础知识<ul>
+<li>算法<ul>
+<li>排序</li>
+<li>查询</li>
+<li>字符串处理</li>
+<li>图</li>
 </ul>
 </li>
-<li>具体可以参见cascade的test类，在上面提到过的</li>
+<li>linux 使用</li>
+<li>git or 其他版本管理</li>
+<li>操作系统原理</li>
+<li>计算机组成原理</li>
 </ul>
-<h1 id="inverse"><a href="#inverse" class="headerlink" title="inverse"></a>inverse</h1><h2 id="whats-inverse"><a href="#whats-inverse" class="headerlink" title="whats inverse"></a>whats inverse</h2><ul>
-<li>inverse的出现，是解决hibernate在触发cascade的情况下，有些cascade是比较低效的。假设A&amp;B存在关联关系one-to-many，如我想使用A的cascade的save&amp;delete，但在update A的情况下，关联B list会create n条update B的sql，and这些并不是我希望看到的。so 配置inverse可以解决这个问题</li>
+</li>
 </ul>
-<h2 id="usage"><a href="#usage" class="headerlink" title="usage"></a>usage</h2><ul>
-<li>inverse 默认值是false</li>
-<li>只在hibernate mapping的one-to-many &amp; many-to-many collection tag上起作用，如bag，list，set等</li>
+<p>软技能：</p>
+<ul>
+<li>E 文文档阅读</li>
+<li>源码阅读</li>
+<li>抽象、设计</li>
+<li>新语言，框架学习能力</li>
+<li>code review</li>
+<li>团队合作能力</li>
 </ul>
-
+<p>另外需要注意的就是常见的中间件通常会涉及到三个场景的解决方案，如：</p>
+<ul>
+<li>高可用</li>
+<li>高并发</li>
+<li>分布式</li>
+</ul>
+<p>上面是一个大概的题干，可能不全，后续会继续根据自己的经验来进行补充。在分析题干的过程当中，需要记住下面的几个点：</p>
+<ul>
+<li>为什么要掌握这个技能？</li>
+<li>如果我自己实现，怎么做？</li>
+<li>开源 / 行业中有什么解决方案？对比来看的话，优缺点有什么？分别适合什么样的场景？</li>
+</ul>
+<p>如果上面的问题了解、掌握的基本差不多了，那么接下来要做的可能就是从更高的维度去思考，如几种技术综合起来，可以解决什么场景、问题？</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1>
       
     </div>
 
@@ -444,12 +467,6 @@ github上有个hibernate.demo project可做测">
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/hibernate/" rel="tag"># hibernate</a>
-          
-        </div>
-      
 
       
         
@@ -459,8 +476,8 @@ github上有个hibernate.demo project可做测">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/12/pm/maven surefire-plugin 使用心得/" rel="next" title="maven surefire-plugin介绍">
-                <i class="fa fa-chevron-left"></i> maven surefire-plugin介绍
+              <a href="/2017/09/26/gym/gym references/" rel="next" title="健身资料收集">
+                <i class="fa fa-chevron-left"></i> 健身资料收集
               </a>
             
           </div>
@@ -468,10 +485,6 @@ github上有个hibernate.demo project可做测">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/20/openstack/openstack-docs-reference/" rel="prev" title="openstack docs reference">
-                openstack docs reference <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -543,7 +556,7 @@ github上有个hibernate.demo project可做测">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-count">76</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -600,7 +613,7 @@ github上有个hibernate.demo project可做测">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cascade"><span class="nav-number">2.</span> <span class="nav-text">cascade</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#why-cascade-amp-what-is-cascade"><span class="nav-number">2.1.</span> <span class="nav-text">why cascade & what is cascade</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-usage"><span class="nav-number">2.2.</span> <span class="nav-text">basic usage</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#inverse"><span class="nav-number">3.</span> <span class="nav-text">inverse</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#whats-inverse"><span class="nav-number">3.1.</span> <span class="nav-text">whats inverse</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usage"><span class="nav-number">3.2.</span> <span class="nav-text">usage</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#技能描述"><span class="nav-number">1.</span> <span class="nav-text">技能描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
