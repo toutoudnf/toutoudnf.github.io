@@ -1,0 +1,904 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="network," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="今天在测试准备环境的时候，发现一些网络配置问题还处理不好，或者没有整体概念，特整理如下。主要包含：
+
+centOS 6 的网络基础配置
+centOS 7 的网络基础配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础网络配置">
+<meta property="og:url" content="http://yoursite.com/2017/05/16/linux/basic network config for centos/index.html">
+<meta property="og:site_name" content="头头带你飞">
+<meta property="og:description" content="今天在测试准备环境的时候，发现一些网络配置问题还处理不好，或者没有整体概念，特整理如下。主要包含：
+
+centOS 6 的网络基础配置
+centOS 7 的网络基础配置">
+<meta property="og:updated_time" content="2017-06-29T03:08:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基础网络配置">
+<meta name="twitter:description" content="今天在测试准备环境的时候，发现一些网络配置问题还处理不好，或者没有整体概念，特整理如下。主要包含：
+
+centOS 6 的网络基础配置
+centOS 7 的网络基础配置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/16/linux/basic network config for centos/"/>
+
+
+
+
+
+  <title> 基础网络配置 | 头头带你飞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">头头带你飞</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱吃/微胖/喜欢动/是个不错的人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/linux/basic network config for centos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基础网络配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T00:00:00+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天在测试准备环境的时候，发现一些网络配置问题还处理不好，或者没有整体概念，特整理如下。主要包含：</p>
+<ul>
+<li>centOS 6 的网络基础配置</li>
+<li>centOS 7 的网络基础配置</li>
+</ul>
+<a id="more"></a>
+<h1 id="常见的需求"><a href="#常见的需求" class="headerlink" title="常见的需求"></a>常见的需求</h1><p>常见的配置项</p>
+<ul>
+<li>主机名称</li>
+<li>IP<ul>
+<li>动态，依赖于DHCP</li>
+<li>静态，直接配置IP</li>
+</ul>
+</li>
+<li>子网掩码</li>
+<li>网关</li>
+<li>DNS</li>
+<li>防火墙</li>
+</ul>
+<h1 id="centOS-6"><a href="#centOS-6" class="headerlink" title="centOS 6"></a>centOS 6</h1><ul>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-Network_Interfaces.html" target="_blank" rel="external">redhat6 network guide</a><ul>
+<li>redhat6 官方文档，网络部分</li>
+</ul>
+</li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-The_sysconfig_Directory.html" target="_blank" rel="external">redhat6 sysconfig 配置说明</a><ul>
+<li>redhat6 官方文档， <code>sysconfig</code> 相关配置</li>
+</ul>
+</li>
+</ul>
+<h2 id="network主要配置文件"><a href="#network主要配置文件" class="headerlink" title="network主要配置文件"></a>network主要配置文件</h2><ul>
+<li>/etc/hosts<ul>
+<li>配置host name &amp; ip mapping</li>
+<li>需要配置 <code>127.0.0.1</code></li>
+</ul>
+</li>
+<li>/etc/resolv.conf<ul>
+<li>配置 DNS</li>
+</ul>
+</li>
+<li>/etc/sysconfig/network<ul>
+<li>配置 global interface</li>
+</ul>
+</li>
+<li>/etc/sysconfig/network-scripts/ifcfg-interface-name<ul>
+<li>每个 interface 都需要配置</li>
+</ul>
+</li>
+</ul>
+<h2 id="配置基础网络"><a href="#配置基础网络" class="headerlink" title="配置基础网络"></a>配置基础网络</h2><h3 id="主机名称"><a href="#主机名称" class="headerlink" title="主机名称"></a>主机名称</h3><p>修改 <code>/etc/sysconfig/network</code> 文件，如下：</p>
+<pre><code>HOSTNAME=penguin.example.com
+</code></pre><ul>
+<li>修改 network 文件会永久生效</li>
+<li>需要重启网络服务或者重启操作系统</li>
+</ul>
+<p>关于 <code>HOSTNAME</code> 的格式，redhat推荐：</p>
+<ul>
+<li>小写</li>
+<li>满足<strong>fully qualified domain name (FQDN)</strong>，比如<code>host.example.com</code>。</li>
+<li>不使用空格或dots（这个有点儿困惑，FQDN不就要求使用dot么）</li>
+</ul>
+<p>也可以通过修改 <code>/etc/hosts</code> 文件来配置 <code>HOSTNAME</code>，如：</p>
+<pre><code>192.168.1.2 penguin.example.com penguin
+</code></pre><h3 id="IP-amp-子网掩码"><a href="#IP-amp-子网掩码" class="headerlink" title="IP &amp; 子网掩码"></a>IP &amp; 子网掩码</h3><p>IP配置要在具体的网卡的配置文件中配置（文件名形如ifcfg-eth0）</p>
+<p>下面是静态 IP 的配置 demo</p>
+<pre><code>DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+NETMASK=255.255.255.0
+IPADDR=10.0.1.27
+USERCTL=no
+</code></pre><p>下面是基于 DHCP 的 IP 配置</p>
+<pre><code>DEVICE=eth0
+BOOTPROTO=dhcp
+ONBOOT=yes
+</code></pre><p>关于interface config files的详细配置，参考<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-networkscripts-interfaces.html" target="_blank" rel="external">这里</a>。</p>
+<p>配置完成后如何生效？？如何check？？</p>
+<h3 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h3><p>在 <code>/etc/sysconfig/network</code> 中可以配置，如下：</p>
+<pre><code>GATEWAY=192.168.1.1
+</code></pre><p>也可以在 <code>ifcfg-eth0</code> 中配置，如下：</p>
+<pre><code>GATEWAY=192.168.1.1
+</code></pre><p>配置按照 <code>/etc/sysconfig/network</code> <code>ifcfg-eth0</code> 的顺序被加载，最后读取到的 <code>GATEWAY</code> 的值是默认网关。查看默认网关的信息，可以使用：</p>
+<pre><code>route -n
+</code></pre><h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>在 <code>/etc/resolve.conf</code> 中配置，如下：</p>
+<pre><code>nameserver 100.2.22.2
+</code></pre><p>另外 DNS 在 <code>ifcfg-eth0</code> 配置文件中也可以配置，如下：</p>
+<pre><code># where address is a name server address to be placed in /etc/resolv.conf provided that the PEERDNS directive is not set to no.
+DNS{1,2}=address
+</code></pre><p>配置完成后即生效。通过 ping 具体的 HOSTNAME 来验证 DNS 是否生效。</p>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>针对防火墙，一般是某些服务需要特定端口的权限。两种方式：</p>
+<ul>
+<li>开发指定端口的权限</li>
+<li>关闭防火墙服务</li>
+</ul>
+<p>都是通过 <code>iptables</code> 完成的。具体可以参考：</p>
+<ul>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Security_Guide/sect-Security_Guide-IPTables-IPTables_Control_Scripts.html" target="_blank" rel="external">iptables scripts</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Security_Guide/sect-Security_Guide-Command_Options_for_IPTables-IPTables_Parameter_Options.html" target="_blank" rel="external">iptables的参数解释</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Security_Guide/sect-Security_Guide-Command_Options_for_IPTables-IPTables_Match_Options.html" target="_blank" rel="external">iptables 的规则</a></li>
+</ul>
+<h1 id="centOS-7"><a href="#centOS-7" class="headerlink" title="centOS 7"></a>centOS 7</h1><ul>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/" target="_blank" rel="external">redhat7 network guide</a><ul>
+<li>redhat 7 的网络指导手册</li>
+<li>不得不吹比 6 的文档结构层次好，对新手更友好</li>
+</ul>
+</li>
+</ul>
+<p>7 与 6 相比，网络部分的变化还是挺大的。</p>
+<h2 id="配置基础网络-1"><a href="#配置基础网络-1" class="headerlink" title="配置基础网络"></a>配置基础网络</h2><h3 id="主机名称-1"><a href="#主机名称-1" class="headerlink" title="主机名称"></a>主机名称</h3><p>分三种 hostname，分别是：</p>
+<ul>
+<li>static：对应 6 中的 hostname，与 6 中 hostname 类似</li>
+<li>transient：kernel 维护的 hostname，初始化取值自 static，可能被 DHCP 和 mDNS 改变</li>
+<li>pretty：对用户展示用的 UTF8 格式的 hostname</li>
+</ul>
+<p>设置的工具建议使用 <code>hostmanectl</code>，如下：</p>
+<pre><code>hostnamectl set-hostname name
+</code></pre><p>修改完成可以通过：</p>
+<pre><code>hostnamectl status
+</code></pre><p>来进行验证。</p>
+<p>更详细的可以参考文档：</p>
+<ul>
+<li><a href="https://toutoudnf.github.io/2017/06/20/linux/hostname%E4%B8%8Ehosts%E7%9A%84%E5%AD%A6%E4%B9%A0/" target="_blank" rel="external">hostname与hosts的学习</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec_Configuring_Host_Names_Using_hostnamectl.html" target="_blank" rel="external">redhat hostnamectl</a></li>
+</ul>
+<h3 id="IP-amp-子网掩码-1"><a href="#IP-amp-子网掩码-1" class="headerlink" title="IP &amp; 子网掩码"></a>IP &amp; 子网掩码</h3><p><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/ch-Configure_IP_Networking.html" target="_blank" rel="external">redhat IP 配置</a></p>
+<h4 id="直接修改文件"><a href="#直接修改文件" class="headerlink" title="直接修改文件"></a>直接修改文件</h4><p>文件位置是：<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
+<blockquote>
+<p>静态 IP demo</p>
+</blockquote>
+<pre><code>DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+PREFIX=24
+IPADDR=10.0.1.27
+</code></pre><blockquote>
+<p>动态 IP demo</p>
+</blockquote>
+<pre><code>DEVICE=em1
+BOOTPROTO=dhcp
+ONBOOT=yes
+</code></pre><p><code>MAC</code> &amp; <code>HWADDR</code> 是可选的</p>
+<p>另外还可以通过 <code>ip</code> 指令来配置，如：</p>
+<pre><code># ip 命令的格式
+ip addr [ add | del ] address dev ifname
+# ip 的例子
+ip address add 10.0.0.3/24 dev eth0
+</code></pre><h3 id="网关-1"><a href="#网关-1" class="headerlink" title="网关"></a>网关</h3><p>可配置的有两个地方：</p>
+<ul>
+<li>/etc/sysconfig/network <code>GATEWAY</code></li>
+<li>每个 interface 的配置文件中配置的 <code>GATEWAY</code></li>
+</ul>
+<p>最后一个读到的 <code>GATEWAY</code> 值是默认的网关。</p>
+<blockquote>
+<p>NOTE</p>
+<p>在centOS 7 中，/etc/sysconfig/network 不建议使用。</p>
+</blockquote>
+<p>最好的方式是通过 DHCP 获取的 <code>GATEWAY</code>。配置完成后，通过 <code>ip route</code> 来验证网关配置是否正确</p>
+<h3 id="DNS-1"><a href="#DNS-1" class="headerlink" title="DNS"></a>DNS</h3><p>除了跟 centOS 6 相同的修改 <code>resolve.conf</code> 文件之外，也可以直接在 interface 的配置文件中配置，如：</p>
+<pre><code>DNS1=ip-address
+DNS2=ip-address
+</code></pre><p><code>ip-address</code> 是 DNS server 的地址。</p>
+<h3 id="防火墙-1"><a href="#防火墙-1" class="headerlink" title="防火墙"></a>防火墙</h3><p>在centOS 7 中，防火墙建议使用<code>firewalld</code>来管理，如：</p>
+<pre><code>#开启
+systemctl start firewalld
+#关闭
+systemctl stop firewalld
+</code></pre><p>如果在<code>firewalld</code>开启的情况下，增加一条规则：</p>
+<pre><code>#开启https和http
+firewall-cmd --zone=public --add-service http --permanent
+firewall-cmd --zone=public --add-service https --permanent
+firewall-cmd --reload
+# 开启rabbitmq的management的15672
+firewall-cmd --zone=public --add-port 15672/tcp --permanent
+firewall-cmd --reload
+</code></pre><p>更多复杂的管理，参考文章：<a href="https://www.linode.com/docs/security/firewalls/introduction-to-firewalld-on-centos" target="_blank" rel="external">introduce firewalld on centos</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/network/" rel="tag"># network</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/15/linux/segment and net-bridges/" rel="next" title="网段&网桥">
+                <i class="fa fa-chevron-left"></i> 网段&网桥
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/18/database/redis dump learning/" rel="prev" title="dump redis数据">
+                dump redis数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Pazu Lee" />
+          <p class="site-author-name" itemprop="name">Pazu Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description">头头带你飞 toutoudnf 技术博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见的需求"><span class="nav-number">1.</span> <span class="nav-text">常见的需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#centOS-6"><span class="nav-number">2.</span> <span class="nav-text">centOS 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#network主要配置文件"><span class="nav-number">2.1.</span> <span class="nav-text">network主要配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置基础网络"><span class="nav-number">2.2.</span> <span class="nav-text">配置基础网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主机名称"><span class="nav-number">2.2.1.</span> <span class="nav-text">主机名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP-amp-子网掩码"><span class="nav-number">2.2.2.</span> <span class="nav-text">IP & 子网掩码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网关"><span class="nav-number">2.2.3.</span> <span class="nav-text">网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">2.2.4.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙"><span class="nav-number">2.2.5.</span> <span class="nav-text">防火墙</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#centOS-7"><span class="nav-number">3.</span> <span class="nav-text">centOS 7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置基础网络-1"><span class="nav-number">3.1.</span> <span class="nav-text">配置基础网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主机名称-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">主机名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP-amp-子网掩码-1"><span class="nav-number">3.1.2.</span> <span class="nav-text">IP & 子网掩码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#直接修改文件"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">直接修改文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网关-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-1"><span class="nav-number">3.1.4.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙-1"><span class="nav-number">3.1.5.</span> <span class="nav-text">防火墙</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pazu Lee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

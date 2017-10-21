@@ -87,75 +87,18 @@
 
 
 
-<meta name="description" content="Git Rebase 相关资料
-简书上的rebase简介
-git rebase –help
-推荐参考
-
-
-rebase git pro 
-推荐参考
-
-
-git pro 重写历史
-其中也涉及到了git rebase
-
-
-
-Rebase能做啥
-不产生新的commit情况下，合并两个branch
-能保持branch log的线性
-但是rebase可能会造成之前的commit历史被更改
-其实本质呢，可以理">
+<meta name="description" content="Git rebase 学习的过程。rebase 是个神器啊 O(∩_∩)O~~">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git rebase">
 <meta property="og:url" content="http://yoursite.com/2016/03/24/git/git-rebase/index.html">
 <meta property="og:site_name" content="头头带你飞">
-<meta property="og:description" content="Git Rebase 相关资料
-简书上的rebase简介
-git rebase –help
-推荐参考
-
-
-rebase git pro 
-推荐参考
-
-
-git pro 重写历史
-其中也涉及到了git rebase
-
-
-
-Rebase能做啥
-不产生新的commit情况下，合并两个branch
-能保持branch log的线性
-但是rebase可能会造成之前的commit历史被更改
-其实本质呢，可以理">
+<meta property="og:description" content="Git rebase 学习的过程。rebase 是个神器啊 O(∩_∩)O~~">
 <meta property="og:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-01.png?dir=0&filepath=git%2Fgit-rebase-01.png&oid=e9a5c0927b96cec87a0f3da8727fd0bdb5778ffd&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
 <meta property="og:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-02.png?dir=0&filepath=git%2Fgit-rebase-02.png&oid=2bfbb93ff8b43d0e3bcd1c60057a782970575d11&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
-<meta property="og:updated_time" content="2017-04-27T14:35:03.000Z">
+<meta property="og:updated_time" content="2017-10-21T12:18:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git rebase">
-<meta name="twitter:description" content="Git Rebase 相关资料
-简书上的rebase简介
-git rebase –help
-推荐参考
-
-
-rebase git pro 
-推荐参考
-
-
-git pro 重写历史
-其中也涉及到了git rebase
-
-
-
-Rebase能做啥
-不产生新的commit情况下，合并两个branch
-能保持branch log的线性
-但是rebase可能会造成之前的commit历史被更改
-其实本质呢，可以理">
+<meta name="twitter:description" content="Git rebase 学习的过程。rebase 是个神器啊 O(∩_∩)O~~">
 <meta name="twitter:image" content="http://git.oschina.net/pazulee/static_resources/raw/master/git/git-rebase-01.png?dir=0&filepath=git%2Fgit-rebase-01.png&oid=e9a5c0927b96cec87a0f3da8727fd0bdb5778ffd&sha=c1d1a57e7427e890dfec7c08bf64632d5ba3f1da">
 
 
@@ -423,7 +366,9 @@ Rebase能做啥
       
 
       
-        <h1 id="Git-Rebase-相关资料"><a href="#Git-Rebase-相关资料" class="headerlink" title="Git Rebase 相关资料"></a>Git Rebase 相关资料</h1><ul>
+        <p>Git rebase 学习的过程。rebase 是个神器啊 O(∩_∩)O~~</p>
+<a id="more"></a> 
+<h1 id="Git-Rebase-相关资料"><a href="#Git-Rebase-相关资料" class="headerlink" title="Git Rebase 相关资料"></a>Git Rebase 相关资料</h1><ul>
 <li><a href="http://www.jianshu.com/p/b4ba77f5d040" target="_blank" rel="external">简书上的rebase简介</a></li>
 <li>git rebase –help<ul>
 <li>推荐参考</li>
@@ -495,9 +440,9 @@ Rebase能做啥
 </li>
 <li><p>并且这些commit之间的order也是可以修改的</p>
 </li>
-<li>then git commit –amend –author “pazu <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#116;&#111;&#117;&#116;&#x6f;&#x75;&#100;&#110;&#x66;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;">&#116;&#111;&#117;&#116;&#x6f;&#x75;&#100;&#110;&#x66;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;</a>“</li>
+<li>then git commit –amend –author “pazu <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x74;&#x6f;&#x75;&#116;&#x6f;&#117;&#x64;&#x6e;&#102;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#x74;&#x6f;&#x75;&#116;&#x6f;&#117;&#x64;&#x6e;&#102;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a>“</li>
 <li>then git rebase –continue</li>
-<li>then do git commit –amend –author “pazu <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x74;&#x6f;&#x75;&#x74;&#111;&#117;&#100;&#110;&#x66;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x74;&#x6f;&#x75;&#x74;&#111;&#117;&#100;&#110;&#x66;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;</a>“ again</li>
+<li>then do git commit –amend –author “pazu <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x74;&#x6f;&#x75;&#116;&#x6f;&#x75;&#x64;&#x6e;&#x66;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#x74;&#x6f;&#x75;&#116;&#x6f;&#x75;&#x64;&#x6e;&#x66;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;</a>“ again</li>
 <li>then git rebase –continue</li>
 <li>then the rebase progress will end</li>
 </ul>
@@ -621,7 +566,7 @@ Rebase能做啥
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">78</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -632,7 +577,7 @@ Rebase能做啥
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -643,7 +588,7 @@ Rebase能做啥
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
