@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="toutoudnf,blog" />
+  <meta name="keywords" content="mac,IDEA," />
 
 
 
@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/13/tools/some thing about IDEA usage on mac/index.html">
 <meta property="og:site_name" content="头头带你飞">
 <meta property="og:description" content="记录了上手 IDEA 中一些资料心得。">
-<meta property="og:updated_time" content="2017-10-20T00:19:27.000Z">
+<meta property="og:updated_time" content="2018-02-07T00:00:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac 上使用 IDEA 的一些心得">
 <meta name="twitter:description" content="记录了上手 IDEA 中一些资料心得。">
@@ -370,6 +370,17 @@
 <li>navigate ==》 call hierarchy：能分析方法的调用链，scope 是本项目</li>
 </ul>
 <p>参考的是该文档：<a href="http://www.cnblogs.com/ghj1976/p/5382455.html" target="_blank" rel="external">IDEA的查询引用、调用关系图的功能</a></p>
+<h2 id="注册licence"><a href="#注册licence" class="headerlink" title="注册licence"></a>注册licence</h2><ul>
+<li><a href="http://blog.csdn.net/mr_ooo/article/details/78721944" target="_blank" rel="external">IDEA license 注册</a></li>
+<li>IDEA Servers<ul>
+<li><a href="http://idea.iteblog.com/key.php" target="_blank" rel="external">http://idea.iteblog.com/key.php</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="idea-hang-在-scan-index-files-没有反应"><a href="#idea-hang-在-scan-index-files-没有反应" class="headerlink" title="idea hang 在 scan index files 没有反应"></a>idea hang 在 scan index files 没有反应</h3><p>通常没有提示的情况下，可能是IDEA本身虚拟机出了问题，所以需要去查看日志文件+VM相关配置。可以参看<a href="https://intellij-support.jetbrains.com/hc/en-us/articles/206544519" target="_blank" rel="external">这里</a></p>
+<p>当时我碰上的一次异常信息就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - Metaspace</div><div class="line">java.lang.OutOfMemoryError: Metaspace</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - IntelliJ IDEA 2017.2.5  Build #IU-172.4343.14</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - JDK: 1.8.0_152-release</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - VM: OpenJDK 64-Bit Server VM</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - Vendor: JetBrains s.r.o</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - OS: Mac OS X</div><div class="line">2018-01-24 14:03:05,029 [1425625]  ERROR - llij.ide.plugins.PluginManager - Last Action:</div><div class="line">2018-01-24 14:03:06,962 [1427558]  ERROR - llij.ide.plugins.PluginManager - Metaspace</div><div class="line">java.lang.OutOfMemoryError: Metaspace</div><div class="line">2018-01-24 14:03:08,225 [1428821]  ERROR - llij.ide.plugins.PluginManager - IntelliJ IDEA 2017.2.5  Build #IU-172.4343.14</div><div class="line">2018-01-24 14:03:08,226 [1428822]  ERROR - llij.ide.plugins.PluginManager - JDK: 1.8.0_152-release</div><div class="line">2018-01-24 14:03:08,226 [1428822]  ERROR - llij.ide.plugins.PluginManager - VM: OpenJDK 64-Bit Server VM</div><div class="line">2018-01-24 14:03:08,226 [1428822]  ERROR - llij.ide.plugins.PluginManager - Vendor: JetBrains s.r.o</div><div class="line">2018-01-24 14:03:08,226 [1428822]  ERROR - llij.ide.plugins.PluginManager - OS: Mac OS X</div><div class="line">2018-01-24 14:03:08,226 [1428822]  ERROR - llij.ide.plugins.PluginManager - Last Action:</div><div class="line">2018-01-24 14:03:07,642 [1428238]   INFO - .server.BuildMessageDispatcher - Metaspace</div><div class="line">java.lang.OutOfMemoryError: Metaspace</div></pre></td></tr></table></figure>
+<p>调整了 metadata大小就ok了</p>
 
       
     </div>
@@ -397,6 +408,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/mac/" rel="tag"># mac</a>
+          
+            <a href="/tags/IDEA/" rel="tag"># IDEA</a>
+          
+        </div>
+      
 
       
         
@@ -415,6 +434,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/pm/maven snapshot and metadata/" rel="prev" title="聊聊 maven 的 snapshot 和 metadata">
+                聊聊 maven 的 snapshot 和 metadata <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -486,7 +509,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-count">76</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -497,7 +520,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -508,7 +531,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -543,7 +566,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看方法-amp-变量使用"><span class="nav-number">1.</span> <span class="nav-text">查看方法 & 变量使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看方法-amp-变量使用"><span class="nav-number">1.</span> <span class="nav-text">查看方法 & 变量使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册licence"><span class="nav-number">2.</span> <span class="nav-text">注册licence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FAQ"><span class="nav-number">3.</span> <span class="nav-text">FAQ</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#idea-hang-在-scan-index-files-没有反应"><span class="nav-number">3.1.</span> <span class="nav-text">idea hang 在 scan index files 没有反应</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -566,7 +589,7 @@
         <div class="copyright" >
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

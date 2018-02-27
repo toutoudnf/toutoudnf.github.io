@@ -1,0 +1,953 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mysql 慢查询," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇注重实战，主要内容包括：
+
+MySQL 慢查询分析相关资料
+常见的慢查询分析思路
+PROD 遇到的 CASE 积累">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL慢查问题">
+<meta property="og:url" content="http://yoursite.com/2017/06/15/database/MySQL slow query analysis/index.html">
+<meta property="og:site_name" content="头头带你飞">
+<meta property="og:description" content="这篇注重实战，主要内容包括：
+
+MySQL 慢查询分析相关资料
+常见的慢查询分析思路
+PROD 遇到的 CASE 积累">
+<meta property="og:updated_time" content="2018-02-07T00:00:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL慢查问题">
+<meta name="twitter:description" content="这篇注重实战，主要内容包括：
+
+MySQL 慢查询分析相关资料
+常见的慢查询分析思路
+PROD 遇到的 CASE 积累">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/15/database/MySQL slow query analysis/"/>
+
+
+
+
+
+  <title> MySQL慢查问题 | 头头带你飞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">头头带你飞</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱吃/微胖/喜欢动/是个不错的人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/15/database/MySQL slow query analysis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pazu Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="头头带你飞">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL慢查问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T00:00:00+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/database/" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇注重实战，主要内容包括：</p>
+<ul>
+<li>MySQL 慢查询分析相关资料</li>
+<li>常见的慢查询分析思路</li>
+<li>PROD 遇到的 CASE 积累</li>
+</ul>
+<a id="more"></a>
+<h1 id="EXPLAIN-常见资料"><a href="#EXPLAIN-常见资料" class="headerlink" title="EXPLAIN 常见资料"></a>EXPLAIN 常见资料</h1><ul>
+<li>官方文档系列<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/explain-output.html" target="_blank" rel="external">Explain output</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/explain.html#explain-execution-plan" target="_blank" rel="external">EXPLAIN syntax</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/explain-extended.html" target="_blank" rel="external">EXPLAIN EXTENDED output</a></li>
+<li>优化器相关<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/index-hints.html" target="_blank" rel="external">指定索引</a></li>
+</ul>
+</li>
+<li>写好查询的一些建议<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/select-optimization.html" target="_blank" rel="external">SELECT 语句优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="http://www.huanlinna.com/2016/08/03/coding/mysql-slow-log-configure.html" target="_blank" rel="external">慢查询相关的配置</a></li>
+<li>介绍索引</li>
+<li>常见的工具<ul>
+<li>pt-slowlog:比MySQL官方的慢查询信息要丰富，详情可以<a href="https://www.percona.com/doc/percona-server/5.5/diagnostics/slow_extended_55.html" target="_blank" rel="external">戳这里</a></li>
+</ul>
+</li>
+</ul>
+<p>几个关键点：</p>
+<ul>
+<li>5.7版本开始，支持的 DML 语句类型更多了（比如 UPDATE 什么的）</li>
+<li>EXPLAIN EXTENDED 只有 SELECT 才有，5.7 默认开启（即不用显示 <code>EXPLAIN EXTENDED</code>）</li>
+</ul>
+<h1 id="常见的慢查询分析思路"><a href="#常见的慢查询分析思路" class="headerlink" title="常见的慢查询分析思路"></a>常见的慢查询分析思路</h1><p>撸了一些文档+文章后，不总结一些自己的套路，总会存在记不住的感觉。这里总结了</p>
+<h2 id="问题-SQL-的定位"><a href="#问题-SQL-的定位" class="headerlink" title="问题 SQL 的定位"></a>问题 SQL 的定位</h2><p>通常是根据业务场景，设置合理的 <code>long_query_time</code> &amp; <code>slow_query_log=ON</code> 来发现慢查询。当然有一些工具来分析，上面有提及。通常在筛选慢查询的时候，考虑：</p>
+<ul>
+<li>order by 慢查询次数，选取 top xx</li>
+<li>order by 慢查询 avg time，选取 top xx</li>
+<li>order by tp95 慢查询，选取 top xx</li>
+</ul>
+<h2 id="EXPLAIN-分析具体语句"><a href="#EXPLAIN-分析具体语句" class="headerlink" title="EXPLAIN 分析具体语句"></a>EXPLAIN 分析具体语句</h2><p>问题到了这里通常是已经定位了具体的 SQL，然后需要分析原因了。常见的问题一般是：</p>
+<ul>
+<li>没有用到预期的索引<ul>
+<li>没有用索引</li>
+<li>优化器选择了错误索引</li>
+<li>索引没有实现覆盖索引</li>
+</ul>
+</li>
+<li>扫描的行数过多</li>
+<li>查询没什么问题，IO 有问题</li>
+<li>返回无用列，且无用列有明显 IO 性能开销（比如TEXT or BLOB or JSON 之类的）</li>
+</ul>
+<h3 id="索引分析"><a href="#索引分析" class="headerlink" title="索引分析"></a>索引分析</h3><p>使用了哪个索引，以及使用了索引的哪一部分：</p>
+<ul>
+<li>通常看 <code>possible_keys</code> 以及 <code>key</code> 两个字段</li>
+<li><code>possible_keys</code> 的内容取决于 <code>where</code> 语句 + <code>EXPLAIN TABLE</code> 的结果，即 <code>where</code> 会用到哪些 <code>EXPLAIN TABLE</code> 中能看到的索引</li>
+<li>TODO:补充下possible_keys选择index的条件</li>
+<li><code>key</code> 表示 MySQL 存储引擎实际选择的索引。这个索引可能不是 <code>possible_keys</code> 中列出来的</li>
+<li><code>key_len</code> 表示实际使用的索引的长度，通常能根据这个字段 + <code>key</code> 来判断用了 <code>key</code> 的哪几个字段</li>
+</ul>
+<p>当前表的关联方式，也对查询性能影响较大。对应的在 EXPLAIN 结果中，有个 <code>type</code> 字段来参考关联方式。通常问题 SQL 中会出现 <code>type=ALL</code> 或者 <code>type=index</code> 的情况，即全表扫描。下面列举了下 <code>type</code> 的可能值，按照性能从好到差来排序。</p>
+<ul>
+<li>system &amp; const: 表示你条件可以被转换为常数列（即能通过条件确定唯一值），比如<ul>
+<li>只有一行记录的系统表：system</li>
+<li>where 条件是 pk or unique key 的唯一值，例如 <code>a=1 &amp; a is pk or uk</code></li>
+</ul>
+</li>
+<li>eq_ref &amp; ref &amp; ref_or_null<ul>
+<li>eq_ref：previous table 的内容能在当前 table 唯一确认一列</li>
+<li>ref：用了索引，但是做不到 eq_ref 那么好，就是 ref</li>
+<li>ref_or_null：等价 ref，比 ref 多比较了一个 null 的情况</li>
+</ul>
+</li>
+<li>fulltext：使用了 <code>FULLTEXT</code> 索引</li>
+<li>index_merge<ul>
+<li>采用了多个索引，此时 <code>key</code> 列会展示用到的具体索引</li>
+</ul>
+</li>
+<li>unique_subquery &amp; index_subquery<ul>
+<li>针对 IN 类型的 subquery 优化</li>
+</ul>
+</li>
+<li>range<ul>
+<li>用了索引，判断采用范围读取的方式比较好</li>
+<li>通常会出现在范围类型的 operator &amp; 当前索引中用到的列，其区分度比较小的情况</li>
+<li><code>range</code> 对 column 相关 operator 是有要求的，支持的有：<code>=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, or IN()</code></li>
+</ul>
+</li>
+<li>index &amp; all<ul>
+<li>都是全表扫描，区别是用非主键还是主键</li>
+<li>要注意的是，不同索引的扫描，数据的返回顺序是不一样的</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>关于 eq_ref &amp; ref 的理解，其实是 MySQL 在拿到 previous 表的数据，要处理本表的时候，想偷懒。那什么情况能偷懒呢？当本表的关联字段能用到 uk or pk 的时候，MySQL 知道比一次就 ok了。如果没法确认唯一值，则用的就是ref。ref_or_null 是 ref 的一个特殊情况，针对可空的列的比较。</p>
+</blockquote>
+<h3 id="IO-分析"><a href="#IO-分析" class="headerlink" title="IO 分析"></a>IO 分析</h3><p>通常可以通过 <code>EXPLAIN</code> 给出的行数预估来分析大概的 IO 开销，具体的字段有</p>
+<ul>
+<li>rows<ul>
+<li>MySQL 认为执行当前查询需要遍历的行数</li>
+<li>在 innodb 中，这是个估计值；TODO 补充下 why</li>
+</ul>
+</li>
+<li>filter：表示实际有效的rows / MySQL scan 的 rows，这个值在 1-100 之间，一般越大越好<ul>
+<li><a href="https://dba.stackexchange.com/questions/164251/what-is-the-meaning-of-filtered-in-mysql-explain" target="_blank" rel="external">stackoverflow:filter means</a></li>
+<li>严格意义上 <code>filter</code> 代表的内容实际已经在 IO 发生之后，但是 <code>filter</code> 参数可以体现你的查询中无效 IO 的占比</li>
+</ul>
+</li>
+</ul>
+<h2 id="pt-slow-query-一些参数"><a href="#pt-slow-query-一些参数" class="headerlink" title="pt-slow-query 一些参数"></a>pt-slow-query 一些参数</h2><p>除了通过 <code>EXPLAIN</code> 来分析 MySQL 执行语句的行为之外，还可以通过一些额外的参数来分析。<code>percona</code> 在代码中进行了埋点，可以对慢查询进行监测。常见的指标解释如下：</p>
+<ul>
+<li>Query_time：查询时间</li>
+<li>Lock_time：锁时间 TODO 持有锁吧？</li>
+<li>Rows_sent：实际返回的 row 数量</li>
+<li>Rows_examined：实际读取的 row 数量</li>
+<li>Rows_affected：查询影响的行数量（UPDATE 类似的）</li>
+<li>Bytes_sent：Rows_sent * query row size</li>
+<li>Tmp_tables：查询中，在内存中创建的临时表数量</li>
+<li>Tmp_disk_tables：查询中，在 disk 上创建的临时表数量</li>
+<li>Tmp_table_sizes：查询用到的临时表（mem+disk）总大小</li>
+<li>QC_Hit：缓存命中</li>
+<li>Full_scan：是否全表扫描</li>
+<li>Full_join：是否 join without index</li>
+<li>Tmp_table：是否用到临时表；yes or no</li>
+<li>Tmp_table_on_disk：查询是否创建 disk 临时表；yes or no</li>
+<li>Filesort：查询是否用到的 filesort；yes or no</li>
+<li>Filesort_on_disk：查询是否用到 disk filesort ；yes or no</li>
+<li>Merge_passes：TODO 暂时不知道</li>
+<li>InnoDB_IO_r_ops：当前查询 read page 操作的次数（一个估计值）</li>
+<li>InnoDB_IO_r_bytes：read page * page size</li>
+<li>InnoDB_IO_r_wait：查询花费在 io 设备上等待上的时间</li>
+<li>InnoDB_rec_lock_wait：查询花费在等待 row lock 的时间； TODO table lock 呢？</li>
+<li>InnoDB_queue_wait：当前查询等待被调度的时间；TODO 看看是不是跟 cpu 有关呢</li>
+<li>InnoDB_pages_distinct：统计本次查询 read page 去重后的数量<ul>
+<li>这个是依赖于一个 hash_array 去计算的，比 InnoDB_IO_r_ops 还不准</li>
+<li>btw，数越大越不准</li>
+</ul>
+</li>
+</ul>
+<p>通常分析的时候，会考虑：</p>
+<ul>
+<li>看看有没有问题项，比如：Full_scan，Full_join，Tmp_table，Tmp_table_on_disk</li>
+<li>看看查询的 IO 开销，如：InnoDB_IO_r_wait，InnoDB_IO_r_ops，</li>
+<li>看看是不是锁导致的：InnoDB_IO_lock_wait</li>
+<li>看看是不是 cpu 负载高导致的：InnoDB_queue_wait</li>
+</ul>
+<p>官方文档<a href="https://www.percona.com/doc/percona-server/5.7/diagnostics/slow_extended.html#" target="_blank" rel="external">在这里</a>。</p>
+<p>需要注意的是，<code>log_slow_verbosity</code> 这个参数对具体输出的内容影响还是比较大的。这个参数介绍如下：</p>
+<ul>
+<li>能指定 slow log 中到底输出什么玩意儿</li>
+<li>可配置的内容有：<ul>
+<li>microtime：是否用微秒计算查询</li>
+<li>query_plan：是否输出 EXPLAIN 的内容</li>
+<li>innodb：是否输出 innodb 的一些静态参数</li>
+<li>minimal：等价于 microtime</li>
+<li>standard：等价于 microtime,innodb</li>
+<li>full：等价于 microtime, query_plan, innodb</li>
+<li>profiling：开启性能剖析</li>
+<li>profiling_use_getrusage：开启高级性能分析</li>
+</ul>
+</li>
+</ul>
+<p>通常我们的配置是 full</p>
+<p>另外一些相关的参数有：</p>
+<ul>
+<li>log_slow_filter：慢查询采样的方式，query 级别或者 session 级别；</li>
+<li>log_slow_rate_limit：采样的比率，1-100，默认是1，记录全量；跟上面的参数结合使用</li>
+<li>log_slow_sp_statements：是不是记录 stored procedures 的慢日志</li>
+<li>slow_query_log_use_global_control：慢查询的参数是用全局的还是local的啊</li>
+<li>slow_query_log_always_write_time：定义了日志在查询结束后多久开始写</li>
+</ul>
+<blockquote>
+<p>通常是记录 query 级别的慢查询，并且记录全量的。</p>
+</blockquote>
+<h2 id="MySQL-INFORMATION-SCHEMA"><a href="#MySQL-INFORMATION-SCHEMA" class="headerlink" title="MySQL INFORMATION_SCHEMA"></a>MySQL INFORMATION_SCHEMA</h2><p>TODO：待补充</p>
+<h2 id="优化成本与收益的评估"><a href="#优化成本与收益的评估" class="headerlink" title="优化成本与收益的评估"></a>优化成本与收益的评估</h2><h1 id="CASE-分析"><a href="#CASE-分析" class="headerlink" title="CASE 分析"></a>CASE 分析</h1><p>这里整理了一些典型的 CASE 进行分析</p>
+<h2 id="大查询"><a href="#大查询" class="headerlink" title="大查询"></a>大查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span>,data_category_ids,data_label_ids,dp_recommend_count <span class="keyword">from</span> wm_sku_data_77 <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="number">453338068</span>,<span class="number">470040215</span>,<span class="number">462609978</span>,<span class="number">443988226</span>,<span class="number">449445332</span>,<span class="number">444039920</span>,<span class="number">441522846</span>,<span class="number">448273400</span>,<span class="number">446023844</span>,<span class="number">451334931</span>,<span class="number">446036497</span>,<span class="number">448221618</span>,<span class="number">453308830</span>,<span class="number">453324980</span>,<span class="number">451146363</span>,<span class="number">451253253</span>,<span class="number">752467558</span>,<span class="number">444092352</span>,<span class="number">444059744</span>,<span class="number">446115229</span>,<span class="number">443991718</span>,<span class="number">451479971</span>,<span class="number">451336327</span>,<span class="number">457061195</span>,<span class="number">448209283</span>,<span class="number">451488817</span>,<span class="number">457306327</span>,<span class="number">453311209</span>,<span class="number">453307698</span>,<span class="number">472568521</span>,<span class="number">453306264</span>,<span class="number">451349146</span>,<span class="number">451396846</span>,<span class="number">465518943</span>,<span class="number">462602036</span>,<span class="number">465518530</span>,<span class="number">453732809</span>,<span class="number">457370608</span>,<span class="number">457260589</span>,<span class="number">446408606</span>,<span class="number">457087110</span>,<span class="number">465516595</span>,<span class="number">465523250</span>,<span class="number">752463867</span>,<span class="number">465521583</span>,<span class="number">470040345</span>,<span class="number">470046660</span>,<span class="number">396914098</span>,<span class="number">396932006</span>,<span class="number">396925153</span>,<span class="number">396932594</span>,<span class="number">396865450</span>,<span class="number">397788893</span>,<span class="number">397770968</span>,<span class="number">342933317</span>,<span class="number">342907935</span>,<span class="number">550628938</span>,<span class="number">349016246</span>,<span class="number">426859626</span>,<span class="number">733075648</span>,<span class="number">426838494</span>,<span class="number">733072381</span>,<span class="number">370243127</span>,<span class="number">375444814</span>,<span class="number">370247367</span>,<span class="number">375445246</span>,<span class="number">385490281</span>,<span class="number">396853993</span>,<span class="number">385001785</span>,<span class="number">385100302</span>,<span class="number">389366696</span>,<span class="number">384173302</span>,<span class="number">384171927</span>,<span class="number">577517305</span>,<span class="number">385001578</span>,<span class="number">385089883</span>,<span class="number">369935009</span>,<span class="number">393683221</span>,<span class="number">383992294</span>,<span class="number">384175978</span>,<span class="number">388449371</span>,<span class="number">396857432</span>,<span class="number">342943506</span>,<span class="number">367673119</span>,<span class="number">346872752</span>,<span class="number">557216905</span>,<span class="number">344594896</span>,<span class="number">344647818</span>,<span class="number">349542729</span>,<span class="number">353208870</span>,<span class="number">353295610</span>,<span class="number">346862831</span>,<span class="number">344655564</span>,<span class="number">345805418</span>,<span class="number">350833408</span>,<span class="number">344531106</span>,<span class="number">367757317</span>,<span class="number">370123141</span>,<span class="number">370118543</span>,<span class="number">370118764</span>,<span class="number">370225469</span>,<span class="number">370147186</span>,<span class="number">384182382</span>,<span class="number">370243117</span>,<span class="number">370123008</span>,<span class="number">371166489</span>,<span class="number">357023164</span>,<span class="number">557540192</span>,<span class="number">565730412</span>,<span class="number">371166358</span>,<span class="number">372833669</span>,<span class="number">371166668</span>,<span class="number">442817126</span>,<span class="number">433833918</span>,<span class="number">444010093</span>,<span class="number">446400682</span>,<span class="number">446075050</span>,<span class="number">441339532</span>,<span class="number">441623285</span>,<span class="number">444044685</span>,<span class="number">444614371</span>,<span class="number">446033485</span>,<span class="number">441624289</span>,<span class="number">446138871</span>,<span class="number">444129095</span>,<span class="number">444000781</span>,<span class="number">442822030</span>,<span class="number">441632171</span>,<span class="number">426839258</span>,<span class="number">396913606</span>,<span class="number">446348274</span>,<span class="number">448269241</span>,<span class="number">453335432</span>,<span class="number">453311435</span>,<span class="number">448223235</span>,<span class="number">449448239</span>,<span class="number">449786170</span>,<span class="number">451339224</span>,<span class="number">451245089</span>,<span class="number">444027520</span>,<span class="number">446038886</span>,<span class="number">446104020</span>,<span class="number">448225326</span>,<span class="number">448276467</span>,<span class="number">448278364</span>,<span class="number">442810294</span>,<span class="number">448274491</span>,<span class="number">446004703</span>,<span class="number">444008583</span>,<span class="number">451330241</span>,<span class="number">453298435</span>,<span class="number">443995163</span>,<span class="number">442812510</span>,<span class="number">451239721</span>,<span class="number">448267718</span>,<span class="number">448204597</span>,<span class="number">441527000</span>,<span class="number">444053700</span>,<span class="number">457389132</span>,<span class="number">457227319</span>,<span class="number">449779633</span>,<span class="number">453420889</span>,<span class="number">444078482</span>,<span class="number">441553493</span>,<span class="number">730765296</span>,<span class="number">465521654</span>,<span class="number">472473929</span>,<span class="number">346858805</span>,<span class="number">305474344</span>,<span class="number">306348494</span>,<span class="number">316366040</span>,<span class="number">306035164</span>,<span class="number">305477009</span>,<span class="number">315838581</span>,<span class="number">496124310</span>,<span class="number">304768303</span>,<span class="number">304151357</span>,<span class="number">310495933</span>,<span class="number">496451096</span>,<span class="number">317906177</span>,<span class="number">496113183</span>,<span class="number">320687938</span>,<span class="number">306128322</span>,<span class="number">317871537</span>,<span class="number">320685881</span>,<span class="number">315734848</span>,<span class="number">317550768</span>,<span class="number">315655506</span>,<span class="number">318010473</span>,<span class="number">315641833</span>,<span class="number">315731800</span>,<span class="number">306072762</span>,<span class="number">315351409</span>,<span class="number">316919614</span>,<span class="number">315617709</span>,<span class="number">317871114</span>,<span class="number">318485289</span>,<span class="number">304796226</span>,<span class="number">305476626</span>,<span class="number">316897891</span>,<span class="number">321490300</span>,<span class="number">316915753</span>,<span class="number">316882157</span>,<span class="number">316885257</span>,<span class="number">323513050</span>,<span class="number">314485345</span>,<span class="number">306346235</span>,<span class="number">315739699</span>,<span class="number">315825599</span>,<span class="number">316449162</span>,<span class="number">304757142</span>,<span class="number">308094235</span>,<span class="number">322730753</span>,<span class="number">509606233</span>,<span class="number">315345926</span>,<span class="number">316900825</span>,<span class="number">335728618</span>,<span class="number">303613078</span>,<span class="number">306189144</span>,<span class="number">317586304</span>,<span class="number">305752089</span>,<span class="number">305586050</span>,<span class="number">495748004</span>,<span class="number">315602827</span>,<span class="number">496117654</span>,<span class="number">318253082</span>,<span class="number">318492808</span>,<span class="number">318489088</span>,<span class="number">316913427</span>,<span class="number">315735084</span>,<span class="number">316909605</span>,<span class="number">496126096</span>,<span class="number">306077279</span>,<span class="number">312596756</span>,<span class="number">320689788</span>,<span class="number">305579322</span>,<span class="number">305476063</span>,<span class="number">320581651</span>,<span class="number">318484787</span>,<span class="number">315284773</span>,<span class="number">317480018</span>,<span class="number">304104345</span>,<span class="number">316464073</span>,<span class="number">315618156</span>,<span class="number">314433486</span>,<span class="number">315522324</span>,<span class="number">495003159</span>,<span class="number">315603736</span>,<span class="number">315617936</span>,<span class="number">317552666</span>,<span class="number">316885124</span>,<span class="number">316330244</span>,<span class="number">315839883</span>,<span class="number">315656239</span>,<span class="number">316395000</span>,<span class="number">509118327</span>,<span class="number">316410043</span>,<span class="number">316902100</span>,<span class="number">316922400</span>,<span class="number">305656921</span>,<span class="number">321683873</span>,<span class="number">495820915</span>,<span class="number">306338224</span>,<span class="number">496101268</span>,<span class="number">496123768</span>,<span class="number">396931562</span>,<span class="number">315842658</span>,<span class="number">305572693</span>,<span class="number">306029033</span>,<span class="number">308214256</span>,<span class="number">314431381</span>,<span class="number">495639160</span>,<span class="number">308515874</span>,<span class="number">303613079</span>,<span class="number">497074967</span>,<span class="number">318491008</span>,<span class="number">316906180</span>,<span class="number">320687504</span>,<span class="number">316900546</span>,<span class="number">496165447</span>,<span class="number">316403419</span>,<span class="number">305237941</span>,<span class="number">304147503</span>,<span class="number">317495181</span>,<span class="number">318280131</span>,<span class="number">315627437</span>,<span class="number">305472972</span>,<span class="number">305474672</span>,<span class="number">318253634</span>,<span class="number">322735938</span>,<span class="number">316910518</span>,<span class="number">320440119</span>,<span class="number">315655723</span>,<span class="number">315601317</span>,<span class="number">322715696</span>,<span class="number">316920873</span>,<span class="number">308099207</span>,<span class="number">316396056</span>,<span class="number">316883517</span>,<span class="number">317432506</span>,<span class="number">305571862</span>,<span class="number">310293313</span>,<span class="number">315720564</span>,<span class="number">315735264</span>,<span class="number">318209356</span>,<span class="number">496110809</span>,<span class="number">316883036</span>,<span class="number">306336112</span>,<span class="number">496108598</span>,<span class="number">496262859</span>,<span class="number">315745297</span>,<span class="number">506891239</span>,<span class="number">317902089</span>,<span class="number">325845477</span>,<span class="number">309266662</span>,<span class="number">317636609</span>,<span class="number">314484872</span>,<span class="number">316385360</span>,<span class="number">314600953</span>,<span class="number">314624013</span>,<span class="number">315862379</span>,<span class="number">316447591</span>,<span class="number">320633359</span>,<span class="number">318223407</span>,<span class="number">320662910</span>,<span class="number">335741440</span>,<span class="number">314615862</span>,<span class="number">320512079</span>,<span class="number">315861595</span>,<span class="number">317666120</span>,<span class="number">317614202</span>,<span class="number">314615975</span>,<span class="number">317662465</span>,<span class="number">316411175</span>,<span class="number">315644426</span>,<span class="number">472501604</span>,<span class="number">306431965</span>,<span class="number">321506417</span>,<span class="number">306489315</span>,<span class="number">321682486</span>,<span class="number">320686843</span>,<span class="number">315624607</span>,<span class="number">315852063</span>,<span class="number">321679143</span>,<span class="number">318246641</span>,<span class="number">318253691</span>,<span class="number">329726337</span>,<span class="number">323456047</span>,<span class="number">320687591</span>,<span class="number">316884945</span>,<span class="number">323451360</span>,<span class="number">315862002</span>,<span class="number">316852349</span>,<span class="number">317617612</span>,<span class="number">322910313</span>,<span class="number">318280512</span>,<span class="number">321688295</span>,<span class="number">325847053</span>,<span class="number">320687149</span>,<span class="number">305129243</span>,<span class="number">369919438</span>,<span class="number">314431327</span>,<span class="number">497082768</span>,<span class="number">317627490</span>,<span class="number">315722031</span>,<span class="number">496128160</span>,<span class="number">317679888</span>,<span class="number">318281281</span>,<span class="number">304792453</span>,<span class="number">305766753</span>,<span class="number">320652646</span>,<span class="number">306337957</span>,<span class="number">321457101</span>,<span class="number">507009685</span>,<span class="number">321501455</span>,<span class="number">308163813</span>,<span class="number">315284774</span>,<span class="number">305622945</span>,<span class="number">304693120</span>,<span class="number">315619344</span>,<span class="number">305478070</span>,<span class="number">318220166</span>,<span class="number">315586393</span>,<span class="number">306108020</span>,<span class="number">316901286</span>,<span class="number">496224759</span>,<span class="number">496127098</span>,<span class="number">320440073</span>,<span class="number">506889526</span>,<span class="number">317909450</span>,<span class="number">321505823</span>,<span class="number">314433410</span>,<span class="number">305474265</span>,<span class="number">305286089</span>,<span class="number">306169694</span>,<span class="number">305308093</span>,<span class="number">304159409</span>,<span class="number">306184983</span>,<span class="number">306185433</span>,<span class="number">316858890</span>,<span class="number">314517531</span>,<span class="number">496110967</span>,<span class="number">316901782</span>,<span class="number">305657209</span>,<span class="number">316903738</span>,<span class="number">317590101</span>,<span class="number">495650696</span>,<span class="number">304074403</span>,<span class="number">317633881</span>,<span class="number">315647584</span>,<span class="number">316902255</span>,<span class="number">306080210</span>,<span class="number">306433360</span>,<span class="number">496468946</span>,<span class="number">496120833</span>,<span class="number">320658101</span>,<span class="number">314600467</span>,<span class="number">506888893</span>,<span class="number">494963209</span>,<span class="number">320648237</span>,<span class="number">317549666</span>,<span class="number">315624083</span>,<span class="number">317709617</span>,<span class="number">317705566</span>,<span class="number">318496456</span>,<span class="number">304091871</span>,<span class="number">304194421</span>,<span class="number">316879750</span>,<span class="number">496453998</span>,<span class="number">317622036</span>,<span class="number">304702775</span>,<span class="number">305624715</span>,<span class="number">531006970</span>,<span class="number">323510778</span>,<span class="number">349519173</span>,<span class="number">444615762</span>,<span class="number">541286469</span>,<span class="number">536563313</span>,<span class="number">541291275</span>,<span class="number">541283179</span>,<span class="number">541291403</span>,<span class="number">534201763</span>,<span class="number">535164302</span>,<span class="number">541287477</span>,<span class="number">538615670</span>,<span class="number">541286964</span>,<span class="number">546801524</span>,<span class="number">370125311</span>,<span class="number">548272873</span>,<span class="number">551131423</span>,<span class="number">548323411</span>,<span class="number">752464849</span>,<span class="number">557533671</span>,<span class="number">557195943</span>,<span class="number">557097458</span>,<span class="number">451141542</span>,<span class="number">451221342</span>,<span class="number">546891777</span>,<span class="number">541289283</span>,<span class="number">557657982</span>,<span class="number">555241878</span>,<span class="number">304795278</span>,<span class="number">336907486</span>,<span class="number">337271893</span>,<span class="number">521472620</span>,<span class="number">326910675</span>,<span class="number">521598826</span>,<span class="number">337277929</span>,<span class="number">524426384</span>,<span class="number">548251770</span>,<span class="number">555208884</span>,<span class="number">555158179</span>,<span class="number">555190868</span>,<span class="number">551132246</span>,<span class="number">548548866</span>,<span class="number">451251305</span>,<span class="number">551139314</span>,<span class="number">448205192</span>,<span class="number">557183524</span>,<span class="number">444105755</span>,<span class="number">548355116</span>,<span class="number">544933660</span>,<span class="number">544928946</span>,<span class="number">557152571</span>,<span class="number">546884333</span>,<span class="number">741550977</span>,<span class="number">531192460</span>,<span class="number">448204912</span>,<span class="number">369942401</span>,<span class="number">534192230</span>,<span class="number">541287031</span>,<span class="number">541289223</span>,<span class="number">317446111</span>,<span class="number">317997411</span>,<span class="number">495815105</span>,<span class="number">442871951</span>,<span class="number">600188380</span>,<span class="number">496120788</span>,<span class="number">396932584</span>,<span class="number">396917972</span>)</div></pre></td></tr></table></figure>
+<p>explain </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+-------------+----------------+------------+-------+---------------+---------+---------+-----+------+----------+-------------+</div><div class="line">| id | select_type | table          | partitions | type  | possible_keys | key     | key_len | ref | rows | filtered | Extra       |</div><div class="line">+----+-------------+----------------+------------+-------+---------------+---------+---------+-----+------+----------+-------------+</div><div class="line">| 1  | SIMPLE      | wm_sku_data_77 |            | range | PRIMARY       | PRIMARY | 8       |     | 500  | 100.00   | Using where |</div><div class="line">+----+-------------+----------------+------------+-------+---------------+---------+---------+-----+------+----------+-------------+</div></pre></td></tr></table></figure>
+<p>explain 没有什么问题。继续看慢查询日志，能发现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#查询时间</div><div class="line">Query_time_pct_95：0.1413688224141467</div><div class="line">Query_time_median：0.11715152384010005</div><div class="line">#问题原因</div><div class="line">Rows_sent_pct_95：479.43383964521115	</div><div class="line">Rows_sent_max：1568</div><div class="line">Rows_sent_median：462.34785693624747	</div><div class="line">InnoDB_IO_r_ops_pct_95：268.3401180350262</div><div class="line">InnoDB_IO_r_ops_median：217.77432919967092</div><div class="line">InnoDB_IO_r_bytes_pct_95：4396756.842355549</div><div class="line">InnoDB_IO_r_bytes_median：3575052.773446439</div><div class="line">InnoDB_IO_r_wait_pct_95：0.12995980728473044</div><div class="line">InnoDB_IO_r_wait_median：0.10632934818258488</div><div class="line">Bytes_pct_95：4960.0556819400745</div><div class="line">Bytes_median：4764.844027032568</div><div class="line">InnoDB_pages_distinct_pct_95: 440.89948084152536</div><div class="line">InnoDB_pages_distinct_median: 361.3429844024798</div></pre></td></tr></table></figure>
+<p>问题应该比较明显，花在 IO 上的时间太多；IO 花费高的原因从 InnoDB_pages_distinct 能看出，</p>
+<h2 id="update-demo"><a href="#update-demo" class="headerlink" title="update demo"></a>update demo</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span> wm_sku_data_57 <span class="keyword">set</span> wm_poi_id=<span class="number">1092557</span>,<span class="keyword">name</span>=<span class="string">'???? 1?/???500g'</span>,price=<span class="number">35.9</span>,picture=<span class="string">'http://p0.meituan.net/xianfu/6a7fef040ab5c7ae4d54d2f8b8351d7a158838.jpg'</span>,valid=<span class="number">1</span>,<span class="keyword">status</span>=<span class="number">1</span>,sell_status=<span class="number">0</span>,wm_food_spu_id=<span class="number">498507922</span>,poi_id=<span class="number">82096266</span>,limit_stock=<span class="number">1</span>,stock=<span class="number">0</span>,ori_price=<span class="number">0.0</span>,min_order_count=<span class="number">1</span>,min_order_count_unit=<span class="string">'?'</span>,box_num=<span class="number">0.0</span>,box_price=<span class="number">0.0</span>,tag_id=<span class="string">'57926199'</span>,tag_name=<span class="string">'???????'</span>,label_ids=<span class="string">''</span>,shipping_time_x=<span class="string">'-'</span>,food_id=<span class="number">0</span>,source_food_code=<span class="string">'42223'</span>,upc_code=<span class="string">''</span>,spec=<span class="string">''</span>,description=<span class="string">'????????????'</span>,<span class="keyword">sequence</span>=<span class="number">1</span>,locator_code=<span class="string">''</span>,spu_sequence=<span class="number">1</span>,weight=<span class="number">0</span>,<span class="keyword">scn</span>=<span class="literal">null</span>,hash_code=<span class="string">'1100940DC4957E0272C9D307FE351FF8'</span>,utime=<span class="keyword">unix_timestamp</span>() <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">544647196</span></div></pre></td></tr></table></figure>
+<p>看下 EXPLAIN：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+<span class="comment">----+-------------+----------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></div><div class="line">| id | select_type | table          | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |</div><div class="line">+<span class="comment">----+-------------+----------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></div><div class="line">| 1  | SIMPLE      | wm_sku_data_57 |            | const | PRIMARY       | PRIMARY | 8       | const | 1    | 100.00   |       |</div><div class="line">+<span class="comment">----+-------------+----------------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span></div></pre></td></tr></table></figure>
+<p>慢查询的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Query_time_pct_95: 0.19402465571876754</div><div class="line">Query_time_median: 0.13474452702397088</div></pre></td></tr></table></figure>
+<p>能看到的慢查询中可疑部分就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Bytes_pct_95：742.7619171652906	</div><div class="line">Bytes_median：655.9474754716242</div><div class="line">``` </div><div class="line"></div><div class="line">其他指标都比较正常。看了下慢查询的分布时间，基本与 DB 的写高峰相同。只能猜测是这个原因，同时引入两个问题：</div><div class="line"></div><div class="line">- 写高峰导致某个正常 SQL 变慢，应该从哪个指标能看出来呢？为什么 `InnoDB_IO_r_wait` 指标没有明显的增加？</div><div class="line"></div><div class="line">## 查询返回行太多</div><div class="line"></div><div class="line">```sql</div><div class="line">select id,wm_poi_id,wm_food_spu_id,data_category_ids from wm_sku_data_1 where wm_poi_id = 3677501 and valid = 1</div></pre></td></tr></table></figure>
+<p>explain</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+-------------+---------------+------------+------+---------------+-------------+---------+-------+------+----------+-------------+</div><div class="line">| id | select_type | table         | partitions | type | possible_keys | key         | key_len | ref   | rows | filtered | Extra       |</div><div class="line">+----+-------------+---------------+------------+------+---------------+-------------+---------+-------+------+----------+-------------+</div><div class="line">| 1  | SIMPLE      | wm_sku_data_1 |            | ref  | idx_wmpoiid   | idx_wmpoiid | 8       | const | 3561 | 10.00    | Using where |</div><div class="line">+----+-------------+---------------+------------+------+---------------+-------------+---------+-------+------+----------+-------------+</div></pre></td></tr></table></figure>
+<p>在 EXPLAIN 中就能看到，对应问题是：</p>
+<ul>
+<li>rows 过多，且 filter 比较小</li>
+</ul>
+<p>找其他参数验证下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Rows_sent_pct_95: 1133.9412835303774</div><div class="line">Rows_sent_median: 706.0977712590644</div><div class="line">Rows_examined_pct_95: 1184.5020402948908</div><div class="line">Rows_examined_median: 723.9766940664738</div><div class="line">InnoDB_IO_r_ops_pct_95: 347.23657275260763</div><div class="line">InnoDB_IO_r_bytes_pct_95: 5690091.345744681</div><div class="line">InnoDB_IO_r_wait_pct_95: 0.14782536392437018</div><div class="line">Query_time_pct_95：0.17730173072282304</div><div class="line">InnoDB_pages_distinct_pct_95: 592.4017782008394</div></pre></td></tr></table></figure>
+<p>主要开销确定是由于读取的行数过多导致的，建议增加limit采用分页的方式来完成该查询。</p>
+<h2 id="an-delete-demo"><a href="#an-delete-demo" class="headerlink" title="an delete demo"></a>an delete demo</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">explain</span> <span class="keyword">delete</span> <span class="keyword">from</span> wm_sku_data_0 <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">95661103</span>;</div></pre></td></tr></table></figure>
+<p>对应 EXPLAIN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra</div><div class="line">1	DELETE	wm_sku_data_0	None	range	PRIMARY	PRIMARY	8	const	1	100.0	Using where</div></pre></td></tr></table></figure>
+<p>很有意思，跟之前 INSERT 的 <code>range = ALL</code> 有区别；并且这个 SQL 出现的时间点，跟 DB 的写高峰压力基本差不多，且 <code>InnoDB_IO_r_wait</code> 参数也没有明显的问题。</p>
+<p>TODO：待补充原因</p>
+<h2 id="EXPLAIN-中的错误信息"><a href="#EXPLAIN-中的错误信息" class="headerlink" title="EXPLAIN 中的错误信息"></a>EXPLAIN 中的错误信息</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span>,data_type,sub_data_type,object_type,object_id,<span class="keyword">content</span>,error_des,hash_code,<span class="keyword">num</span>,utime,ctime <span class="keyword">from</span> error_data <span class="keyword">where</span> hash_code=<span class="string">'E811E20343C0150E83873462B8BDC6F7'</span> <span class="keyword">order</span> <span class="keyword">by</span> utime <span class="keyword">limit</span> <span class="number">1</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+-------------+------------+------------+-------+---------------+-----------+---------+-----+------+----------+-------------+</div><div class="line">| id | select_type | table      | partitions | type  | possible_keys | key       | key_len | ref | rows | filtered | Extra       |</div><div class="line">+----+-------------+------------+------------+-------+---------------+-----------+---------+-----+------+----------+-------------+</div><div class="line">| 1  | SIMPLE      | error_data |            | index |               | idx_utime | 8       |     | 1    | 10.00    | Using where |</div><div class="line">+----+-------------+------------+------------+-------+---------------+-----------+---------+-----+------+----------+-------------+</div></pre></td></tr></table></figure>
+<p>table-sql</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`error_data`</span> (</div><div class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'主键自增长'</span>,</div><div class="line">  <span class="string">`data_type`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'数据类型，需加索引，如m2s-sku'</span>,</div><div class="line">  <span class="string">`sub_data_type`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'数据子类型，data_type=m2s时为具体表名，如wm_sku_data_0'</span>,</div><div class="line">  <span class="string">`object_type`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'对象类型'</span>,</div><div class="line">  <span class="string">`object_id`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'对象id'</span>,</div><div class="line">  <span class="string">`content`</span> <span class="built_in">text</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'数据内容，data_type=m2s时为wm_sku_data表的主键集合，json格式，如[1,2]'</span>,</div><div class="line">  <span class="string">`error_des`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'异常描述,如e.getMessage'</span>,</div><div class="line">  <span class="string">`hash_code`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'异常唯一标识码,data_type、sub_data_type、object_type、object_id、content 的MD5值'</span>,</div><div class="line">  <span class="string">`num`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="string">'1'</span> <span class="keyword">COMMENT</span> <span class="string">'异常唯一标识码编码一致，num自增1'</span>,</div><div class="line">  <span class="string">`ctime`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'创建时间，时间戳'</span>,</div><div class="line">  <span class="string">`utime`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'最后修改时间'</span>,</div><div class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</div><div class="line">  <span class="keyword">KEY</span> <span class="string">`idx_data_type_object_type`</span> (<span class="string">`data_type`</span>,<span class="string">`sub_data_type`</span>,<span class="string">`object_type`</span>,<span class="string">`object_id`</span>),</div><div class="line">  <span class="keyword">KEY</span> <span class="string">`idx_utime`</span> (<span class="string">`utime`</span>)</div><div class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">44680</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COMMENT</span>=<span class="string">'错误数据信息'</span></div></pre></td></tr></table></figure>
+<p>查询的慢日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">/*id:c119a791*/select id,data_type,sub_data_type,object_type,object_id,content,error_des,hash_code,num,utime,ctime from error_data where hash_code=&apos;E4E1146C92231B13800CA614EB9ED00B&apos; order by utime limit 1;</div><div class="line"># Time: 2018-02-01T08:48:22.156612+08:00</div><div class="line"># User@Host: cdatacen_efa9_r[cdatacen_efa9_r] @  [10.5.204.197]  Id: 34557804</div><div class="line"># Schema: cdatacenter  Last_errno: 0  Killed: 0</div><div class="line"># Query_time: 0.129067  Lock_time: 0.000097  Rows_sent: 0  Rows_examined: 34894  Rows_affected: 0</div><div class="line"># Bytes_sent: 807  Tmp_tables: 0  Tmp_disk_tables: 0  Tmp_table_sizes: 0</div><div class="line"># QC_Hit: No  Full_scan: Yes  Full_join: No  Tmp_table: No  Tmp_table_on_disk: No</div><div class="line"># Filesort: No  Filesort_on_disk: No  Merge_passes: 0</div><div class="line">#   InnoDB_IO_r_ops: 0  InnoDB_IO_r_bytes: 0  InnoDB_IO_r_wait: 0.000000</div><div class="line">#   InnoDB_rec_lock_wait: 0.000000  InnoDB_queue_wait: 0.000000</div><div class="line">#   InnoDB_pages_distinct: 2678</div></pre></td></tr></table></figure>
+<p>看慢日志可知，基本是一个全表遍历，最后因为没有 match，而没有实际发送数据。更可怕的是<code>InnoDB_pages_distinct</code> 到了 2678！虽然这不是个准确值但是表示读取的 pages 也很多了。按照这个 SQL 去分析，执行计划其实没错，只不过根据 limit 错误的估计了 rows 的数量。一定要通过 HASH 去比较的话，就要增加针对 hashcode 字段的索引。</p>
+<h1 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h1><ul>
+<li><a href="https://dev.mysql.com/worklog/task/?id=4897" target="_blank" rel="external">MySQL 支持 INSERT / UPDATE / DELETE 的 EXPLAIN 查看</a><ul>
+<li>更详细的内容可以在 git log 中搜索 WL#4897</li>
+<li>其中主 commit 为：326cf3e3c455664aa06ca65ffcdfc5d1ed3dff33</li>
+</ul>
+</li>
+<li><a href="http://s.petrunia.net/blog/" target="_blank" rel="external">MariaDB内核开发Sergey Petrunia’s blog</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql-慢查询/" rel="tag"># mysql 慢查询</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/24/web/logs in java web/" rel="next" title="java web logs介绍">
+                <i class="fa fa-chevron-left"></i> java web logs介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/20/linux/hostname and hosts/" rel="prev" title="hostname与hosts的学习">
+                hostname与hosts的学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Pazu Lee" />
+          <p class="site-author-name" itemprop="name">Pazu Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description">头头带你飞 toutoudnf 技术博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EXPLAIN-常见资料"><span class="nav-number">1.</span> <span class="nav-text">EXPLAIN 常见资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见的慢查询分析思路"><span class="nav-number">2.</span> <span class="nav-text">常见的慢查询分析思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题-SQL-的定位"><span class="nav-number">2.1.</span> <span class="nav-text">问题 SQL 的定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXPLAIN-分析具体语句"><span class="nav-number">2.2.</span> <span class="nav-text">EXPLAIN 分析具体语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引分析"><span class="nav-number">2.2.1.</span> <span class="nav-text">索引分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO-分析"><span class="nav-number">2.2.2.</span> <span class="nav-text">IO 分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pt-slow-query-一些参数"><span class="nav-number">2.3.</span> <span class="nav-text">pt-slow-query 一些参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-INFORMATION-SCHEMA"><span class="nav-number">2.4.</span> <span class="nav-text">MySQL INFORMATION_SCHEMA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化成本与收益的评估"><span class="nav-number">2.5.</span> <span class="nav-text">优化成本与收益的评估</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CASE-分析"><span class="nav-number">3.</span> <span class="nav-text">CASE 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#大查询"><span class="nav-number">3.1.</span> <span class="nav-text">大查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#update-demo"><span class="nav-number">3.2.</span> <span class="nav-text">update demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#an-delete-demo"><span class="nav-number">3.3.</span> <span class="nav-text">an delete demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXPLAIN-中的错误信息"><span class="nav-number">3.4.</span> <span class="nav-text">EXPLAIN 中的错误信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展阅读"><span class="nav-number">4.</span> <span class="nav-text">扩展阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pazu Lee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
